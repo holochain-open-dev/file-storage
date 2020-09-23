@@ -1,5 +1,5 @@
 {
-  "name": "@holochain-open-dev/calendar-events",
+  "name": "template",
   "version": "0.0.1",
   "description": "Webcomponent hod-calendar-event following open-wc recommendations",
   "author": "guillem.cordoba@gmail.com",

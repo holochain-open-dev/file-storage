@@ -77,3 +77,11 @@ To automatically fix many linting errors, run
 ```bash
 npm run format
 ```
+
+## Publishing to npm
+
+```bash
+npm run npm:publish
+```
+
+This will build the application, copy the `README.md`, `LICENSE` and `package.json` to the `dist` folder and publish that.
