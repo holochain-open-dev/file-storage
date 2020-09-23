@@ -1,6 +1,6 @@
 {
-  "name": "template",
-  "version": "0.0.0",
+  "name": "@holochain-open-dev/calendar-events",
+  "version": "0.0.1",
   "description": "Webcomponent hod-calendar-event following open-wc recommendations",
   "author": "guillem.cordoba@gmail.com",
   "license": "MIT",
@@ -24,7 +24,7 @@
     "storybook": "concurrently --kill-others --names tsc,storybook \"npm run tsc:watch\" \"start-storybook --node-resolve --watch --open\"",
     "storybook:build": "build-storybook",
     "storybook:publish": "npm run lint && npm run analyze && npm run storybook:build && gh-pages -d storybook-static",
-    "npm:publish": "npm run lint && npm run build && cp ../README.md dist/  && cp ../LICENSE dist/ && cp package.json dist/ && npm publish --access public"
+    "npm:publish": "npm run lint && npm run build && cp ../README.md dist/  && cp ../LICENSE dist/ && cp package.json dist/ && cd dist/ && npm publish --access public && rimraf dist/"
   },
   "dependencies": {
     "@apollo/client": "^3.2.0",
