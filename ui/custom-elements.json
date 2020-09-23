@@ -1,0 +1,42 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "hod-full-calendar",
+      "path": "./src/index.ts",
+      "attributes": [
+        {
+          "name": "title",
+          "description": "This is a description of a property with an attribute with exactly the same name: \"color\".",
+          "type": "\"red\"|\"green\"|\"blue\"",
+          "default": "\"Hey there\""
+        },
+        {
+          "name": "counter",
+          "type": "number",
+          "default": "5"
+        }
+      ],
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult",
+          "default": "\"css`\\n    :host {\\n      display: block;\\n      padding: 25px;\\n      color: var(--hod-calendar-event-text-color, #000);\\n    }\\n  `\""
+        },
+        {
+          "name": "title",
+          "attribute": "title",
+          "description": "This is a description of a property with an attribute with exactly the same name: \"color\".",
+          "type": "\"red\"|\"green\"|\"blue\"",
+          "default": "\"Hey there\""
+        },
+        {
+          "name": "counter",
+          "attribute": "counter",
+          "type": "number",
+          "default": "5"
+        }
+      ]
+    }
+  ]
+}

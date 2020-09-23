@@ -1,0 +1,16 @@
+[package]
+authors = ["guillem.cordoba@gmail.com"]
+edition = "2018"
+exclude = ["ui", "example-dna"]
+name = "calendar_events"
+version = "0.0.1"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+name = "calendar_events"
+
+[dependencies]
+derive_more = "0"
+serde = "1"
+
+hdk3 = {git = "git://github.com/holochain/holochain", rev = "5bebc17", package = "hdk3"}
