@@ -1,3 +1,29 @@
+# Module template
+
+This repository is meant to be a scaffolding starting point to build reusable holochain modules (zome & UI module).
+
+This is what is has included:
+
+- UI and Zome Instructions to use the module in a bigger app
+- Zome
+  - Basic sample code 
+  - Symbolic linking to the zome inside an example-dna
+  - Integrated tests with tryorama
+- UI
+  - Reusable WebComponents with `lit-element`
+  - Automated demoing with `storybook`, also publishing to `gh-pages`
+  - Automated testing with `Karma`
+  - Automated end-to-end testing
+  - GraphQl common libraries and setup code
+
+## How to scaffold a holochain reusable module
+
+1. Duplicate this repo: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/duplicating-a-repository.
+2. Change all the calendar references (it's the example module that was used to create the template), and all necessary places.
+3. Remove this section of this README.md until this next line.
+
+---
+
 # calendar-events-zome
 
 Small zome to create and see calendar events, in holochain RSM.
