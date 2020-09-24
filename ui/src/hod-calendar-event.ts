@@ -1,6 +1,6 @@
 import { html, css, LitElement, property, customElement } from 'lit-element';
 
-export class HodFullCalendar extends LitElement {
+export class HodCalendarEvent extends LitElement {
   static styles = css`
     :host {
       display: block;

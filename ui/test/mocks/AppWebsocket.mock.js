@@ -7,7 +7,7 @@ export class AppWebsocketMock {
 
   async appInfo() {
     return {
-      cell_data: [[randomHash(), randomHash()], 'mock-nick'],
+      cell_data: [[[randomHash(), randomHash()], 'mock-nick']],
     };
   }
 

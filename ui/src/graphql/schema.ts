@@ -3,10 +3,6 @@ import { gql } from '@apollo/client/core';
 export const calendarEventsTypeDefs = gql`
   scalar Date
 
-  extend type Query {
-    allCalendarEvents: [CalendarEvent!]!
-  }
-
   type CalendarEvent {
     id: ID!
     title: String!
@@ -14,7 +10,11 @@ export const calendarEventsTypeDefs = gql`
     endTime: Date!
     createdBy: ID!
     location: String
-    invitiees: [ID!]!
+    invitees: [ID!]!
+  }
+
+  extend type Query {
+    allCalendarEvents: [CalendarEvent!]!
   }
 
   extend type Mutation {

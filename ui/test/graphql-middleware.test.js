@@ -48,10 +48,10 @@ export async function setupClient(url) {
 }
 
 describe('Apollo middleware', () => {
-  it('create a calendar event and retrieve it works', async () => {
+  it('create a calendar event and retrieve it', async () => {
     const client = await setupClient('ws://localhost:8888');
 
-    const calendarHash = await client.mutate({
+    const createCalendarEvent = await client.mutate({
       mutation: CREATE_CALENDAR_EVENT,
       variables: {
         title: 'Event 1',
@@ -73,8 +73,10 @@ describe('Apollo middleware', () => {
       `,
     });
 
-    expect(result.length).to.equal(1);
-    expect(result[0].id).to.equal(calendarHash);
-    expect(result[0].title).to.equal('Event 1');
+    expect(result.data.allCalendarEvents.length).to.equal(1);
+    expect(result.data.allCalendarEvents[0].id).to.equal(
+      createCalendarEvent.data.createCalendarEvent.id
+    );
+    expect(result.data.allCalendarEvents[0].title).to.equal('Event 1');
   });
 });

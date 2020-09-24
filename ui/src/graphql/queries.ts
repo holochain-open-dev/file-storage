@@ -14,6 +14,14 @@ export const CREATE_CALENDAR_EVENT = gql`
       endTime: $endTime
       location: $location
       invitees: $invitees
-    )
+    ) {
+      id
+      title
+      createdBy
+      startTime
+      endTime
+      location
+      invitees
+    }
   }
 `;
