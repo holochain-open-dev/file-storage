@@ -1,4 +1,4 @@
-# Module template
+# Reusable Module Template
 
 This repository is meant to be a scaffolding starting point to build reusable holochain modules (zome & UI module).
 

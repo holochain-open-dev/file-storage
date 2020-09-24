@@ -1,0 +1,54 @@
+version: 2.1
+
+# Define the jobs we want to run for this project
+jobs:
+  build-holochain:
+    docker:
+      - image: guillemcordoba/rsm:latest
+    steps:
+      - checkout
+      - run:
+        command: |
+          cd example-dna
+          CARGO_TARGET=target cargo build --release --target wasm32-unknown-unknown
+          dna-util example-dna.dna.workdir
+  test-holochain:
+    docker:
+      - image: guillemcordoba/rsm:latest
+    steps:
+      - checkout
+      - run:
+        command: |
+          cd example-dna/tests
+          npm install
+          npm test
+  build-ui:
+    docker:
+      - image: guillemcordoba/rsm:latest
+      steps:
+      - checkout
+      - run:
+        command: |
+          cd ui
+          npm install
+          npm run lint
+          npm run build
+  test-ui:
+    docker:
+      - image: guillemcordoba/rsm:latest
+      steps:
+      - checkout
+      - run:
+        command: |
+          cd ui
+          npm test
+          npm e2e
+          
+# Orchestrate our job run sequence
+workflows:
+  build_and_test:
+    jobs:
+      - build-holochain
+      - test-holochain:
+          requires:
+            - build-holochain
