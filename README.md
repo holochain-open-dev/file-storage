@@ -21,7 +21,8 @@ This is what is has included:
 
 1. Duplicate this repo: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/duplicating-a-repository.
 2. Change all the calendar references (it's the example module that was used to create the template), and all necessary places.
-3. Remove this section of this README.md until this next line.
+3. [Add CircleCI integration](https://circleci.com/docs/enterprise/quick-start/) with the repository.
+4. Remove this section of this README.md until this next line.
 
 ---
 
