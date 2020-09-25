@@ -5,6 +5,7 @@ This repository is meant to be a scaffolding starting point to build reusable ho
 This is what is has included:
 
 - UI and Zome Instructions to use the module in a bigger app
+- CircleCI automatic integration with building and testing
 - Zome
   - Basic sample code 
   - Symbolic linking to the zome inside an example-dna
