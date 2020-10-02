@@ -19,7 +19,11 @@ This is what is has included:
 
 ## How to scaffold a holochain reusable module
 
-1. Duplicate this repo: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/duplicating-a-repository.
+1. Duplicate this repo: 
+   - `git clone --bare https://github.com/holochain-open-dev/reusable-module-template`
+   - `cd reusable-module-template.git`
+   - `git push --mirror https://github.com/exampleuser/new-repository.git`
+   - `cd .. && rm -rf reusable-module-template.git`
 2. Change all the calendar references (it's the example module that was used to create the template), and all necessary places.
 3. [Add CircleCI integration](https://circleci.com/docs/enterprise/quick-start/) with the repository.
 4. Remove this section of this README.md until this next line.
