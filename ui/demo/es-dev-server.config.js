@@ -1,7 +1,9 @@
 module.exports = {
   port: 8080,
   watch: true,
-  nodeResolve: true,
+  nodeResolve: {
+    browser: true
+  },
   appIndex: 'demo/index.html',
   open: true,
   plugins: require('../es-dev-plugins'),
