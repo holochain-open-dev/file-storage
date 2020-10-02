@@ -1,3 +1,8 @@
+const resolve = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
+const builtins = require('rollup-plugin-node-builtins');
+const replace = require('@rollup/plugin-replace');
+
 module.exports = {
   stories: ['../stories/**/*.stories.{js,md,mdx}'],
   addons: [
@@ -40,7 +45,7 @@ module.exports = {
         }),
 
         ...plugins,
-        resolve.default({
+        resolve({
           customResolveOptions: {
             moduleDirectory: ['node_modules', 'web_modules'],
           },
