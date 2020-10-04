@@ -1,55 +1,12 @@
-import { gql, ApolloClient, InMemoryCache } from '@apollo/client/core';
-import { SchemaLink } from '@apollo/client/link/schema';
+import { gql } from '@apollo/client/core';
 import { expect } from '@open-wc/testing';
-import { AppWebsocket } from '@holochain/conductor-api';
-import { makeExecutableSchema } from '@graphql-tools/schema';
 
-import {
-  CREATE_CALENDAR_EVENT,
-  calendarEventsTypeDefs,
-  calendarEventsResolvers,
-} from '../dist';
-import { AppWebsocketMock } from './mocks/AppWebsocket.mock';
-import { CalendarEventsMock } from './mocks/calendar-events.mock';
-
-const rootTypeDef = gql`
-  type Query {
-    _: Boolean
-  }
-
-  type Mutation {
-    _: Boolean
-  }
-`;
-
-const allTypeDefs = [rootTypeDef, calendarEventsTypeDefs];
-
-export async function setupClient(url) {
-  const dnaMock = new CalendarEventsMock();
-  const appWebsocket = new AppWebsocketMock(dnaMock);
-
-  const appInfo = await appWebsocket.appInfo({ app_id: 'test-app' });
-
-  const cellId = appInfo.cell_data[0][0];
-
-  const executableSchema = makeExecutableSchema({
-    typeDefs: allTypeDefs,
-    resolvers: [calendarEventsResolvers(appWebsocket, cellId)],
-  });
-
-  const schemaLink = new SchemaLink({ schema: executableSchema });
-
-  return new ApolloClient({
-    typeDefs: allTypeDefs,
-
-    cache: new InMemoryCache(),
-    link: schemaLink,
-  });
-}
+import { setupApolloClient } from './mocks/setupApolloClient';
+import { CREATE_CALENDAR_EVENT } from '../dist';
 
 describe('Apollo middleware', () => {
   it('create a calendar event and retrieve it', async () => {
-    const client = await setupClient('ws://localhost:8888');
+    const client = await setupApolloClient('ws://localhost:8888');
 
     const createCalendarEvent = await client.mutate({
       mutation: CREATE_CALENDAR_EVENT,

@@ -1,29 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-GB">
-<head>
-  <meta charset="utf-8">
-  <style>
-    body {
-      background: #fafafa;
-    }
-  </style>
-</head>
-<body>
-  <div id="demo"></div>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        background: #fafafa;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      import { html, render } from 'lit-html';
+      import { CalendarEventsModule } from '../dist';
+      import { setupApolloClient } from '../test/mocks/setupApolloClient';
 
-  <script type="module">
-    import { html, render } from 'lit-html';
-    import '../dist/hod-calendar-event.js';
-
-    const title = 'Hello owc World!';
-    render(
-      html`
-        <hod-calendar-event .title=${title}>
-          some more light-dom
-        </hod-calendar-event>
-      `,
-      document.querySelector('#demo')
-    );
-  </script>
-</body>
+      setupApolloClient('ws://localhost:8888').then(client =>
+        new CalendarEventsModule({ apolloClient: client }).install()
+      );
+    </script>
+  </body>
 </html>

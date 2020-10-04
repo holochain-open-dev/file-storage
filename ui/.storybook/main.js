@@ -2,6 +2,7 @@ const resolve = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const builtins = require('rollup-plugin-node-builtins');
 const replace = require('@rollup/plugin-replace');
+const { wrapRollupPlugin } = require('es-dev-server-rollup');
 
 module.exports = {
   stories: ['../stories/**/*.stories.{js,md,mdx}'],
@@ -17,7 +18,26 @@ module.exports = {
     },
     watch: true,
     open: true,
-    plugins: require('../es-dev-plugins'),
+    plugins: [
+      wrapRollupPlugin(
+        replace({
+          global: 'window',
+        })
+      ),
+      wrapRollupPlugin(builtins()),
+      wrapRollupPlugin(
+        commonjs({
+          include: [
+            'node_modules/fast-json-stable-stringify/**/*',
+            'node_modules/zen-observable/**/*',
+            'node_modules/graphql-tag/**/*',
+            'node_modules/isomorphic-ws/**/*',
+            'node_modules/@msgpack/**/*',
+            'node_modules/@holochain/conductor-api/**/*',
+          ],
+        })
+      ),
+    ],
   },
   // Rollup build output directory (build-storybook only)
   outputDir: '../storybook-static',
