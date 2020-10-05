@@ -1,0 +1,77 @@
+{
+  "name": "todo-change-name-of-the-package",
+  "version": "0.0.1",
+  "description": "TODO: change description",
+  "author": "guillem.cordoba@gmail.com",
+  "license": "MIT",
+  "main": "index.js",
+  "module": "index.js",
+  "scripts": {
+    "start": "concurrently --kill-others \"npm:start-ui\" \"npm:start-holochain\"",
+    "start-ui": "CONDUCTOR_URL=ws://localhost:8888 concurrently -k --names tsc,dev-server \"npm run build-watch\" \"web-dev-server --config demo/web-dev-server.config.mjs\"",
+    "start-holochain": "RUST_LOG=warn holochain-run-dna ../zome/todo_rename_zome.dna.gz",
+    "build": "rimraf dist && tsc",
+    "build-watch": "tsc --watch",
+    "test": "tsc && web-test-runner --coverage --puppeteer",
+    "test-debug": "tsc && DEBUG=true web-test-runner --coverage --puppeteer",
+    "test-watch": "web-test-runner --watch --puppeteer",
+    "e2e": "CONDUCTOR_URL=ws://localhost:8888 concurrently -k -s first \"npm:test\" \"npm:start-holochain\"",
+    "analyze": "wca analyze src --format json --outFile custom-elements.json",
+    "lint": "eslint --ext .ts,.html . --ignore-path .gitignore",
+    "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore",
+    "storybook": "concurrently -k --names tsc,storybook \"npm run build-watch\" \"start-storybook --node-resolve --watch --open\"",
+    "build-storybook": "npm run analyze && build-storybook",
+    "publish-storybook": "npm run lint && npm run analyze && npm run build-storybook && gh-pages -d storybook-static",
+    "publish-npm": "npm run lint && npm run build && cp ../README.md dist/  && cp ../LICENSE dist/ && cp package.json dist/ && cd dist/ && npm publish --access public && rimraf dist/",
+    "publish-to-branch": "npm run lint && npm run build && cp package.json dist && gh-pages -d dist -b ui-build"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.2.0",
+    "@graphql-tools/schema": "^6.2.3",
+    "@holochain/conductor-api": "guillemcordoba/holochain-conductor-api#build",
+    "graphql": "^15.3.0",
+    "lit-element": "^2.4.0",
+    "lit-html": "^1.3.0"
+  },
+  "devDependencies": {
+    "@open-wc/demoing-storybook": "^2.0.0",
+    "@open-wc/eslint-config": "^2.0.0",
+    "@open-wc/testing": "^2.0.0",
+    "@open-wc/testing-karma": "^3.0.0",
+    "@rollup/plugin-commonjs": "^15.1.0",
+    "@rollup/plugin-replace": "^2.3.3",
+    "@types/node": "13.11.1",
+    "@typescript-eslint/eslint-plugin": "^2.20.0",
+    "@typescript-eslint/parser": "^2.20.0",
+    "@web/dev-server": "0.0.13",
+    "@web/dev-server-rollup": "^0.2.9",
+    "@web/test-runner": "^0.7.41",
+    "@web/test-runner-puppeteer": "^0.6.4",
+    "buffer": "^5.6.0",
+    "concurrently": "^5.1.0",
+    "deepmerge": "^3.2.0",
+    "es-dev-server": "^1.23.0",
+    "es-dev-server-rollup": "0.0.8",
+    "eslint": "^6.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "gh-pages": "^3.1.0",
+    "husky": "^1.0.0",
+    "lint-staged": "^10.0.0",
+    "prettier": "^2.0.4",
+    "rimraf": "^3.0.2",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "tslib": "^1.11.0",
+    "typescript": "~3.9.0",
+    "web-component-analyzer": "^1.1.6"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@open-wc/eslint-config",
+      "eslint-config-prettier"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "avoid"
+  }
+}
