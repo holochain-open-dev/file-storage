@@ -101,3 +101,19 @@ npm run publish-storybook
 This will build the static storybook site, and deploy it directly in the `gh-pages` of your repository.
 
 After this, it will be accessible in the appropriate Github Pages URL (eg. https://holochain-open-dev.github.io/calendar-events-module).
+
+## Publishing in a branch on this repository
+
+If you don't want to publish to NPM yet, you can "publish" a build of this module with:
+
+```bash
+npm run publish-to-branch
+```
+
+Now, a built version of this module will be at the root of the `ui-build` branch, which other `package.json` files can reference like this:
+
+```json
+  "dependencies": {
+    "@holochain-open-dev/TODO_RENAME_MODULE": "holochain-open-dev/TODO_RENAME_MODULE#ui-build",
+  }
+```

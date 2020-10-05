@@ -80,6 +80,11 @@ extern crate todo_rename_zome;
 ### Using the UI module
 
 1. Install the module with `npm install @holochain-open-dev/calendar-events`.
+
+OR
+
+Add it in your `package.json` with a reference to `holochain-open-dev/TODO_RENAME_MODULE_REPOSITORY#ui-build`
+
 2. Add the GraphQl schema and resolvers to your `ApolloClient` setup:
 
 ```js
