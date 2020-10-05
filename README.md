@@ -22,7 +22,7 @@ See our [`storybook`](https://holochain-open-dev.github.io/calendar-events-zome)
 These are the things you need to know to decide if you can use this module in your happ:
 
 - Zome:
-  - Optional dependency with the [resource-bookings-zome](https://github/holochain-open-dev/resource-bookings-zome).
+
 - UI module:
   - `ApolloClient` as the state-management and data-fetching engine.
   - The resolvers are declared in the frontend using [`makeExecutableSchema`](https://www.npmjs.com/package/@graphql-tools/schema).
@@ -39,13 +39,13 @@ These are the things you need to know to decide if you can use this module in yo
 
 ```toml
 [dependencies]
-todo_rename_zome = {git = "TODO_CHANGE_MODULE_URL", package = "todo_rename_zome"}
+file_storage = {git = "https://github.com/holochain-open-dev", package = "file_storage"}
 ```
 
 5. Create a `src` folder besides the `Cargo.toml` with this content:
 
 ```rust
-extern crate todo_rename_zome;
+extern crate file_storage;
 ```
 
 6. Add the zome into your `*.dna.workdir/dna.json` file.
@@ -53,11 +53,7 @@ extern crate todo_rename_zome;
 
 ### Using the UI module
 
-1. Install the module with `npm install @holochain-open-dev/calendar-events`.
-
-OR
-
-Add it in your `package.json` with a reference to `holochain-open-dev/TODO_RENAME_MODULE_REPOSITORY#ui-build`
+1. Add it in your `package.json` with a reference to `holochain-open-dev/file-storage-module#ui-build`
 
 2. Add the GraphQl schema and resolvers to your `ApolloClient` setup:
 
@@ -119,7 +115,7 @@ Take into account that at this point the elements already expect a holochain con
 This respository is structured in the following way:
 
 - `ui/`: UI library.
-- `zome/`: example DNA with the `todo_rename_zome` code.
+- `zome/`: example DNA with the `file_storage` code.
 - Top level `Cargo.toml` is a virtual package necessary for other DNAs to include this zome by pointing to this git repository.
 
 Read the [UI developer setup](/ui/README.md) and the [Zome developer setup](/zome/README.md).
