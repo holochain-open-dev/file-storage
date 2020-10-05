@@ -1,6 +1,6 @@
 # Zome Developer Setup
 
-This folder has an example DNA for the `todo_rename_zome` zome. The actual code for the zome is in `zomes/todo_rename_zome`.
+This folder has an example DNA for the `file_storage` zome. The actual code for the zome is in `zomes/file_storage`.
 
 To change the code, you can work either opening VSCode inside the root folder of the repo or in this folder, you should have rust intellisense either way.
 
@@ -14,7 +14,7 @@ To change the code, you can work either opening VSCode inside the root folder of
 
 ```bash
 CARGO_TARGET=target cargo build --release --target wasm32-unknown-unknown
-dna-util -c todo_rename_zome.dna.workdir/
+dna-util -c file_storage.dna.workdir/
 ```
 
 ## Testing
@@ -32,7 +32,7 @@ npm test
 After having built the DNA:
 
 ```bash
-holochain-run-dna todo_rename_zome.dna.gz
+holochain-run-dna file_storage.dna.gz
 ```
 
 Now `holochain` will be listening at port `8888`;

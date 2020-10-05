@@ -42,16 +42,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "08c48aae112d48ed9f069b33538ea9e3e90aa263cfa3d1c24309612b1f7472de"
 
 [[package]]
-name = "calendar_events"
-version = "0.0.1"
-source = "git+https://github.com/holochain-open-dev/calendar-events-module#9ab048dc2ba0032be1805e1f07a1451df29f52ed"
-dependencies = [
- "derive_more",
- "hdk3 0.0.1 (git+https://github.com/holochain/holochain?rev=44cf2a6)",
- "serde",
-]
-
-[[package]]
 name = "cfg-if"
 version = "0.1.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -75,16 +65,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "fixt"
+name = "file_storage"
 version = "0.0.1"
-source = "git+https://github.com/holochain/holochain?rev=44cf2a6#44cf2a6f764a4294b15261b68fd455a9f48a77af"
 dependencies = [
- "holochain_serialized_bytes",
- "paste 0.1.12",
- "rand",
+ "derive_more",
+ "hdk3",
  "serde",
- "strum",
- "strum_macros",
 ]
 
 [[package]]
@@ -123,26 +109,12 @@ dependencies = [
 [[package]]
 name = "hdk3"
 version = "0.0.1"
-source = "git+https://github.com/holochain/holochain?rev=44cf2a6#44cf2a6f764a4294b15261b68fd455a9f48a77af"
-dependencies = [
- "hdk3_derive 0.0.1 (git+https://github.com/holochain/holochain?rev=44cf2a6)",
- "holo_hash 0.0.1 (git+https://github.com/holochain/holochain?rev=44cf2a6)",
- "holochain_wasmer_guest",
- "holochain_zome_types 0.0.1 (git+https://github.com/holochain/holochain?rev=44cf2a6)",
- "serde",
- "serde_bytes",
- "thiserror",
-]
-
-[[package]]
-name = "hdk3"
-version = "0.0.1"
 source = "git+https://github.com/holochain/holochain?rev=4714fbd#4714fbddc48f1f9987c9f574b8d06510ea58ab16"
 dependencies = [
- "hdk3_derive 0.0.1 (git+https://github.com/holochain/holochain?rev=4714fbd)",
- "holo_hash 0.0.1 (git+https://github.com/holochain/holochain?rev=4714fbd)",
+ "hdk3_derive",
+ "holo_hash",
  "holochain_wasmer_guest",
- "holochain_zome_types 0.0.1 (git+https://github.com/holochain/holochain?rev=4714fbd)",
+ "holochain_zome_types",
  "serde",
  "serde_bytes",
  "thiserror",
@@ -151,21 +123,9 @@ dependencies = [
 [[package]]
 name = "hdk3_derive"
 version = "0.0.1"
-source = "git+https://github.com/holochain/holochain?rev=44cf2a6#44cf2a6f764a4294b15261b68fd455a9f48a77af"
-dependencies = [
- "holochain_zome_types 0.0.1 (git+https://github.com/holochain/holochain?rev=44cf2a6)",
- "paste 1.0.0",
- "proc-macro2 1.0.19",
- "quote 1.0.7",
- "syn 1.0.38",
-]
-
-[[package]]
-name = "hdk3_derive"
-version = "0.0.1"
 source = "git+https://github.com/holochain/holochain?rev=4714fbd#4714fbddc48f1f9987c9f574b8d06510ea58ab16"
 dependencies = [
- "holochain_zome_types 0.0.1 (git+https://github.com/holochain/holochain?rev=4714fbd)",
+ "holochain_zome_types",
  "paste 1.0.0",
  "proc-macro2 1.0.19",
  "quote 1.0.7",
@@ -184,25 +144,11 @@ dependencies = [
 [[package]]
 name = "holo_hash"
 version = "0.0.1"
-source = "git+https://github.com/holochain/holochain?rev=44cf2a6#44cf2a6f764a4294b15261b68fd455a9f48a77af"
-dependencies = [
- "base64",
- "blake2b_simd",
- "fixt 0.0.1 (git+https://github.com/holochain/holochain?rev=44cf2a6)",
- "holochain_serialized_bytes",
- "rand",
- "serde",
- "serde_bytes",
-]
-
-[[package]]
-name = "holo_hash"
-version = "0.0.1"
 source = "git+https://github.com/holochain/holochain?rev=4714fbd#4714fbddc48f1f9987c9f574b8d06510ea58ab16"
 dependencies = [
  "base64",
  "blake2b_simd",
- "fixt 0.0.1 (git+https://github.com/holochain/holochain?rev=4714fbd)",
+ "fixt",
  "holochain_serialized_bytes",
  "rand",
  "serde",
@@ -259,25 +205,10 @@ dependencies = [
 [[package]]
 name = "holochain_zome_types"
 version = "0.0.1"
-source = "git+https://github.com/holochain/holochain?rev=44cf2a6#44cf2a6f764a4294b15261b68fd455a9f48a77af"
-dependencies = [
- "fixt 0.0.1 (git+https://github.com/holochain/holochain?rev=44cf2a6)",
- "holo_hash 0.0.1 (git+https://github.com/holochain/holochain?rev=44cf2a6)",
- "holochain_serialized_bytes",
- "serde",
- "serde_bytes",
- "strum",
- "subtle",
- "thiserror",
-]
-
-[[package]]
-name = "holochain_zome_types"
-version = "0.0.1"
 source = "git+https://github.com/holochain/holochain?rev=4714fbd#4714fbddc48f1f9987c9f574b8d06510ea58ab16"
 dependencies = [
- "fixt 0.0.1 (git+https://github.com/holochain/holochain?rev=4714fbd)",
- "holo_hash 0.0.1 (git+https://github.com/holochain/holochain?rev=4714fbd)",
+ "fixt",
+ "holo_hash",
  "holochain_serialized_bytes",
  "serde",
  "serde_bytes",
@@ -373,15 +304,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "04f5f085b5d71e2188cb8271e5da0161ad52c3f227a661a3c135fdf28e258b12"
 dependencies = [
  "unicode-xid 0.2.1",
-]
-
-[[package]]
-name = "profiles"
-version = "0.0.1"
-dependencies = [
- "calendar_events",
- "derive_more",
- "serde",
 ]
 
 [[package]]
@@ -584,15 +506,6 @@ dependencies = [
  "proc-macro2 1.0.19",
  "quote 1.0.7",
  "syn 1.0.38",
-]
-
-[[package]]
-name = "todo_rename_zome"
-version = "0.0.1"
-dependencies = [
- "derive_more",
- "hdk3 0.0.1 (git+https://github.com/holochain/holochain?rev=4714fbd)",
- "serde",
 ]
 
 [[package]]

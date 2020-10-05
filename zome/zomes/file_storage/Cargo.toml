@@ -1,12 +1,12 @@
 [package]
 authors = ["guillem.cordoba@gmail.com"]
 edition = "2018"
-name = "todo_rename_zome"
+name = "file_storage"
 version = "0.0.1"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
-name = "todo_rename_zome"
+name = "file_storage"
 
 [dependencies]
 derive_more = "0"

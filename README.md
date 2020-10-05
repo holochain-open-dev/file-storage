@@ -1,47 +1,17 @@
-# Reusable Module Template
+# File Storage Module
 
-This repository is meant to be a scaffolding starting point to build reusable holochain modules (zome & UI module).
-
-This is what is has included:
-
-- UI and Zome Instructions to use the module in a bigger app
-- CircleCI automatic integration with building and testing
-- Zome
-  - Basic sample code 
-  - Integrated tests with tryorama
-  - Instructions to include the zome as a crate in any DNA
-- UI
-  - Reusable CustomElements with `lit-element`
-  - Automated demoing with `storybook`, also publishing to `gh-pages`
-  - Automated testing with `web-test-runner`
-  - Automated end-to-end testing
-  - GraphQl common libraries and setup code
-  - See [open-wc](https://open-wc.org/) for all the available tools and documentation
-
-## How to scaffold a holochain reusable module
-
-1. Duplicate this repo: 
-
-```bash
-git clone --bare https://github.com/holochain-open-dev/reusable-module-template
-cd reusable-module-template.git
-git push --mirror https://github.com/exampleuser/new-repository.git
-cd .. && rm -rf reusable-module-template.git
-```
-
-2. Look for all the `TODO` keyword to see the places that need to be changed.
-3. [Add CircleCI integration](https://circleci.com/docs/enterprise/quick-start/) with the repository.
-4. Remove this section of this README.md until this next line.
-
----
-
-# TODO_RENAME_MODULE
-
-> TODO: carefully change whatever needed in this README.
-
-Small zome to create and see calendar events, in holochain RSM.
+Small zome to create and retrieve files, in holochain RSM.
 
 This module is designed to be included in other DNAs, assuming as little as possible from those. It is packaged as a holochain zome, and an npm package that offers native Web Components that can be used across browsers and frameworks.
+
+## Task List
+
+> Please note that this module is in its early development, not ready for production yet
+
+- [ ] Finish the `create_file` and `get_file` functions
+- [ ] Finish tests and get them working
+- [ ] Add a `get_my_files` function
+- [ ] Create a `file-upload` CustomElement
 
 ## Documentation
 
@@ -66,14 +36,18 @@ These are the things you need to know to decide if you can use this module in yo
 2. Add a new `Cargo.toml` in that folder. In its content, paste the `Cargo.toml` content from any zome.
 3. Change the `name` properties of the `Cargo.toml` file to the name you want to give to this zome in your DNA.
 4. Add this zome as a dependency in the `Cargo.toml` file:
+
 ```toml
 [dependencies]
 todo_rename_zome = {git = "TODO_CHANGE_MODULE_URL", package = "todo_rename_zome"}
 ```
+
 5. Create a `src` folder besides the `Cargo.toml` with this content:
+
 ```rust
 extern crate todo_rename_zome;
 ```
+
 6. Add the zome into your `*.dna.workdir/dna.json` file.
 7. Compile the DNA with the usual `CARGO_TARGET=target cargo build --release --target wasm32-unknown-unknown`.
 
