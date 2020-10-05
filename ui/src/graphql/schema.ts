@@ -1,5 +1,7 @@
 import { gql } from '@apollo/client/core';
 
+// TODO: define your own schema
+
 export const calendarEventsTypeDefs = gql`
   scalar Date
 

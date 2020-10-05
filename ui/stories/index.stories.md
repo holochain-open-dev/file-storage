@@ -1,49 +1,62 @@
 ```js script
 import { html } from '@open-wc/demoing-storybook';
-import '../dist/hod-calendar-event.js';
+import { withKnobs, withWebComponentsKnobs } from '@open-wc/demoing-storybook';
+import { CalendarEventsModule } from '../dist';
+import { setupApolloClient } from '../test/mocks/setupApolloClient';
 
+// TODO: change the name of the module and add any other dependencies needed
+setupApolloClient().then(client =>
+  new CalendarEventsModule({ apolloClient: client }).install()
+);
+
+// TODO: change the name of the story and element
 export default {
   title: 'HodCalendarEvent',
-  component: 'hod-full-calendar',
-  parameters: { component: 'hod-full-calendar' },
-  options: { selectedPanel: 'storybookjs/knobs/panel' },
+  decorators: [withKnobs, withWebComponentsKnobs],
+  parameters: {
+    component: 'hod-calendar-event',
+    options: { selectedPanel: 'storybookjs/knobs/panel' },
+  },
 };
 ```
 
-# HodCalendarEvent
+# `<hod-calendar-event>`
 
-A component for...
+> TODO: add brief explanation of what the element does
 
-## Features:
+## Features
 
-- a
-- b
-- ...
+> TODO: add a list of features
 
-## How to use
+## API
 
-<sb-props of="hod-full-calendar"></sb-props>
+> TODO: change the name of the element
+> <sb-props of="hod-create-calendar-event"></sb-props>
 
-### Installation
+### Installation & Usage
 
-```bash
-yarn add hod-calendar-event
+> TODO: change instructions to fit your module
+
+Please note that this custom element needs to be installed together with all the other elements of the `CalendarEventsModule`. Go to [https://github.com/holochain-open-dev/calendar-events-module](https://github.com/holochain-open-dev/calendar-events-module) for installation instructions.
+
+After having installed the `CalendarEventsModule`, just add the element to your html:
+
+```html
+<body>
+  <hod-calendar-event></hod-calendar-event>
+</body>
 ```
 
-```js
-import 'hod-calendar-event/hod-calendar-event.js';
-```
+### Variants
 
 ```js preview-story
-export const Simple = () => html` <hod-calendar-event></hod-calendar-event> `;
+// TODO: change name of the element
+export const Default = () =>
+  html`
+    <div style="height: 200px; width: 300px; padding: 16px;">
+      <hod-calendar-event></hod-calendar-event>
+    </div>
+  `;
 ```
 
-## Variations
-
-###### Custom Title
-
-```js preview-story
-export const CustomTitle = () => html`
-  <hod-calendar-event title="Hello World"></hod-calendar-event>
-`;
-```
+> TODO: Add new variants of the element

@@ -1,5 +1,7 @@
 import { gql } from '@apollo/client/core';
 
+// TODO: create your own queries
+
 export const CREATE_CALENDAR_EVENT = gql`
   mutation CreateCalendarEvent(
     $title: String!

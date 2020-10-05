@@ -1,30 +1,32 @@
-import { html, css, LitElement, property, customElement } from 'lit-element';
+import { ApolloClient } from '@apollo/client/core';
+import { html, LitElement, property } from 'lit-element';
+import { sharedStyles } from '../sharedStyles';
 
-export class HodCalendarEvent extends LitElement {
-  static styles = css`
-    :host {
-      display: block;
-      padding: 25px;
-      color: var(--hod-calendar-event-text-color, #000);
-    }
-  `;
+// TODO: create your own elements
+export abstract class HodCalendarEvent extends LitElement {
+  /** Public attributes */
 
   /**
    * This is a description of a property with an attribute with exactly the same name: "color".
-   * @type {"red"|"green"|"blue"}
-   * @attr
    */
   @property({ type: String }) title = 'Hey there';
 
-  @property({ type: Number }) counter = 5;
+  /** Dependencies */
+  abstract get _apolloClient(): ApolloClient<any>;
+
+  /** Private properties */
+
+  @property({ type: Number }) _counter = 5;
+
+  static styles = sharedStyles;
 
   __increment() {
-    this.counter += 1;
+    this._counter += 1;
   }
 
   render() {
     return html`
-      <h2>${this.title} Nr. ${this.counter}!</h2>
+      <h2>${this.title} Nr. ${this._counter}!</h2>
       <button @click=${this.__increment}>increment</button>
     `;
   }

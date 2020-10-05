@@ -1,5 +1,6 @@
 import { randomHash } from './utils';
 
+// TODO: change the functions of this class to match the functions that your zome has
 export class CalendarEventsMock {
   constructor() {
     this.calendarEvents = [];

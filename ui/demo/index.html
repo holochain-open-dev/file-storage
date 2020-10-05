@@ -9,12 +9,16 @@
     </style>
   </head>
   <body>
+    <!-- TODO: change the element -->
+    <hod-calendar-event></hod-calendar-event>
+
     <script type="module">
       import { html, render } from 'lit-html';
       import { CalendarEventsModule } from '../dist';
       import { setupApolloClient } from '../test/mocks/setupApolloClient';
 
-      setupApolloClient('ws://localhost:8888').then(client =>
+      // TODO: change the module name
+      setupApolloClient().then(client =>
         new CalendarEventsModule({ apolloClient: client }).install()
       );
     </script>

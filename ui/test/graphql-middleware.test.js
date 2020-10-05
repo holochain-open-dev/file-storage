@@ -4,9 +4,10 @@ import { expect } from '@open-wc/testing';
 import { setupApolloClient } from './mocks/setupApolloClient';
 import { CREATE_CALENDAR_EVENT } from '../dist';
 
+// TODO: change mutations and tests to adapt to your graphql queries
 describe('Apollo middleware', () => {
   it('create a calendar event and retrieve it', async () => {
-    const client = await setupApolloClient('ws://localhost:8888');
+    const client = await setupApolloClient();
 
     const createCalendarEvent = await client.mutate({
       mutation: CREATE_CALENDAR_EVENT,

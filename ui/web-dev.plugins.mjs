@@ -10,6 +10,7 @@ const commonjs = fromRollup(rollupCommonjs);
 export default [
   replace({
     global: 'window',
+    'process.env.NODE_ENV': '"production"',
   }),
   builtins(),
   commonjs({

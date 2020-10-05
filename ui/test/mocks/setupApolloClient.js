@@ -17,16 +17,21 @@ const rootTypeDef = gql`
   }
 `;
 
+// TODO: add your own typeDefs to rootTypeDef
 const allTypeDefs = [rootTypeDef, calendarEventsTypeDefs];
 
 async function getAppWebsocket() {
-  if (process.env.E2E) return AppWebsocket.connect('ws://localhost:8888');
+  if (process.env.CONDUCTOR_URL) return AppWebsocket.connect(process.env.CONDUCTOR_URL);
   else {
     const dnaMock = new CalendarEventsMock();
     return new AppWebsocketMock(dnaMock);
   }
 }
 
+/**
+ * If process.env.CONDUCTOR_URL is undefined, it will mock the backend
+ * If process.env.CONDUCTOR_URL is defined, it will try to connect to holochain at that URL
+ */
 export async function setupApolloClient() {
   const appWebsocket = await getAppWebsocket();
 

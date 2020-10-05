@@ -2,7 +2,7 @@
   "version": "experimental",
   "tags": [
     {
-      "name": "hod-full-calendar",
+      "name": "hod-calendar-event",
       "path": "./src/index.ts",
       "attributes": [
         {
