@@ -1,0 +1,10 @@
+{
+  "name": "resource-bookings",
+  "uuid": "",
+  "properties": null,
+  "zomes": {
+    "todo_rename_zome": {
+      "wasm_path": "../target/wasm32-unknown-unknown/release/todo_rename_zome.wasm"
+    }
+  }
+}

@@ -5,14 +5,10 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(() => resolve(), ms));
 const orchestrator = new Orchestrator();
 
 export const simpleConfig = {
-  alice: Config.dna("../example-dna.dna.gz", null),
-  bobbo: Config.dna("../example-dna.dna.gz", null),
+  alice: Config.dna("../todo_rename_zome.dna.gz", null),
+  bobbo: Config.dna("../todo_rename_zome.dna.gz", null),
 };
 
-const dateToTimestamp = (date) => [
-  Math.floor(date / 1000),
-  (date % 1000) * 1000,
-];
 
 orchestrator.registerScenario(
   "create and get a calendar event",
@@ -24,7 +20,7 @@ orchestrator.registerScenario(
 
     let calendarEventHash = await conductor.call(
       "alice",
-      "calendar_events",
+      "todo_rename_zome",
       "create_calendar_event",
       {
         title: "Event 1",
@@ -40,8 +36,8 @@ orchestrator.registerScenario(
 
     let calendarEvents = await conductor.call(
       "bobbo",
-      "calendar_events",
-      "get_all_calendar_events",
+      "todo_rename_zome",
+      "get_all_todo_rename_zome",
       null
     );
     t.equal(calendarEvents.length, 1);

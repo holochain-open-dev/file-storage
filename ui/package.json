@@ -9,7 +9,7 @@
   "scripts": {
     "start": "concurrently --kill-others \"npm:start-ui\" \"npm:start-holochain\"",
     "start-ui": "CONDUCTOR_URL=ws://localhost:8888 concurrently -k --names tsc,dev-server \"npm run build-watch\" \"web-dev-server --config demo/web-dev-server.config.mjs\"",
-    "start-holochain": "RUST_LOG=warn holochain-run-dna ../example-dna/example-dna.dna.gz",
+    "start-holochain": "RUST_LOG=warn holochain-run-dna ../zome/todo_rename_zome.dna.gz",
     "build": "rimraf dist && tsc",
     "build-watch": "tsc --watch",
     "test": "tsc && web-test-runner --coverage --puppeteer",

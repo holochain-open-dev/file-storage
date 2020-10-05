@@ -1,0 +1,15 @@
+[package]
+authors = ["guillem.cordoba@gmail.com"]
+edition = "2018"
+name = "todo_rename_zome"
+version = "0.0.1"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+name = "todo_rename_zome"
+
+[dependencies]
+derive_more = "0"
+serde = "1"
+
+hdk3 = {git = "https://github.com/holochain/holochain", rev = "4714fbd", package = "hdk3"}
