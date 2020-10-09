@@ -24,7 +24,7 @@ export abstract class HodUploadFile extends LitElement {
   }
 }
 
-export function defineUploadFile(fileStorageService: FileStorageService) {
+export function defineHodUploadFile(fileStorageService: FileStorageService) {
   customElements.define(
     'hod-upload-file',
     class extends HodUploadFile {

@@ -1,4 +1,3 @@
-use hdk3::prelude::timestamp::Timestamp;
 use hdk3::prelude::*;
 
 mod file_chunk;
@@ -16,11 +15,12 @@ entry_defs![FileChunk::entry_def(), FileMetadata::entry_def()];
 
 /** Files **/
 #[derive(Clone, Serialize, Deserialize, SerializedBytes)]
+#[serde(rename_all = "camelCase")]
 pub struct File {
     pub name: String,
-    pub last_modified: u64,
+    pub last_modified: i64,
     pub size: usize,
-    #[serde(rename(serialize = "type"))]
+    #[serde(rename(deserialize = "type"))]
     pub file_type: String,
     pub bytes: Vec<u8>,
 }

@@ -9,17 +9,26 @@
     </style>
   </head>
   <body>
-    <!-- TODO: change the element -->
-    <hod-calendar-event></hod-calendar-event>
+    <hod-file-upload></hod-file-upload>
 
     <script type="module">
       import { html, render } from 'lit-html';
-      import { CalendarEventsModule } from '../dist';
-      import { setupApolloClient } from '../test/mocks/setupApolloClient';
+      import { defineHodUploadFile, FileStorageService } from '../dist';
+      import ConductorApi from '@holochain/conductor-api';
+      
+      
+      ConductorApi.AppWebsocket.connect('ws://localhost:8888').then(
+        async appWebsocket => {
+          const appInfo = await appWebsocket.appInfo({ app_id: 'test-app' });
 
-      // TODO: change the module name
-      setupApolloClient().then(client =>
-        new CalendarEventsModule({ apolloClient: client }).install()
+          const cellId = appInfo.cell_data[0][0];
+
+          const fileStorageService = new FileStorageService(
+            appWebsocket,
+            cellId
+          );
+          defineHodUploadFile(fileStorageService);
+        }
       );
     </script>
   </body>

@@ -15,12 +15,10 @@ export default [
   builtins(),
   commonjs({
     include: [
-      'node_modules/fast-json-stable-stringify/**/*',
-      'node_modules/zen-observable/**/*',
-      'node_modules/graphql-tag/**/*',
       'node_modules/isomorphic-ws/**/*',
       'node_modules/@msgpack/**/*',
       'node_modules/@holochain/conductor-api/**/*',
+      'node_modules/dropzone/**/*',
     ],
   }),
 ];
