@@ -32,14 +32,18 @@ pub fn create_chunks_from_bytes(bytes: Vec<u8>) -> ExternResult<Vec<EntryHash>> 
 pub fn get_bytes_from_chunks(chunks_hashes: Vec<EntryHash>) -> ExternResult<Vec<u8>> {
     let byte_chunks = chunks_hashes
         .into_iter()
-        .map(|chunk_hash| {
-            utils::try_get_and_convert::<FileChunk>(chunk_hash)
-                .map(|file_chunk_with_address| (file_chunk_with_address.1).0)
-        })
+        .map(|chunk_hash| get_file_chunk(chunk_hash).map(|chunk| chunk.0))
         .collect::<ExternResult<Vec<Vec<u8>>>>()?;
 
-    Ok(byte_chunks.into_iter().fold(vec![], |mut acc, mut byte_chunk| {
-        acc.append(&mut byte_chunk);
-        acc
-    }))
+    Ok(byte_chunks
+        .into_iter()
+        .fold(vec![], |mut acc, mut byte_chunk| {
+            acc.append(&mut byte_chunk);
+            acc
+        }))
+}
+
+pub fn get_file_chunk(file_chunk_hash: EntryHash) -> ExternResult<FileChunk> {
+    utils::try_get_and_convert::<FileChunk>(file_chunk_hash)
+        .map(|file_chunk_with_address| (file_chunk_with_address.1))
 }

@@ -1,2 +1,6 @@
-// TODO: add globally available interfaces for your elements
-// They should probably match the types received from your graphql middleware
+import { Hash } from '@holochain/conductor-api';
+
+export interface FileMetadata extends File {
+  creator_pub_key: string;
+  chunks: Array<Hash>;
+}

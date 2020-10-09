@@ -1,5 +1,16 @@
 import { Orchestrator, Config } from "@holochain/tryorama";
-import fs from 'fs';
+
+function ab2str(buf) {
+  return String.fromCharCode.apply(null, Array.from(new Uint16Array(buf)));
+}
+function str2ab(str) {
+  var buf = new ArrayBuffer(str.length * 2); // 2 bytes for each char
+  var bufView = new Uint16Array(buf);
+  for (var i = 0, strLen = str.length; i < strLen; i++) {
+    bufView[i] = str.charCodeAt(i);
+  }
+  return buf;
+}
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(() => resolve(), ms));
 
@@ -16,12 +27,21 @@ orchestrator.registerScenario("create a file", async (s, t) => {
   });
   await conductor.spawn();
 
-  const file = fs.readFileSync("./src/example.txt");
-  console.log(file)
+  let arrayBuffer = str2ab("hiiii");
+  let file = {
+    name: "example.txt",
+    type: "text/plain",
+    bytes: arrayBuffer,
+    size: arrayBuffer.byteLength,
+    lastModified: Math.floor(Date.now() / 1000),
+  };
 
-  let fileHash = await conductor.call("alice", "file_storage", "create_file", {
-    file,
-  });
+  let fileHash = await conductor.call(
+    "alice",
+    "file_storage",
+    "upload_file",
+    file
+  );
   t.ok(fileHash);
 
   await sleep(10);
@@ -29,11 +49,11 @@ orchestrator.registerScenario("create a file", async (s, t) => {
   let fileResult: File = await conductor.call(
     "bobbo",
     "file_storage",
-    "get_file",
+    "download_file",
     fileHash
   );
   let text = await fileResult.text();
-  t.equal(text, "Hi!!!");
+  t.equal(text, "hiiii");
 });
 
 orchestrator.run();
