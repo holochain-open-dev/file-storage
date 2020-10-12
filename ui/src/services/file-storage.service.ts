@@ -16,7 +16,7 @@ export class FileStorageService {
       size: file.size,
       type: file.type,
       lastModified: file.lastModified,
-      bytes,
+      bytes: Array.from(new Uint8Array(bytes)),
     };
     return this._callZome('upload_file', fileToUpload);
   }

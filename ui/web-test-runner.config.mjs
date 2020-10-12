@@ -12,6 +12,7 @@ export default {
   open: debug,
   nodeResolve: {
     browser: true,
+    preferBuiltins: false
   },
   plugins,
 };

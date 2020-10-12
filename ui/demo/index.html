@@ -6,10 +6,16 @@
       body {
         background: #fafafa;
       }
+      html, body, hod-upload-file {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        display: flex;
+      }
     </style>
   </head>
   <body>
-    <hod-file-upload></hod-file-upload>
+    <hod-upload-file ></hod-upload-file>
 
     <script type="module">
       import { html, render } from 'lit-html';
