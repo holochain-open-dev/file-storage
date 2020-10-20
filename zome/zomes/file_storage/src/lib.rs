@@ -15,11 +15,9 @@ entry_defs![FileChunk::entry_def(), FileMetadata::entry_def()];
 
 /** Files **/
 
-#[derive(Clone, Serialize, Deserialize, SerializedBytes)]
-pub struct CreateChunkInput(pub Vec<u8>);
 #[hdk_extern]
-pub fn create_file_chunk(create_chunk_input: CreateChunkInput) -> ExternResult<EntryHash> {
-    file_chunk::create_file_chunk(create_chunk_input.0)
+pub fn create_file_chunk(create_chunk: FileChunk) -> ExternResult<EntryHash> {
+    file_chunk::create_file_chunk(create_chunk)
 }
 
 #[derive(Clone, Serialize, Deserialize, SerializedBytes)]

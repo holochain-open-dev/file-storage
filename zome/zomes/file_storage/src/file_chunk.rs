@@ -5,9 +5,7 @@ use hdk3::prelude::*;
 #[derive(Clone)]
 pub struct FileChunk(Vec<u8>);
 
-pub fn create_file_chunk(bytes: Vec<u8>) -> ExternResult<EntryHash> {
-    let file_chunk = FileChunk(bytes);
-
+pub fn create_file_chunk(file_chunk: FileChunk) -> ExternResult<EntryHash> {
     let file_chunk_hash = hash_entry!(file_chunk.clone())?;
 
     if let None = get!(file_chunk_hash.clone())? {

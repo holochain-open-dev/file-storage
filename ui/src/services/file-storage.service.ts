@@ -23,11 +23,15 @@ export class FileStorageService {
    */
   async uploadFile(
     file: File,
-    chunkSize: number = 256 * 1024
+    chunkSize: number = 10 * 1024 * 1024
   ): Promise<string> {
     const blobs = this._splitFile(file, chunkSize);
 
-    const chunksHashes = blobs.map(this._createChunk);
+    const chunksHashes: Array<string> = [];
+    for (const blob of blobs) {
+      const chunkHash = await this._createChunk(blob);
+      chunksHashes.push(chunkHash);
+    }
 
     const fileToCreate = {
       name: file.name,
@@ -45,7 +49,9 @@ export class FileStorageService {
   async downloadFile(fileHash: string): Promise<File> {
     const metadata = await this.getFileMetadata(fileHash);
 
-    const fetchChunksPromises = metadata.chunksHashes.map(this.fetchChunk);
+    const fetchChunksPromises = metadata.chunksHashes.map(hash =>
+      this.fetchChunk(hash)
+    );
 
     const chunks = await Promise.all(fetchChunksPromises);
 
