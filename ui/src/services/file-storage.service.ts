@@ -23,14 +23,22 @@ export class FileStorageService {
    */
   async uploadFile(
     file: File,
+    onProgress:
+      | undefined
+      | ((percentatgeProgress: number, bytesSent: number) => void) = undefined,
     chunkSize: number = 10 * 1024 * 1024
   ): Promise<string> {
     const blobs = this._splitFile(file, chunkSize);
+    const numberOfChunks = blobs.length;
+    const bytesPerChunk = blobs[0].size;
 
     const chunksHashes: Array<string> = [];
-    for (const blob of blobs) {
-      const chunkHash = await this._createChunk(blob);
+    for (let i = 0; i < blobs.length; i++) {
+      const chunkHash = await this._createChunk(blobs[i]);
       chunksHashes.push(chunkHash);
+      if (onProgress) {
+        onProgress(((i + 1) * 1.0) / numberOfChunks, bytesPerChunk * (i + 1));
+      }
     }
 
     const fileToCreate = {
@@ -41,7 +49,6 @@ export class FileStorageService {
       chunksHashes,
     };
     const hash = await this._callZome('create_file_metadata', fileToCreate);
-    console.log(hash);
 
     return hash;
   }

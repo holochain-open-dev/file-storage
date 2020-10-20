@@ -22,8 +22,17 @@ export class HolochainDropzone extends Dropzone {
   ): Promise<void> {
     for (const file of dropzoneFiles) {
       try {
-        await this.fileStorageService.uploadFile(file);
+        this.emit('sending', file, undefined, undefined);
+        await this.fileStorageService.uploadFile(
+          file,
+          (percentatge, bytesSent) => {
+            this.emit('uploadprogress', file, percentatge * 100, bytesSent);
+          }
+        );
+        this.emit('success', file, undefined);
+        this.emit('complete', file);
       } catch (e) {
+        this.emit('error', file, e.message);
         console.error(e);
       }
     }

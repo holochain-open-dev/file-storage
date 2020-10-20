@@ -2,6 +2,10 @@ import { css, html, LitElement, query } from 'lit-element';
 import { FileStorageService } from '../services/file-storage.service';
 import { sharedStyles } from '../sharedStyles';
 import { HolochainDropzone } from '../holochain-dropzone';
+// @ts-ignore
+import basicStyles from 'dropzone/dist/min/basic.min.css';
+// @ts-ignore
+import dropzoneStyles from 'dropzone/dist/min/dropzone.min.css';
 
 export abstract class HodUploadFile extends LitElement {
   /** Public attributes */
@@ -11,7 +15,7 @@ export abstract class HodUploadFile extends LitElement {
 
   /** Private properties */
 
-  @query('#dropzone') _dropzone!: HTMLElement;
+  @query('.dropzone') _dropzone!: HTMLElement;
 
   static styles = [
     sharedStyles,
@@ -20,7 +24,7 @@ export abstract class HodUploadFile extends LitElement {
         display: contents;
       }
 
-      #dropzone {
+      .dropzone {
         background: white;
         border-radius: 5px;
         border: 2px dashed rgb(0, 135, 247);
@@ -56,9 +60,14 @@ export abstract class HodUploadFile extends LitElement {
 
   render() {
     return html`
-      <div id="dropzone" style="flex: 1; display: flex;" class="center-content">
-        <span>Drag files or click to upload </span>
-      </div>
+      <style>
+        ${basicStyles}
+        ${dropzoneStyles}
+      </style>
+      <div
+        style="flex: 1; display: flex;"
+        class="dropzone center-content"
+      ></div>
     `;
   }
 }
