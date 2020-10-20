@@ -1,4 +1,4 @@
-import { css, html, LitElement, query } from 'lit-element';
+import { css, html, LitElement, property, query } from 'lit-element';
 
 import '@material/mwc-icon';
 
@@ -19,6 +19,8 @@ export abstract class HodUploadFile extends LitElement {
   /** Private properties */
 
   @query('.dropzone') _dropzone!: HTMLElement;
+
+  @property({ type: Boolean }) _showIcon: boolean = true;
 
   static styles = [
     sharedStyles,
@@ -44,8 +46,11 @@ export abstract class HodUploadFile extends LitElement {
   ];
 
   firstUpdated() {
-    new HolochainDropzone(this._dropzone, this._fileStorageService, {
-      previewTemplate: `
+    const dropzone = new HolochainDropzone(
+      this._dropzone,
+      this._fileStorageService,
+      {
+        previewTemplate: `
       <DIV class="dz-preview dz-file-preview">
       <DIV class="dz-image"><IMG data-dz-thumbnail=""></DIV>
       <DIV class="dz-details">
@@ -64,17 +69,23 @@ export abstract class HodUploadFile extends LitElement {
         </svg>
       </div>
     `,
-    });
+      }
+    );
+
+    dropzone.on('addedfile', () => (this._showIcon = false));
   }
 
   render() {
     return html`
       <style>
         ${basicStyles}
-        ${dropzoneStyles}
-        .dropzone .dz-preview.dz-file-preview .dz-image {
+          ${dropzoneStyles}
+          .dropzone
+          .dz-preview.dz-file-preview
+          .dz-image {
           background: #fff;
-          box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
+            0 3px 6px rgba(0, 0, 0, 0.23);
           border-radius: 4px;
         }
       </style>
@@ -82,7 +93,13 @@ export abstract class HodUploadFile extends LitElement {
         style="flex: 1; display: flex; flex-direction: column;"
         class="dropzone center-content"
       >
-        <mwc-icon style="font-size: 100px; pointer-events: none">backup</mwc-icon>
+        ${this._showIcon
+          ? html`
+              <mwc-icon style="font-size: 100px; pointer-events: none;"
+                >backup</mwc-icon
+              >
+            `
+          : html``}
       </div>
     `;
   }
