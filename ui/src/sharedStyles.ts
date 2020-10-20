@@ -9,4 +9,8 @@ export const sharedStyles = css`
     display: flex;
     flex-direction: row;
   }
+  .center-content {
+    align-items: center;
+    justify-content: center;
+  }
 `;

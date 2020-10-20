@@ -26,6 +26,7 @@
     "publish-to-branch": "npm run lint && npm run build && cp package.json dist && gh-pages -d dist -b ui-build"
   },
   "dependencies": {
+    "@grafikart/drop-files-element": "^1.0.9",
     "@holochain/conductor-api": "guillemcordoba/holochain-conductor-api",
     "dropzone": "^5.7.2",
     "lit-element": "^2.4.0",

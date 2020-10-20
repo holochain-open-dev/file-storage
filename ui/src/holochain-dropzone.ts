@@ -21,7 +21,11 @@ export class HolochainDropzone extends Dropzone {
     dropzoneFiles: Dropzone.DropzoneFile[]
   ): Promise<void> {
     for (const file of dropzoneFiles) {
-      await this.fileStorageService.uploadFile(file)
+      try {
+        await this.fileStorageService.uploadFile(file);
+      } catch (e) {
+        console.error(e);
+      }
     }
   }
 }

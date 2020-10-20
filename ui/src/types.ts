@@ -1,6 +1,10 @@
 import { Hash } from '@holochain/conductor-api';
 
-export interface FileMetadata extends File {
-  creator_pub_key: string;
-  chunks: Array<Hash>;
+export interface FileMetadata {
+  name: string;
+  lastModifed: number;
+  size: number;
+  fileType: string;
+  creatorPubKey: string;
+  chunksHashes: Array<string>;
 }

@@ -39,7 +39,7 @@ These are the things you need to know to decide if you can use this module in yo
 
 ```toml
 [dependencies]
-file_storage = {git = "https://github.com/holochain-open-dev", package = "file_storage"}
+file_storage = {git = "https://github.com/holochain-open-dev/file-storage-module", package = "file_storage"}
 ```
 
 5. Create a `src` folder besides the `Cargo.toml` with this content:

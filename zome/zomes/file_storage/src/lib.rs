@@ -14,25 +14,26 @@ pub fn error<T>(reason: &str) -> ExternResult<T> {
 entry_defs![FileChunk::entry_def(), FileMetadata::entry_def()];
 
 /** Files **/
+
+#[derive(Clone, Serialize, Deserialize, SerializedBytes)]
+pub struct CreateChunkInput(pub Vec<u8>);
+#[hdk_extern]
+pub fn create_file_chunk(create_chunk_input: CreateChunkInput) -> ExternResult<EntryHash> {
+    file_chunk::create_file_chunk(create_chunk_input.0)
+}
+
 #[derive(Clone, Serialize, Deserialize, SerializedBytes)]
 #[serde(rename_all = "camelCase")]
-pub struct File {
+pub struct CreateFileMetadataInput {
     pub name: String,
-    pub last_modified: i64,
+    pub last_modified: timestamp::Timestamp,
     pub size: usize,
-    #[serde(rename(deserialize = "type"))]
     pub file_type: String,
-    pub bytes: Vec<u8>,
+    pub chunks_hashes: Vec<EntryHash>,
 }
-
 #[hdk_extern]
-pub fn upload_file(create_file_input: File) -> ExternResult<EntryHash> {
-    file_metadata::upload_file(create_file_input)
-}
-
-#[hdk_extern]
-pub fn download_file(file_hash: EntryHash) -> ExternResult<File> {
-    file_metadata::download_file(file_hash)
+pub fn create_file_metadata(create_file_metadata_input: CreateFileMetadataInput) -> ExternResult<EntryHash> {
+    file_metadata::create_file_metadata(create_file_metadata_input)
 }
 
 #[hdk_extern]

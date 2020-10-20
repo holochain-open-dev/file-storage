@@ -9,7 +9,6 @@ function strToUtf16Bytes(str) {
   return bytes;
 }
 
-
 const sleep = (ms) => new Promise((resolve) => setTimeout(() => resolve(), ms));
 
 const orchestrator = new Orchestrator();
@@ -25,33 +24,69 @@ orchestrator.registerScenario("create a file", async (s, t) => {
   });
   await conductor.spawn();
 
-  let buffer = strToUtf16Bytes("hiiii");
-  let file = {
-    name: "example.txt",
-    type: "text/plain",
-    bytes: buffer,
-    size: buffer.length,
-    lastModified: Math.floor(Date.now() / 1000),
-  };
+  const chunkSize = 256 * 1024;
+  const chunkNumer = 10;
 
+  let chunkBytes = strToUtf16Bytes(
+    Array(chunkSize / 2)
+      .fill("h")
+      .join("")
+  );
+
+  let chunks = Array(chunkNumer).fill(chunkBytes);
+
+  async function createChunk(bytes: number[]): Promise<string> {
+    const start = Date.now();
+
+    const hash = await conductor.call(
+      "alice",
+      "file_storage",
+      "create_file_chunk",
+      bytes
+    );
+    const end = Date.now();
+    console.log((end - start) / 1000);
+    return hash;
+  }
+
+  const chunksHashesPromises = chunks.map(createChunk);
+  const chunksHashes = await Promise.all(chunksHashesPromises);
+
+  await sleep(3000);
+
+  let fileMetadata = {
+    name: "example.txt",
+    fileType: "text/plain",
+    chunksHashes,
+    size: chunkSize * chunkNumer,
+    lastModified: [Math.floor(Date.now() / 1000), 0],
+  };
   let fileHash = await conductor.call(
     "alice",
     "file_storage",
-    "upload_file",
-    file
+    "create_file_metadata",
+    fileMetadata
   );
   t.ok(fileHash);
-
-  await sleep(10);
 
   let fileResult = await conductor.call(
     "bobbo",
     "file_storage",
-    "download_file",
+    "get_file_metadata",
     fileHash
   );
 
-  console.log(fileResult)
+  t.ok(fileResult);
+
+  for (const chunkHash of fileResult.chunksHashes) {
+    let chunk = await conductor.call(
+      "alice",
+      "file_storage",
+      "get_file_chunk",
+      chunkHash
+    );
+    t.ok(chunk);
+  }
 });
 
 orchestrator.run();
