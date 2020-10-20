@@ -6,23 +6,28 @@
       body {
         background: #fafafa;
       }
-      html, body, hod-upload-file {
+      html,
+      body,
+      hod-upload-file {
         height: 100%;
         width: 100%;
         margin: 0;
         display: flex;
       }
     </style>
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons&display=block"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <hod-upload-file ></hod-upload-file>
+    <hod-upload-file></hod-upload-file>
 
     <script type="module">
       import { html, render } from 'lit-html';
       import { defineHodUploadFile, FileStorageService } from '../dist';
       import ConductorApi from '@holochain/conductor-api';
-      
-      
+
       ConductorApi.AppWebsocket.connect('ws://localhost:8888').then(
         async appWebsocket => {
           const appInfo = await appWebsocket.appInfo({ app_id: 'test-app' });
