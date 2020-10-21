@@ -15,5 +15,10 @@
     "inlineSources": true,
     "rootDir": "./src"
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts"],
+  "typedocOptions": {
+    "mode": "file",
+    "out": "docs",
+    "inputFiles": ["./src/services"]
+  }
 }

@@ -10,7 +10,8 @@ This module is designed to be included in other DNAs, assuming as little as poss
 
 ## Documentation
 
-See our [`storybook`](https://holochain-open-dev.github.io/file-storage-module).
+- [`Storybook`](https://holochain-open-dev.github.io/file-storage-module) for elements documentation.
+- [Here](/ui/docs) for documentation about the services.
 
 ## Assumptions
 

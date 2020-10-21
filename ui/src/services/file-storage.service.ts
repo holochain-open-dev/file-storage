@@ -4,7 +4,6 @@ import { dateToTimestamp, timestampToDate } from '../utils';
 
 export class FileStorageService {
   /**
-   *
    * @param appWebsocket connection to the holochain backend
    * @param cellId the cell to which to upload the file
    * @param zomeName the zome name of the file_storage zome in the given cell
@@ -74,6 +73,11 @@ export class FileStorageService {
     return file;
   }
 
+  /**
+   * Gets only the metadata of the file with the given hash
+   * This is specially useful if you want to fetch the chunks one by one
+   * @param fileHash the hash of the file
+   */
   async getFileMetadata(fileHash: string): Promise<FileMetadata> {
     const metadata = await this._callZome('get_file_metadata', fileHash);
 
@@ -83,6 +87,11 @@ export class FileStorageService {
     };
   }
 
+  /**
+   * Fetch the chunk identified with the given hash
+   * This is useful if used with the chunk hashes received with `getFileMetadata`
+   * @param fileChunkHash 
+   */
   async fetchChunk(fileChunkHash: string): Promise<Blob> {
     return this._callZome('get_file_chunk', fileChunkHash);
   }

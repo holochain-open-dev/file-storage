@@ -17,6 +17,7 @@
     "test-watch": "web-test-runner --watch --puppeteer",
     "e2e": "CONDUCTOR_URL=ws://localhost:8888 concurrently -k -s first \"npm:test\" \"npm:start-holochain\"",
     "analyze": "wca analyze src --format json --outFile custom-elements.json",
+    "typedoc": "typedoc --tsconfig tsconfig.json --excludeNotExported --excludeProtected --excludePrivate",
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore",
     "storybook": "npm run analyze && concurrently -k --names tsc,storybook \"npm:build-watch\" \"start-storybook --node-resolve --watch --open\"",
@@ -67,6 +68,8 @@
     "rollup-plugin-postcss": "^3.1.8",
     "rollup-plugin-postcss-lit": "^1.0.1",
     "tslib": "^1.11.0",
+    "typedoc": "^0.19.2",
+    "typedoc-plugin-markdown": "^3.0.11",
     "typescript": "~3.9.0",
     "web-component-analyzer": "^1.1.6"
   },
