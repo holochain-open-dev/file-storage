@@ -53,6 +53,10 @@ export class FileStorageService {
     return hash;
   }
 
+  /**
+   * Downloads the whole file with the given hash
+   * @param fileHash 
+   */
   async downloadFile(fileHash: string): Promise<File> {
     const metadata = await this.getFileMetadata(fileHash);
 

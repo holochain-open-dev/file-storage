@@ -40,8 +40,14 @@ To run the suite of karma tests, run
 npm run test
 ```
 
-To run the tests in watch mode (for <abbr title="test driven development">TDD</abbr>, for example), run
+To run the tests in watch mode (for <abbr title="test driven development">TDD</abbr>, for example), run two terminals:
 
+In the first terminal:
+```bash
+npm run build-watch
+```
+
+In the second terminal:
 ```bash
 npm run test-watch
 ```

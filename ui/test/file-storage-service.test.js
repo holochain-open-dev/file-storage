@@ -1,19 +1,35 @@
 import { expect } from '@open-wc/testing';
 
+import { FileStorageService } from '../dist';
+import { FileStorageMock } from './mocks/file-storage.mock';
 import { AppWebsocketMock, DnaMock } from 'holochain-ui-test-utils';
 
-// TODO: change mutations and tests to adapt to your graphql queries
 describe('FileStorageService', () => {
   it('upload a file and retrieve it', async () => {
     const dnaMock = new DnaMock({
-      file_storage: new 
-    })
-    const appWebsocket = new AppWebsocketMock();
+      file_storage: new FileStorageMock(),
+    });
+    const appWebsocket = new AppWebsocketMock([dnaMock]);
+    const appInfo = await appWebsocket.appInfo({ app_id: 'test-app' });
 
-    expect(result.data.allCalendarEvents.length).to.equal(1);
-    expect(result.data.allCalendarEvents[0].id).to.equal(
-      createCalendarEvent.data.createCalendarEvent.id
-    );
-    expect(result.data.allCalendarEvents[0].title).to.equal('Event 1');
+    const cellId = appInfo.cell_data[0][0];
+
+    const fileStorage = new FileStorageService(appWebsocket, cellId);
+
+    const blob = new Uint8Array(Array(4).fill(3));
+    const file = new File([blob], 'example.txt', {
+      lastModified: Date.now(),
+      type: 'txt',
+    });
+
+    const fileHash = await fileStorage.uploadFile(file);
+
+    expect(fileHash).to.be.ok;
+
+    const fileResult = await fileStorage.downloadFile(fileHash);
+
+    expect(fileResult.name).to.equal('example.txt');
+    const bytes = await fileResult.arrayBuffer();
+    expect(new Uint8Array(bytes)[0]).to.equal(3);
   });
 });
