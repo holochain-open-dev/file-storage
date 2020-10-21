@@ -32,7 +32,7 @@ export class HolochainDropzone extends Dropzone {
         this.emit('success', file, undefined);
         this.emit('complete', file);
       } catch (e) {
-        this.emit('error', file, e.message);
+        this.emit('error', file, e.data.data);
         console.error(e);
       }
     }
