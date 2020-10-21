@@ -54,7 +54,7 @@ export class FileStorageService {
 
   /**
    * Downloads the whole file with the given hash
-   * @param fileHash 
+   * @param fileHash
    */
   async downloadFile(fileHash: string): Promise<File> {
     const metadata = await this.getFileMetadata(fileHash);
@@ -90,10 +90,12 @@ export class FileStorageService {
   /**
    * Fetch the chunk identified with the given hash
    * This is useful if used with the chunk hashes received with `getFileMetadata`
-   * @param fileChunkHash 
+   * @param fileChunkHash
    */
   async fetchChunk(fileChunkHash: string): Promise<Blob> {
-    return this._callZome('get_file_chunk', fileChunkHash);
+    const bytes = await this._callZome('get_file_chunk', fileChunkHash);
+
+    return new Blob([new Uint8Array(bytes)]);
   }
 
   /** Private helpers */
