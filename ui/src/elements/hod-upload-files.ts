@@ -1,4 +1,5 @@
 import { css, html, LitElement, property, query } from 'lit-element';
+import { classMap } from 'lit-html/directives/class-map';
 
 import '@material/mwc-icon';
 
@@ -10,7 +11,11 @@ import basicStyles from 'dropzone/dist/min/basic.min.css';
 // @ts-ignore
 import dropzoneStyles from 'dropzone/dist/min/dropzone.min.css';
 
-export abstract class HodUploadFile extends LitElement {
+/**
+ * @fires file-uploaded - Fired after having uploaded the file
+ * @csspart dropzone - Style the dropzone itself
+ */
+export abstract class HodUploadFiles extends LitElement {
   /** Public attributes */
 
   /** Dependencies */
@@ -20,30 +25,36 @@ export abstract class HodUploadFile extends LitElement {
 
   @query('.dropzone') _dropzone!: HTMLElement;
 
-  @property({ type: Boolean }) _showIcon: boolean = true;
+  @property({ type: Boolean }) _showIcon = true;
 
-  static styles = [
-    sharedStyles,
-    css`
-      :host {
-        display: contents;
-      }
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: contents;
+        }
 
-      .dropzone {
-        background: #f5f5f5;
-        border-radius: 5px;
-        border: 2px dashed rgb(0, 135, 247);
-        border-image: none;
-        color: rgba(0, 0, 0, 0.54);
-      }
+        .dropzone {
+          background: #f5f5f5;
+          border-radius: 5px;
+          border: 2px dashed rgb(0, 135, 247);
+          border-image: none;
+          color: rgba(0, 0, 0, 0.54);
+        }
 
-      .dropzone .dz-message .dz-button {
-        font-weight: 500;
-        font-size: initial;
-        text-transform: uppercase;
-      }
-    `,
-  ];
+        .dropzone .dz-message .dz-button {
+          font-weight: 500;
+          font-size: initial;
+          text-transform: uppercase;
+        }
+
+        .dropzone .dz-message {
+          margin-top: 1em;
+        }
+      `,
+    ];
+  }
 
   firstUpdated() {
     const dropzone = new HolochainDropzone(
@@ -73,6 +84,17 @@ export abstract class HodUploadFile extends LitElement {
     );
 
     dropzone.on('addedfile', () => (this._showIcon = false));
+    dropzone.on('complete', file => {
+      this.dispatchEvent(
+        new CustomEvent('file-uploaded', {
+          detail: {
+            file,
+          },
+          bubbles: true,
+          composed: true,
+        })
+      );
+    });
   }
 
   render() {
@@ -90,8 +112,14 @@ export abstract class HodUploadFile extends LitElement {
         }
       </style>
       <div
-        style="flex: 1; display: flex; flex-direction: column;"
-        class="dropzone center-content"
+        style="flex: 1; display: flex;"
+        class=${classMap({
+          dropzone: true,
+          'center-content': true,
+          column: this._showIcon,
+          row: !this._showIcon,
+        })}
+        part="dropzone"
       >
         ${this._showIcon
           ? html`
@@ -107,8 +135,8 @@ export abstract class HodUploadFile extends LitElement {
 
 export function defineHodUploadFile(fileStorageService: FileStorageService) {
   customElements.define(
-    'hod-upload-file',
-    class extends HodUploadFile {
+    'hod-upload-files',
+    class extends HodUploadFiles {
       get _fileStorageService() {
         return fileStorageService;
       }

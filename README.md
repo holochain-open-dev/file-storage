@@ -6,35 +6,24 @@ This module is designed to be included in other DNAs, assuming as little as poss
 
 ## Task List
 
-> Please note that this module is in its early development, not ready for production yet
-
-- [ ] Finish the `create_file` and `get_file` functions
-- [ ] Finish tests and get them working
-- [ ] Add a `get_my_files` function
-- [ ] Create a `file-upload` CustomElement
+> Please note that this module is in its early development
 
 ## Documentation
 
-See our [`storybook`](https://holochain-open-dev.github.io/calendar-events-zome).
+See our [`storybook`](https://holochain-open-dev.github.io/file-storage-module).
 
 ## Assumptions
 
-These are the things you need to know to decide if you can use this module in your happ:
-
-- Zome:
-
-- UI module:
-  - `ApolloClient` as the state-management and data-fetching engine.
-  - The resolvers are declared in the frontend using [`makeExecutableSchema`](https://www.npmjs.com/package/@graphql-tools/schema).
-  - No framework or library assumed.
+- You have only one DNA in which you want to store the files in your happ (this will be changed in the future).
 
 ## Installation and usage
 
 ### Including the zome in your DNA
 
-1. Create a new folder in the `zomes` of the consuming DNA, with the name you want to give to this zome in your DNA.
+1. Create a new folder in the `zomes` of the consuming DNA, with the name `file_storage`. 
+  - If you want to give the zome a different name you should also initialize the `FileStorageService` with it.
 2. Add a new `Cargo.toml` in that folder. In its content, paste the `Cargo.toml` content from any zome.
-3. Change the `name` properties of the `Cargo.toml` file to the name you want to give to this zome in your DNA.
+3. Change the `name` properties of the `Cargo.toml` file to `file_storage`.
 4. Add this zome as a dependency in the `Cargo.toml` file:
 
 ```toml
@@ -51,64 +40,13 @@ extern crate file_storage;
 6. Add the zome into your `*.dna.workdir/dna.json` file.
 7. Compile the DNA with the usual `CARGO_TARGET=target cargo build --release --target wasm32-unknown-unknown`.
 
-### Using the UI module
+### Installing the UI module
 
-1. Add it in your `package.json` with a reference to `holochain-open-dev/file-storage-module#ui-build`
-
-2. Add the GraphQl schema and resolvers to your `ApolloClient` setup:
-
-```js
-import { AppWebsocket } from "@holochain/conductor-api";
-import {
-  calendarEventsTypeDefs,
-  calendarEventsResolvers,
-} from "@holochain-open-dev/calendar-events";
-
-export async function setupClient(url) {
-  const appWebsocket = await AppWebsocket.connect(String(url));
-
-  const appInfo = await appWebsocket.appInfo({ app_id: "test-app" });
-
-  const cellId = appInfo.cell_data[0][0];
-
-  const executableSchema = makeExecutableSchema({
-    typeDefs: [rootTypeDef, calendarEventsTypeDefs],
-    resolvers: [calendarEventsResolvers(appWebsocket, cellId)],
-  });
-
-  const schemaLink = new SchemaLink({ schema: executableSchema });
-
-  return new ApolloClient({
-    typeDefs: allTypeDefs,
-    cache: new InMemoryCache(),
-    link: schemaLink,
-  });
-}
+```bash
+npm install git://github.com/holochain-open-dev/file-storage-module.git#ui-build
 ```
 
-3. In the root file of your application, install the module:
-
-```js
-import { CalendarEventsModule } from "@holochain-open-dev/calendar-events";
-async function initApp() {
-  const client = await setupClient(`ws://localhost:8888`);
-
-  const calendarEventsModule = new CalendarEventsModule(client);
-
-  await calendarEventsModule.install();
-}
-```
-
-4. Once you have installed the module, all the elements you see in our storybook will become available for you to use in your HTML, like this:
-
-```html
-...
-<body>
-  <hod-cal-full-calendar></hod-cal-full-calendar>
-</body>
-```
-
-Take into account that at this point the elements already expect a holochain conductor running at `ws://localhost:8888`.
+Done! You can already use all the elements of this library. See our [`storybook`](https://holochain-open-dev.github.io/file-storage-module) for documentation on those.
 
 ## Developer setup
 

@@ -3,6 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <style>
+      html {
+        font-family: 'Roboto', sans-serif;
+      }
       body {
         background: #fafafa;
       }
@@ -19,12 +22,16 @@
       href="https://fonts.googleapis.com/css?family=Material+Icons&display=block"
       rel="stylesheet"
     />
+    <link
+      href="http://fonts.googleapis.com/css?family=Roboto"
+      rel="stylesheet"
+      type="text/css"
+    />
   </head>
   <body>
-    <hod-upload-file></hod-upload-file>
+    <hod-upload-files></hod-upload-files>
 
     <script type="module">
-      import { html, render } from 'lit-html';
       import { defineHodUploadFile, FileStorageService } from '../dist';
       import ConductorApi from '@holochain/conductor-api';
 

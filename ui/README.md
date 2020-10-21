@@ -1,6 +1,6 @@
 # UI Developer Setup
 
-UI module for the `calendar-events-zome`.
+UI module for the `file_storage` zome.
 
 ## Requirements
 
@@ -9,7 +9,7 @@ UI module for the `calendar-events-zome`.
 
 ## Local Demo with `@web/dev-server`
 
-First, [build the holochain dna](/zomes/README.md). Run this from inside the `nix-shell` in which you have the `holochain` binary install.
+First, [build the holochain dna](/zomes/README.md).
 
 Run this from inside the `nix-shell` in which you have the `holochain` binary install.
 
@@ -17,7 +17,7 @@ Run this from inside the `nix-shell` in which you have the `holochain` binary in
 npm start
 ```
 
-To run a local development server that serves the basic demo located in `demo/index.html`
+This will serve a local development server that serves the basic demo located in `demo/index.html` at `localhost:8080/demo`.
 Take into account that this will run the holochain conductor in the background and connect the UI to the actual conductor.
 
 ## Running only the UI
@@ -32,7 +32,7 @@ npm run start-ui
 npm run build
 ```
 
-## Testing with Karma
+## Testing with @web/test-runner
 
 To run the suite of karma tests, run
 
@@ -48,7 +48,9 @@ npm run test-watch
 
 ## E2E tests
 
-First, [build the holochain dna](/zomes/README.md). Run this from inside the `nix-shell` in which you have the `holochain` binary install.
+First, [build the holochain dna](/zomes/README.md). 
+
+Run this from inside the `nix-shell` in which you have the `holochain` binary install.
 
 ```bash
 npm run e2e
@@ -100,7 +102,7 @@ npm run publish-storybook
 
 This will build the static storybook site, and deploy it directly in the `gh-pages` of your repository.
 
-After this, it will be accessible in the appropriate Github Pages URL (eg. https://holochain-open-dev.github.io/calendar-events-module).
+After this, it will be accessible in the appropriate Github Pages URL (https://holochain-open-dev.github.io/file-storage-module).
 
 ## Publishing in a branch on this repository
 
@@ -114,6 +116,6 @@ Now, a built version of this module will be at the root of the `ui-build` branch
 
 ```json
   "dependencies": {
-    "@holochain-open-dev/TODO_RENAME_MODULE": "holochain-open-dev/TODO_RENAME_MODULE#ui-build",
+    "@holochain-open-dev/file-storage": "holochain-open-dev/file-storage#ui-build",
   }
 ```
