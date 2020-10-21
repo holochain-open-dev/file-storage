@@ -11,7 +11,7 @@ This module is designed to be included in other DNAs, assuming as little as poss
 ## Documentation
 
 - [`Storybook`](https://holochain-open-dev.github.io/file-storage-module) for elements documentation.
-- [Here](/ui/docs) for documentation about the services.
+- [Here](/ui/docs/classes/filestorageservice.md) for documentation about the `FileStorageService`.
 
 ## Assumptions
 
