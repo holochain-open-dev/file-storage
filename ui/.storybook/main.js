@@ -65,7 +65,7 @@ module.exports = {
         }),
 
         ...plugins,
-        resolve({
+        resolve.default({
           customResolveOptions: {
             moduleDirectory: ['node_modules', 'web_modules'],
           },
