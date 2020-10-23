@@ -8,6 +8,8 @@ This module is designed to be included in other DNAs, assuming as little as poss
 
 > Please note that this module is in its early development
 
+- [ ] Implement `<hod-download-file>` element
+
 ## Documentation
 
 - [`Storybook`](https://holochain-open-dev.github.io/file-storage-module) for elements documentation.
