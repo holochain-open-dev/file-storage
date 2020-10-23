@@ -4,15 +4,11 @@ Small zome to create and retrieve files, in holochain RSM.
 
 This module is designed to be included in other DNAs, assuming as little as possible from those. It is packaged as a holochain zome, and an npm package that offers native Web Components that can be used across browsers and frameworks.
 
-## Task List
-
 > Please note that this module is in its early development
-
-- [ ] Implement `<hod-download-file>` element
 
 ## Documentation
 
-- [`Storybook`](https://holochain-open-dev.github.io/file-storage-module) for elements documentation.
+- [`Storybook`](https://holochain-open-dev.github.io/file-storage-module?path=/docs/hoduploadfiles--default) for elements documentation.
 - [Here](/ui/docs/classes/filestorageservice.md) for documentation about the `FileStorageService`.
 
 ## Assumptions

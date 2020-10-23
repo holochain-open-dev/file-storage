@@ -25,7 +25,7 @@ export default {
   decorators: [withKnobs, withWebComponentsKnobs],
   parameters: {
     component: 'hod-upload-files',
-    options: { selectedPanel: 'storybookjs/knobs/panel' },
+    options: { selectedPanel: 'docs' },
   },
 };
 ```
