@@ -19,8 +19,7 @@ This module is designed to be included in other DNAs, assuming as little as poss
 
 ### Including the zome in your DNA
 
-1. Create a new folder in the `zomes` of the consuming DNA, with the name `file_storage`. 
-  - If you want to give the zome a different name you should also initialize the `FileStorageService` with it.
+1. Create a new folder in the `zomes` of the consuming DNA, with the name `file_storage`.
 2. Add a new `Cargo.toml` in that folder. In its content, paste the `Cargo.toml` content from any zome.
 3. Change the `name` properties of the `Cargo.toml` file to `file_storage`.
 4. Add this zome as a dependency in the `Cargo.toml` file:
@@ -29,6 +28,8 @@ This module is designed to be included in other DNAs, assuming as little as poss
 [dependencies]
 file_storage = {git = "https://github.com/holochain-open-dev/file-storage-module", package = "file_storage"}
 ```
+
+- If you want to give the zome a different name you should also initialize the `FileStorageService` with it.
 
 5. Create a `src` folder besides the `Cargo.toml` with this content:
 
