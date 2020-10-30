@@ -6456,7 +6456,7 @@ class HolochainDropzone extends dropzone {
                 this.emit('complete', file);
             }
             catch (e) {
-                this.emit('error', file, e.message);
+                this.emit('error', file, e.data.data);
                 console.error(e);
             }
         }
@@ -6687,7 +6687,7 @@ class FileStorageService {
     }
     async _createChunk(chunk) {
         const bytes = await chunk.arrayBuffer();
-        return this._callZome('create_file_chunk', Array.from(new Uint8Array(bytes)));
+        return this._callZome('create_file_chunk', new Uint8Array(bytes));
     }
     _callZome(fnName, payload) {
         return this.appWebsocket.callZome({
