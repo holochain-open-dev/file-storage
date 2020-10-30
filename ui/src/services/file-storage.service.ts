@@ -116,10 +116,7 @@ export class FileStorageService {
   private async _createChunk(chunk: Blob): Promise<string> {
     const bytes = await chunk.arrayBuffer();
 
-    return this._callZome(
-      'create_file_chunk',
-      Array.from(new Uint8Array(bytes))
-    );
+    return this._callZome('create_file_chunk', new Uint8Array(bytes));
   }
 
   private _callZome(fnName: string, payload: any): Promise<any> {

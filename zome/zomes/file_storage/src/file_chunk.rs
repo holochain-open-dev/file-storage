@@ -3,7 +3,7 @@ use hdk3::prelude::*;
 
 #[hdk_entry(id = "file_chunk", visibility = "public")]
 #[derive(Clone)]
-pub struct FileChunk(Vec<u8>);
+pub struct FileChunk(SerializedBytes);
 
 pub fn create_file_chunk(file_chunk: FileChunk) -> ExternResult<EntryHash> {
     let file_chunk_hash = hash_entry!(file_chunk.clone())?;

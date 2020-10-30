@@ -1,15 +1,12 @@
 import { expect } from '@open-wc/testing';
 
 import { FileStorageService } from '../dist';
-import { FileStorageMock } from './mocks/file-storage.mock';
-import { AppWebsocketMock, DnaMock } from 'holochain-ui-test-utils';
+import { getAppWebsocket } from './mocks';
 
 describe('FileStorageService', () => {
   it('upload a file and retrieve it', async () => {
-    const dnaMock = new DnaMock({
-      file_storage: new FileStorageMock(),
-    });
-    const appWebsocket = new AppWebsocketMock([dnaMock]);
+    const appWebsocket = await getAppWebsocket();
+
     const appInfo = await appWebsocket.appInfo({ app_id: 'test-app' });
 
     const cellId = appInfo.cell_data[0][0];

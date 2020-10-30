@@ -1,14 +1,5 @@
 import { Orchestrator, Config } from "@holochain/tryorama";
 
-function strToUtf16Bytes(str) {
-  const bytes: Array<number> = [];
-  for (let ii = 0; ii < str.length; ii++) {
-    const code = str.charCodeAt(ii); // x00-xFFFF
-    bytes.push(code & 255, code >> 8); // low, high
-  }
-  return bytes;
-}
-
 const sleep = (ms) => new Promise((resolve) => setTimeout(() => resolve(), ms));
 
 const orchestrator = new Orchestrator();
@@ -24,33 +15,29 @@ orchestrator.registerScenario("create a file", async (s, t) => {
   });
   await conductor.spawn();
 
-  const chunkSize = 256 * 1024;
-  const chunkNumer = 10;
+  const chunkSize = 8 * 1024 * 1024;
+  const chunkNumer = 6;
 
-  let chunkBytes = strToUtf16Bytes(
-    Array(chunkSize / 2)
-      .fill("h")
-      .join("")
-  );
+  const bufStr = Array(chunkSize).fill("h").join("");
+  let chunkBytes = Buffer.from(bufStr, "utf8");
 
-  let chunks = Array(chunkNumer).fill(chunkBytes);
+  const chunksHashes: any[] = [];
 
-  async function createChunk(bytes: number[]): Promise<string> {
+  for (let i = 0; i < chunkNumer; i++) {
     const start = Date.now();
 
     const hash = await conductor.call(
       "alice",
       "file_storage",
       "create_file_chunk",
-      bytes
+      Buffer.from(Array(chunkSize).fill(i).join(""))
     );
     const end = Date.now();
+    console.log(chunkBytes.length);
     console.log((end - start) / 1000);
-    return hash;
-  }
 
-  const chunksHashesPromises = chunks.map(createChunk);
-  const chunksHashes = await Promise.all(chunksHashesPromises);
+    chunksHashes.push(hash);
+  }
 
   await sleep(3000);
 
@@ -69,6 +56,8 @@ orchestrator.registerScenario("create a file", async (s, t) => {
   );
   t.ok(fileHash);
 
+  await sleep(100);
+
   let fileResult = await conductor.call(
     "bobbo",
     "file_storage",
@@ -86,6 +75,7 @@ orchestrator.registerScenario("create a file", async (s, t) => {
       chunkHash
     );
     t.ok(chunk);
+    console.log(chunk);
   }
 });
 
