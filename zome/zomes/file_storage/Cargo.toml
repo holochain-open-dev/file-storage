@@ -12,4 +12,5 @@ name = "file_storage"
 derive_more = "0"
 serde = "1"
 
-hdk3 = {git = "https://github.com/holochain/holochain", branch = "develop", package = "hdk3"}
+hdk3 = "0"
+hc_utils = "0"

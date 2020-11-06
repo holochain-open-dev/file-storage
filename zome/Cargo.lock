@@ -84,6 +84,7 @@ name = "file_storage"
 version = "0.0.1"
 dependencies = [
  "derive_more",
+ "hc_utils",
  "hdk3",
  "serde",
 ]
@@ -91,7 +92,7 @@ dependencies = [
 [[package]]
 name = "fixt"
 version = "0.0.1"
-source = "git+https://github.com/holochain/holochain?branch=develop#39881a0d96a8612bf0c5edb8e8d63cdeae2ca9a0"
+source = "git+https://github.com/holochain/holochain?rev=7037aa2ccfb1ad9a8ece98eb379686f605dc1a0c#7037aa2ccfb1ad9a8ece98eb379686f605dc1a0c"
 dependencies = [
  "holochain_serialized_bytes",
  "lazy_static",
@@ -122,9 +123,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d7afe4a420e3fe79967a00898cc1f4db7c8a49a9333a29f8a4bd76a253d5cd04"
 
 [[package]]
+name = "hc_utils"
+version = "0.1.0"
+source = "git+https://github.com/guillemcordoba/hc-utils?branch=develop#87eb2ce2823c3ce659d293f82d523061a32caf2e"
+dependencies = [
+ "hdk3",
+ "holo_hash",
+ "serde",
+ "thiserror",
+]
+
+[[package]]
 name = "hdk3"
 version = "0.0.1"
-source = "git+https://github.com/holochain/holochain?branch=develop#39881a0d96a8612bf0c5edb8e8d63cdeae2ca9a0"
+source = "git+https://github.com/holochain/holochain?rev=7037aa2ccfb1ad9a8ece98eb379686f605dc1a0c#7037aa2ccfb1ad9a8ece98eb379686f605dc1a0c"
 dependencies = [
  "hdk3_derive",
  "holo_hash",
@@ -138,7 +150,7 @@ dependencies = [
 [[package]]
 name = "hdk3_derive"
 version = "0.0.1"
-source = "git+https://github.com/holochain/holochain?branch=develop#39881a0d96a8612bf0c5edb8e8d63cdeae2ca9a0"
+source = "git+https://github.com/holochain/holochain?rev=7037aa2ccfb1ad9a8ece98eb379686f605dc1a0c#7037aa2ccfb1ad9a8ece98eb379686f605dc1a0c"
 dependencies = [
  "holochain_zome_types",
  "paste",
@@ -159,7 +171,7 @@ dependencies = [
 [[package]]
 name = "holo_hash"
 version = "0.0.1"
-source = "git+https://github.com/holochain/holochain?branch=develop#39881a0d96a8612bf0c5edb8e8d63cdeae2ca9a0"
+source = "git+https://github.com/holochain/holochain?rev=7037aa2ccfb1ad9a8ece98eb379686f605dc1a0c#7037aa2ccfb1ad9a8ece98eb379686f605dc1a0c"
 dependencies = [
  "base64",
  "blake2b_simd",
@@ -220,7 +232,7 @@ dependencies = [
 [[package]]
 name = "holochain_zome_types"
 version = "0.0.1"
-source = "git+https://github.com/holochain/holochain?branch=develop#39881a0d96a8612bf0c5edb8e8d63cdeae2ca9a0"
+source = "git+https://github.com/holochain/holochain?rev=7037aa2ccfb1ad9a8ece98eb379686f605dc1a0c#7037aa2ccfb1ad9a8ece98eb379686f605dc1a0c"
 dependencies = [
  "fixt",
  "holo_hash",

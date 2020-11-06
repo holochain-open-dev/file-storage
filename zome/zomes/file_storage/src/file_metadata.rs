@@ -1,6 +1,7 @@
 use crate::{utils, CreateFileMetadataInput};
 use hdk3::prelude::timestamp::Timestamp;
 use hdk3::prelude::*;
+use hc_utils::WrappedEntryHash;
 
 #[hdk_entry(id = "file_metadata", visibility = "public")]
 #[derive(Clone)]
@@ -11,7 +12,7 @@ pub struct FileMetadata {
     pub creator_pub_key: AgentPubKey,
     pub size: usize, // Size in bytes
     pub file_type: String,
-    pub chunks_hashes: Vec<EntryHash>,
+    pub chunks_hashes: Vec<WrappedEntryHash>,
 }
 
 pub fn create_file_metadata(

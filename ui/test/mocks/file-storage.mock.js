@@ -1,4 +1,4 @@
-import { randomHash } from 'holochain-ui-test-utils';
+import { randomEntryHash } from 'holochain-ui-test-utils';
 
 export class FileStorageMock {
   constructor() {
@@ -7,7 +7,7 @@ export class FileStorageMock {
   }
 
   create_file_metadata(fileMetadata) {
-    const newId = randomHash();
+    const newId = randomEntryHash();
 
     this.metadata[newId] = fileMetadata;
 
@@ -19,7 +19,7 @@ export class FileStorageMock {
   }
 
   create_file_chunk(fileChunk) {
-    const newId = randomHash();
+    const newId = randomEntryHash();
 
     this.chunks[newId] = fileChunk;
 

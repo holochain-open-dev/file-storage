@@ -15,7 +15,7 @@ orchestrator.registerScenario("create a file", async (s, t) => {
   });
   await conductor.spawn();
 
-  const chunkSize = 8 * 1024 * 1024;
+  const chunkSize = 8 * 1024;
   const chunkNumer = 6;
 
   const bufStr = Array(chunkSize).fill("h").join("");
