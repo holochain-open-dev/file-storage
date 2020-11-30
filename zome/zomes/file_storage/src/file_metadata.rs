@@ -18,7 +18,7 @@ pub struct FileMetadata {
 pub fn create_file_metadata(
     file_metadata_input: CreateFileMetadataInput,
 ) -> ExternResult<EntryHash> {
-    let agent_info = agent_info!()?;
+    let agent_info = agent_info()?;
 
     let file_metadata = FileMetadata {
         name: file_metadata_input.name,
@@ -29,9 +29,9 @@ pub fn create_file_metadata(
         chunks_hashes: file_metadata_input.chunks_hashes,
     };
 
-    create_entry!(file_metadata.clone())?;
+    create_entry(&file_metadata.clone())?;
 
-    let hash = hash_entry!(file_metadata)?;
+    let hash = hash_entry(&file_metadata)?;
 
     Ok(hash)
 }
