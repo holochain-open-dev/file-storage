@@ -1,5 +1,5 @@
-use hdk3::prelude::*;
 use hc_utils::WrappedEntryHash;
+use hdk3::prelude::*;
 
 mod file_chunk;
 mod file_metadata;
@@ -33,7 +33,9 @@ pub struct CreateFileMetadataInput {
     pub chunks_hashes: Vec<WrappedEntryHash>,
 }
 #[hdk_extern]
-pub fn create_file_metadata(create_file_metadata_input: CreateFileMetadataInput) -> ExternResult<WrappedEntryHash> {
+pub fn create_file_metadata(
+    create_file_metadata_input: CreateFileMetadataInput,
+) -> ExternResult<WrappedEntryHash> {
     let file_metadata_hash = file_metadata::create_file_metadata(create_file_metadata_input)?;
 
     Ok(WrappedEntryHash(file_metadata_hash))
@@ -47,4 +49,10 @@ pub fn get_file_metadata(file_hash: WrappedEntryHash) -> ExternResult<FileMetada
 #[hdk_extern]
 pub fn get_file_chunk(file_chunk_hash: WrappedEntryHash) -> ExternResult<FileChunk> {
     file_chunk::get_file_chunk(file_chunk_hash.0)
+}
+
+#[hdk_extern]
+pub fn get_agent_pubkey(_: ()) -> ExternResult<AgentPubKey> {
+    let agent_info = agent_info()?;
+    Ok(agent_info.agent_latest_pubkey)
 }

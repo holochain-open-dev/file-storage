@@ -6,10 +6,10 @@ use hdk3::prelude::*;
 pub struct FileChunk(SerializedBytes);
 
 pub fn create_file_chunk(file_chunk: FileChunk) -> ExternResult<EntryHash> {
-    let file_chunk_hash = hash_entry!(file_chunk.clone())?;
+    let file_chunk_hash = hash_entry(&file_chunk.clone())?;
 
-    if let None = get!(file_chunk_hash.clone())? {
-        create_entry!(file_chunk.clone())?;
+    if let None = get(file_chunk_hash.clone(),GetOptions)? {
+        create_entry(&file_chunk.clone())?;
     }
 
     Ok(file_chunk_hash)
