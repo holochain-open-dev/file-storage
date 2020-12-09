@@ -27,7 +27,7 @@
     "publish-to-branch": "npm run lint && npm run build && cp package.json dist && gh-pages -d dist -b ui-build"
   },
   "dependencies": {
-    "@holochain/conductor-api": "0.0.1-dev.10",
+    "@holochain/conductor-api": "0.0.1-dev.14",
     "@material/mwc-icon": "^0.19.1",
     "dropzone": "^5.7.2",
     "lit-element": "^2.4.0",
