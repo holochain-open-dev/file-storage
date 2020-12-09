@@ -1,5 +1,3 @@
-import { Hash } from '@holochain/conductor-api';
-
 export interface FileMetadata {
   name: string;
   lastModifed: number;
