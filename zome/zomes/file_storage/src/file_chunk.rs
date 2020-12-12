@@ -8,7 +8,7 @@ pub struct FileChunk(SerializedBytes);
 pub fn create_file_chunk(file_chunk: FileChunk) -> ExternResult<EntryHash> {
     let file_chunk_hash = hash_entry(&file_chunk.clone())?;
 
-    if let None = get(file_chunk_hash.clone(),GetOptions)? {
+    if let None = get(file_chunk_hash.clone(), GetOptions::default())? {
         create_entry(&file_chunk.clone())?;
     }
 
