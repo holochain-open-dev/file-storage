@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@holochain/conductor-api": "0.0.1-dev.14",
-    "@material/mwc-icon": "^0.19.1",
+    "@material/mwc-icon": "^0.20.0",
     "@types/dropzone": "^5.7.0",
     "dropzone": "^5.7.2",
     "lit-element": "^2.4.0",
