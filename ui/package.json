@@ -11,6 +11,7 @@
     "start-ui": "CONDUCTOR_URL=ws://localhost:8888 concurrently -k --names tsc,dev-server \"npm run build-watch\" \"web-dev-server --config demo/web-dev-server.config.mjs\"",
     "start-holochain": "RUST_LOG=warn holochain-run-dna ../zome/file_storage.dna.gz",
     "build": "rimraf dist && rollup -c rollup.config.js",
+    "build-bundle": "rimraf dist && rollup -c rollup-bundle.config.js",
     "build-watch": "rollup -c rollup.config.js -w",
     "test": "npm run build && web-test-runner --coverage --puppeteer",
     "test-debug": "npm run build && DEBUG=true web-test-runner --coverage --puppeteer",
@@ -27,12 +28,16 @@
     "publish-to-branch": "npm run lint && npm run build && cp package.json dist && gh-pages -d dist -b ui-build"
   },
   "dependencies": {
+    "@compository/lib": "git+https://github.com/compository/lib.git#build",
+    "@holochain-open-dev/membrane-context": "^0.1.0",
     "@holochain/conductor-api": "0.0.1-dev.14",
     "@material/mwc-icon": "^0.20.0",
+    "@open-wc/scoped-elements": "^1.3.2",
     "@types/dropzone": "^5.7.0",
     "dropzone": "^5.7.2",
     "lit-element": "^2.4.0",
-    "lit-html": "^1.3.0"
+    "lit-html": "^1.3.0",
+    "scoped-material-components": "git+https://github.com/guillemcordoba/scoped-material-components.git#build"
   },
   "devDependencies": {
     "@open-wc/demoing-storybook": "^2.0.0",
@@ -42,7 +47,7 @@
     "@rollup/plugin-commonjs": "^15.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-replace": "^2.3.3",
-    "@rollup/plugin-typescript": "^6.0.0",
+    "@rollup/plugin-typescript": "^6.1.0",
     "@types/node": "13.11.1",
     "@typescript-eslint/eslint-plugin": "^2.20.0",
     "@typescript-eslint/parser": "^2.20.0",

@@ -1,7 +1,17 @@
-import { css, html, LitElement, property, query } from 'lit-element';
+import {
+  Constructor,
+  css,
+  html,
+  LitElement,
+  property,
+  PropertyValues,
+  query,
+} from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
 
-import '@material/mwc-icon';
+import { Icon } from 'scoped-material-components/mwc-icon';
+import { ScopedElementsMixin as Scoped } from '@open-wc/scoped-elements';
+import { membraneContext } from '@holochain-open-dev/membrane-context';
 
 import { FileStorageService } from '../services/file-storage.service';
 import { sharedStyles } from '../sharedStyles';
@@ -10,16 +20,28 @@ import { HolochainDropzone } from '../holochain-dropzone';
 import basicStyles from 'dropzone/dist/min/basic.min.css';
 // @ts-ignore
 import dropzoneStyles from 'dropzone/dist/min/dropzone.min.css';
+import { AppWebsocket, CellId } from '@holochain/conductor-api';
 
 /**
  * @fires file-uploaded - Fired after having uploaded the file
  * @csspart dropzone - Style the dropzone itself
  */
-export abstract class HodUploadFiles extends LitElement {
+export class HodUploadFiles extends membraneContext(Scoped(LitElement) as Constructor<LitElement>) {
   /** Public attributes */
 
   /** Dependencies */
-  abstract get _fileStorageService(): FileStorageService;
+  get _fileStorageService(): FileStorageService {
+    return new FileStorageService(
+      this.membraneContext.appWebsocket as AppWebsocket,
+      this.membraneContext.cellId as CellId
+    );
+  }
+
+  static get scopedElements() {
+    return {
+      'mwc-icon': Icon,
+    };
+  }
 
   /** Private properties */
 
@@ -56,7 +78,17 @@ export abstract class HodUploadFiles extends LitElement {
     ];
   }
 
-  firstUpdated() {
+  updated(changedValues: PropertyValues) {
+    super.updated(changedValues);
+    if (
+      changedValues.has('membraneContext') &&
+      this.membraneContext.appWebsocket
+    ) {
+      this.setupDropzone();
+    }
+  }
+
+  setupDropzone() {
     const dropzone = new HolochainDropzone(
       this._dropzone,
       this._fileStorageService,
@@ -131,15 +163,4 @@ export abstract class HodUploadFiles extends LitElement {
       </div>
     `;
   }
-}
-
-export function defineHodUploadFile(fileStorageService: FileStorageService) {
-  customElements.define(
-    'hod-upload-files',
-    class extends HodUploadFiles {
-      get _fileStorageService() {
-        return fileStorageService;
-      }
-    }
-  );
 }

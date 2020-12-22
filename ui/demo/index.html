@@ -29,23 +29,29 @@
     />
   </head>
   <body>
-    <hod-upload-files></hod-upload-files>
+    <membrane-context-provider id="provider">
+      <hod-upload-files></hod-upload-files>
+    </membrane-context-provider>
 
     <script type="module">
-      import { defineHodUploadFile, FileStorageService } from '../dist';
+      import { HodUploadFiles } from '../dist';
       import ConductorApi from '@holochain/conductor-api';
+      import { MembraneContextProvider } from '@holochain-open-dev/membrane-context';
 
       ConductorApi.AppWebsocket.connect('ws://localhost:8888').then(
         async appWebsocket => {
-          const appInfo = await appWebsocket.appInfo({ app_id: 'test-app' });
+          const appInfo = await appWebsocket.appInfo({
+            installed_app_id: 'test-app',
+          });
 
           const cellId = appInfo.cell_data[0][0];
 
-          const fileStorageService = new FileStorageService(
-            appWebsocket,
-            cellId
-          );
-          defineHodUploadFile(fileStorageService);
+          customElements.define('membrane-context-provider', MembraneContextProvider)
+          customElements.define('hod-upload-files', HodUploadFiles)
+
+          const context = document.getElementById('provider');
+          context.appWebsocket = appWebsocket;
+          context.cellId = cellId;
         }
       );
     </script>

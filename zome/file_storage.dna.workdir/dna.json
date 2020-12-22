@@ -4,7 +4,8 @@
   "properties": null,
   "zomes": {
     "file_storage": {
-      "wasm_path": "../target/wasm32-unknown-unknown/release/file_storage.wasm"
+      "wasm_path": "../target/wasm32-unknown-unknown/release/file_storage.wasm",
+      "ui_path": "../../ui/bundle/bundle.js"
     }
   }
 }
