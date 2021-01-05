@@ -60,7 +60,7 @@ orchestrator.registerScenario(
     const bob = bob_happ[0].cells[0];
 
     // In memory dummy file to upload to DNA
-    const chunkSize = 8 * 1024;
+    const chunkSize = 2 * 1024 * 1024;
     const chunkNumer = 1;
     const bufStr = Array(chunkSize).fill("h").join("");
     let chunkBytes = Buffer.from(bufStr, "utf8");
