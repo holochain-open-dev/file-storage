@@ -2,7 +2,8 @@ import {
   Orchestrator,
   Config,
   InstallAgentsHapps,
-  InstalledAgentHapps,
+  TransportConfigType,
+  ProxyConfigType,
 } from "@holochain/tryorama";
 import { ScenarioApi } from "@holochain/tryorama/lib/api";
 import path from "path";
