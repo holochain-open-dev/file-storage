@@ -9,7 +9,7 @@ use file_chunk::FileChunk;
 use file_metadata::FileMetadata;
 
 pub fn error<T>(reason: &str) -> ExternResult<T> {
-    Err(HdkError::Wasm(WasmError::Zome(String::from(reason))))
+    Err(WasmError::Zome(String::from(reason)))
 }
 
 entry_defs![FileChunk::entry_def(), FileMetadata::entry_def()];
@@ -23,7 +23,7 @@ pub fn create_file_chunk(create_chunk: FileChunk) -> ExternResult<WrappedEntryHa
     Ok(WrappedEntryHash(file_chunk_hash))
 }
 
-#[derive(Clone, Serialize, Deserialize, SerializedBytes)]
+#[derive(Clone, Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct CreateFileMetadataInput {
     pub name: String,
