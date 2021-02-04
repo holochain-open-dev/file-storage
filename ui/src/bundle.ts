@@ -45,23 +45,26 @@ function renderUnique(
   );
 }
 
-const renderers: Lenses = {
-  standalone: [
-    {
-      name: 'Upload files',
-      render(root: ShadowRoot, appWebsocket: AppWebsocket, cellId: CellId) {
-        renderUnique(
-          'upload-files',
-          HodUploadFiles,
-          root,
-          appWebsocket,
-          cellId
-        );
+export default function lenses(
+  appWebsocket: AppWebsocket,
+  cellId: CellId
+): Lenses {
+  return {
+    standalone: [
+      {
+        name: 'Upload files',
+        render(root: ShadowRoot) {
+          renderUnique(
+            'upload-files',
+            HodUploadFiles,
+            root,
+            appWebsocket,
+            cellId
+          );
+        },
       },
-    },
-  ],
-  entryLenses: {},
-  attachmentsLenses: [],
-};
-
-export default renderers;
+    ],
+    entryLenses: {},
+    attachmentsLenses: [],
+  };
+}
