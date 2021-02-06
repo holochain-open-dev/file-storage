@@ -17,9 +17,9 @@ import { FileStorageService } from '../services/file-storage.service';
 import { sharedStyles } from '../sharedStyles';
 import { HolochainDropzone } from '../holochain-dropzone';
 // @ts-ignore
-import basicStyles from 'dropzone/dist/min/basic.min.css';
+import basicStyles from 'dropzone/dist/min/basic.css';
 // @ts-ignore
-import dropzoneStyles from 'dropzone/dist/min/dropzone.min.css';
+import dropzoneStyles from 'dropzone/dist/min/dropzone.css';
 import { AppWebsocket, CellId } from '@holochain/conductor-api';
 
 /**
