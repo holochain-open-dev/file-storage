@@ -11,7 +11,6 @@ import { classMap } from 'lit-html/directives/class-map';
 
 import { Icon } from 'scoped-material-components/mwc-icon';
 import { ScopedElementsMixin as Scoped } from '@open-wc/scoped-elements';
-import { membraneContext } from '@holochain-open-dev/membrane-context';
 
 import { FileStorageService } from '../services/file-storage.service';
 import { sharedStyles } from '../sharedStyles';
