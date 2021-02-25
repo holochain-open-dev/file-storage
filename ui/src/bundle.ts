@@ -1,6 +1,4 @@
-import { Lenses } from '@compository/lib';
 import { AppWebsocket, CellId } from '@holochain/conductor-api';
-import { MembraneContextProvider } from '@holochain-open-dev/membrane-context';
 import { Constructor, LitElement } from 'lit-element';
 //@ts-ignore
 import { createUniqueTag } from '@open-wc/scoped-elements/src/createUniqueTag';
@@ -28,10 +26,7 @@ function renderUnique(
   );
 }
 
-export default function lenses(
-  appWebsocket: AppWebsocket,
-  cellId: CellId
-): Lenses {
+export default function lenses(appWebsocket: AppWebsocket, cellId: CellId) {
   return {
     standalone: [
       {
