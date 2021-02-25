@@ -4,40 +4,23 @@ import { MembraneContextProvider } from '@holochain-open-dev/membrane-context';
 import { Constructor, LitElement } from 'lit-element';
 //@ts-ignore
 import { createUniqueTag } from '@open-wc/scoped-elements/src/createUniqueTag';
-import { HodUploadFiles } from './elements/hod-upload-files';
+import { UploadFiles } from './elements/upload-files';
+import { FileStorageService } from './services/file-storage.service';
 
 function renderUnique(
   tag: string,
   baseClass: Constructor<HTMLElement>,
-  root: ShadowRoot,
-  appWebsocket: AppWebsocket,
-  cellId: CellId
+  root: ShadowRoot
 ) {
   const registry = customElements;
   const uniqueTag = createUniqueTag(tag, registry);
-  const holochainMembraneTag = createUniqueTag(
-    'membrane-context-provider',
-    registry
-  );
-  registry.define(
-    holochainMembraneTag,
-    (class extends MembraneContextProvider {} as unknown) as Constructor<HTMLElement>
-  );
   root.innerHTML = `
         <link
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet"
         />
-          <${holochainMembraneTag} id="context">
             <${uniqueTag}></${uniqueTag}>
-          </${holochainMembraneTag}>
       `;
-
-  const context: MembraneContextProvider = (root.getElementById(
-    'context'
-  ) as unknown) as MembraneContextProvider;
-  context.appWebsocket = appWebsocket;
-  context.cellId = cellId;
 
   registry.define(
     uniqueTag,
@@ -56,10 +39,12 @@ export default function lenses(
         render(root: ShadowRoot) {
           renderUnique(
             'upload-files',
-            HodUploadFiles,
-            root,
-            appWebsocket,
-            cellId
+            class extends UploadFiles {
+              get _fileStorageService() {
+                return new FileStorageService(appWebsocket, cellId);
+              }
+            },
+            root
           );
         },
       },

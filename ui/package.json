@@ -18,7 +18,6 @@
     "test-watch": "web-test-runner --watch --puppeteer",
     "e2e": "CONDUCTOR_URL=ws://localhost:8888 concurrently -k -s first \"npm:test\" \"npm:start-holochain\"",
     "analyze": "wca analyze src --format json --outFile custom-elements.json",
-    "typedoc": "typedoc --tsconfig tsconfig.json --excludeNotExported --excludeProtected --excludePrivate",
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore",
     "storybook": "npm run analyze && concurrently -k --names tsc,storybook \"npm:build-watch\" \"start-storybook --node-resolve --watch --open\"",
@@ -29,14 +28,13 @@
   },
   "dependencies": {
     "@compository/lib": "git+https://github.com/compository/lib.git#build",
-    "@holochain-open-dev/membrane-context": "^0.1.0",
     "@holochain/conductor-api": "0.0.1-dev.16",
     "@open-wc/scoped-elements": "^1.3.3",
     "@types/dropzone": "^5.7.0",
     "dropzone": "5.7.2",
     "lit-element": "^2.4.0",
     "lit-html": "^1.3.0",
-    "scoped-material-components": "git+https://github.com/guillemcordoba/scoped-material-components.git#build"
+    "scoped-material-components": "^0"
   },
   "devDependencies": {
     "@open-wc/demoing-storybook": "^2.0.0",
@@ -62,7 +60,6 @@
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.11.0",
     "gh-pages": "^3.1.0",
-    "holochain-ui-test-utils": "guillemcordoba/holochain-ui-test-utils",
     "husky": "^1.0.0",
     "lint-staged": "^10.0.0",
     "prettier": "^2.0.4",
@@ -72,8 +69,6 @@
     "rollup-plugin-postcss": "^3.1.8",
     "rollup-plugin-postcss-lit": "^1.0.1",
     "tslib": "^1.11.0",
-    "typedoc": "^0.19.2",
-    "typedoc-plugin-markdown": "^3.0.11",
     "typescript": "~3.9.0",
     "web-component-analyzer": "^1.1.6"
   },

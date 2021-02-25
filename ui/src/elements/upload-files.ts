@@ -20,22 +20,16 @@ import { HolochainDropzone } from '../holochain-dropzone';
 import basicStyles from 'dropzone/dist/min/basic.min.css';
 // @ts-ignore
 import dropzoneStyles from 'dropzone/dist/min/dropzone.min.css';
-import { AppWebsocket, CellId } from '@holochain/conductor-api';
 
 /**
  * @fires file-uploaded - Fired after having uploaded the file
  * @csspart dropzone - Style the dropzone itself
  */
-export class HodUploadFiles extends membraneContext(Scoped(LitElement) as Constructor<LitElement>) {
+export abstract class UploadFiles extends Scoped(LitElement) {
   /** Public attributes */
 
   /** Dependencies */
-  get _fileStorageService(): FileStorageService {
-    return new FileStorageService(
-      this.membraneContext.appWebsocket as AppWebsocket,
-      this.membraneContext.cellId as CellId
-    );
-  }
+  abstract get _fileStorageService(): FileStorageService;
 
   static get scopedElements() {
     return {
@@ -78,14 +72,8 @@ export class HodUploadFiles extends membraneContext(Scoped(LitElement) as Constr
     ];
   }
 
-  updated(changedValues: PropertyValues) {
-    super.updated(changedValues);
-    if (
-      changedValues.has('membraneContext') &&
-      this.membraneContext.appWebsocket
-    ) {
-      this.setupDropzone();
-    }
+  firstUpdated() {
+    this.setupDropzone();
   }
 
   setupDropzone() {
@@ -132,7 +120,7 @@ export class HodUploadFiles extends membraneContext(Scoped(LitElement) as Constr
   render() {
     return html`
       <style>
-          ${basicStyles}
+        ${basicStyles}
           ${dropzoneStyles}
           .dropzone
           .dz-preview.dz-file-preview
