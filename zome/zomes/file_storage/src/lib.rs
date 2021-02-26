@@ -1,5 +1,5 @@
 use hc_utils::WrappedEntryHash;
-use hdk3::prelude::*;
+use hdk::prelude::*;
 
 mod file_chunk;
 mod file_metadata;
@@ -9,7 +9,7 @@ use file_chunk::FileChunk;
 use file_metadata::FileMetadata;
 
 pub fn error<T>(reason: &str) -> ExternResult<T> {
-    Err(WasmError::Zome(String::from(reason)))
+    Err(WasmError::Guest(String::from(reason)))
 }
 
 entry_defs![FileChunk::entry_def(), FileMetadata::entry_def()];

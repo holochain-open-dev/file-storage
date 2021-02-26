@@ -1,5 +1,5 @@
 use crate::utils;
-use hdk3::prelude::*;
+use hdk::prelude::*;
 
 #[hdk_entry(id = "file_chunk", visibility = "public")]
 #[derive(Clone)]

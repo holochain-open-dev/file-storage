@@ -1,6 +1,6 @@
 use crate::{utils, CreateFileMetadataInput};
-use hdk3::prelude::timestamp::Timestamp;
-use hdk3::prelude::*;
+use hdk::prelude::timestamp::Timestamp;
+use hdk::prelude::*;
 use hc_utils::WrappedEntryHash;
 
 #[hdk_entry(id = "file_metadata", visibility = "public")]
