@@ -7026,10 +7026,12 @@ class HolochainDropzone extends dropzone {
         for (const file of dropzoneFiles) {
             try {
                 this.emit('sending', file, undefined, undefined);
-                await this.fileStorageService.uploadFile(file, (percentatge, bytesSent) => {
+                const hash = await this.fileStorageService.uploadFile(file, (percentatge, bytesSent) => {
                     this.emit('uploadprogress', file, percentatge * 100, bytesSent);
                 });
                 this.emit('success', file, undefined);
+                // @ts-ignore
+                file.hash = hash;
                 this.emit('complete', file);
             }
             catch (e) {
@@ -7119,6 +7121,7 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
             this.dispatchEvent(new CustomEvent('file-uploaded', {
                 detail: {
                     file,
+                    hash: file.hash,
                 },
                 bubbles: true,
                 composed: true,
