@@ -43,10 +43,10 @@ extern crate file_storage;
 ### Installing the UI module
 
 ```bash
-npm install git://github.com/holochain-open-dev/file-storage-module.git#ui-build
+npm install git://github.com/holochain-open-dev/file-storage.git#ui-build
 ```
 
-Done! You can already use all the elements of this library. See our [`storybook`](https://holochain-open-dev.github.io/file-storage-module) for documentation on those.
+Done! You can already use all the elements of this library. See our [`storybook`](https://holochain-open-dev.github.io/file-storage) for documentation on those.
 
 ## Developer setup
 
