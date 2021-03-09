@@ -4,6 +4,12 @@ UI module for the `file_storage` zome.
 
 All the instructions here assume you are running them inside the nix-shell at the root of the repository. For more info, see the [developer setup](/dev-setup.md).
 
+## Setup
+
+```bash
+npm install
+```
+
 ## Running
 
 ```bash

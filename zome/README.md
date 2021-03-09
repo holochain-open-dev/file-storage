@@ -5,6 +5,7 @@ This folder has an example DNA for the `file_storage` zome. The actual code for 
 To change the code, you can work either opening VSCode inside the root folder of the repo or in this folder, you should have rust intellisense either way.
 
 All the instructions here assume you are running them inside the nix-shell at the root of the repository. For more info, see the [developer setup](/dev-setup.md).
+
 ## Building
 
 ```bash
