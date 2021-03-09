@@ -7056,7 +7056,7 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
     constructor() {
         /** Public attributes */
         super(...arguments);
-        this.maxFiles = undefined;
+        this.oneFile = false;
         this._showIcon = true;
     }
     static get scopedElements() {
@@ -7117,8 +7117,8 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
     </div>
   `,
         };
-        if (this.maxFiles) {
-            options.maxFiles = this.maxFiles;
+        if (this.oneFile) {
+            options.maxFiles = 1;
         }
         const dropzone = new HolochainDropzone(this._dropzone, this._fileStorageService, options);
         dropzone.on('addedfile', () => (this._showIcon = false));
@@ -7132,13 +7132,17 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
                 composed: true,
             }));
         });
-        dropzone.on('addedfile', function (file) {
-            // @ts-ignore
-            if (this.files.length > 1) {
+        if (this.oneFile) {
+            dropzone.on('addedfile', function (file) {
                 // @ts-ignore
-                this.removeFile(this.files[0]);
-            }
-        });
+                if (this.files.length > 1) {
+                    // @ts-ignore
+                    this.removeAllFiles();
+                    // @ts-ignore
+                    this.addFile(file);
+                }
+            });
+        }
     }
     render() {
         return html `
@@ -7176,8 +7180,8 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
     }
 }
 __decorate([
-    property({ type: Number })
-], UploadFiles.prototype, "maxFiles", void 0);
+    property({ type: Boolean, attribute: 'one-file' })
+], UploadFiles.prototype, "oneFile", void 0);
 __decorate([
     query('.dropzone')
 ], UploadFiles.prototype, "_dropzone", void 0);
