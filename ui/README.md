@@ -2,16 +2,9 @@
 
 UI module for the `file_storage` zome.
 
-## Requirements
+All the instructions here assume you are running them inside the nix-shell at the root of the repository. For more info, see the [developer setup](/dev-setup.md).
 
-- Having run through [holochain RSM installation](https://github.com/holochain/holochain-dna-build-tutorial).
-- Having [holochain-run-dna](https://www.npmjs.com/package/@holochain-open-dev/holochain-run-dna) installed.
-
-## Local Demo with `@web/dev-server`
-
-First, [build the holochain dna](/zomes/README.md).
-
-Run this from inside the `nix-shell` in which you have the `holochain` binary install.
+## Running
 
 ```bash
 npm start
@@ -43,18 +36,20 @@ npm run test
 To run the tests in watch mode (for <abbr title="test driven development">TDD</abbr>, for example), run two terminals:
 
 In the first terminal:
+
 ```bash
 npm run build-watch
 ```
 
 In the second terminal:
+
 ```bash
 npm run test-watch
 ```
 
 ## E2E tests
 
-First, [build the holochain dna](/zomes/README.md). 
+First, [build the holochain dna](/zomes/README.md).
 
 Run this from inside the `nix-shell` in which you have the `holochain` binary install.
 

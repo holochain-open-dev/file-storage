@@ -4,18 +4,15 @@ This folder has an example DNA for the `file_storage` zome. The actual code for 
 
 To change the code, you can work either opening VSCode inside the root folder of the repo or in this folder, you should have rust intellisense either way.
 
-## Requirements
-
-- Having run through [holochain RSM installation](https://github.com/holochain/holochain-dna-build-tutorial).
-- Run all the steps described in this README.md inside the `nix-shell` of the `holochain` core repository.
-- Have [`holochain-run-dna`](https://www.npmjs.com/package/@holochain-open-dev/holochain-run-dna) installed globally, and the `lair-keystore` described in its README as well.
-
+All the instructions here assume you are running them inside the nix-shell at the root of the repository. For more info, see the [developer setup](/dev-setup.md).
 ## Building
 
 ```bash
 CARGO_TARGET=target cargo build --release --target wasm32-unknown-unknown
-dna-util -c file_storage.dna.workdir/
+hc dna pack file_storage.dna.workdir
 ```
+
+This should create a `file_storage.dna.workdir/file-storage-test.dna` file.
 
 ## Testing
 
@@ -32,9 +29,9 @@ npm test
 After having built the DNA:
 
 ```bash
-holochain-run-dna file_storage.dna.gz
+hc s call register-dna --path zome/file_storage.dna.workdir/file-storage-test.dna
+hc s call install-app <RESULT_HASH_OF_PREVIOUS_COMMAND>
+hc s run
 ```
 
 Now `holochain` will be listening at port `8888`;
-
-Restart the command if it fails (flaky holochain start).

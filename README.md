@@ -50,10 +50,4 @@ Done! You can already use all the elements of this library. See our [`storybook`
 
 ## Developer setup
 
-This respository is structured in the following way:
-
-- `ui/`: UI library.
-- `zome/`: example DNA with the `file_storage` code.
-- Top level `Cargo.toml` is a virtual package necessary for other DNAs to include this zome by pointing to this git repository.
-
-Read the [UI developer setup](/ui/README.md) and the [Zome developer setup](/zome/README.md).
+Visit the [developer setup](/dev-setup.md).

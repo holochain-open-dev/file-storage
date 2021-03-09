@@ -9,7 +9,7 @@
   "scripts": {
     "start": "concurrently --kill-others \"npm:start-ui\" \"npm:start-holochain\"",
     "start-ui": "CONDUCTOR_URL=ws://localhost:8888 concurrently -k --names tsc,dev-server \"npm run build-watch\" \"web-dev-server --config demo/web-dev-server.config.mjs\"",
-    "start-holochain": "RUST_LOG=warn holochain-run-dna ../zome/file_storage.dna.gz",
+    "start-holochain": "cd .. && RUST_LOG=warn hc sandbox run",
     "build": "rimraf dist && rollup -c rollup.config.js",
     "build-bundle": "rimraf dist && rollup -c rollup-bundle.config.js",
     "build-watch": "rollup -c rollup.config.js -w",
@@ -27,13 +27,13 @@
     "publish-to-branch": "npm run lint && npm run build && cp package.json dist && gh-pages -d dist -b ui-build"
   },
   "dependencies": {
-    "@holochain/conductor-api": "0.0.1-dev.16",
+    "@holochain/conductor-api": "git+https://github.com/holochain/holochain-conductor-api.git",
     "@open-wc/scoped-elements": "^1.3.3",
     "@types/dropzone": "^5.7.0",
     "dropzone": "5.7.2",
     "lit-element": "^2.4.0",
     "lit-html": "^1.3.0",
-    "scoped-material-components": "^0"
+    "scoped-material-components": "^0.1.2"
   },
   "devDependencies": {
     "@open-wc/demoing-storybook": "^2.0.0",
