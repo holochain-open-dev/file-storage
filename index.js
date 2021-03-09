@@ -7096,6 +7096,7 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
         this.setupDropzone();
     }
     setupDropzone() {
+        const oneFile = this.oneFile;
         const options = {
             previewTemplate: `
     <DIV class="dz-preview dz-file-preview">
@@ -7116,6 +7117,18 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
       </svg>
     </div>
   `,
+            init: function () {
+                if (oneFile) {
+                    // @ts-ignore
+                    this.hiddenFileInput.removeAttribute('multiple');
+                    this.on('maxfilesexceeded', function (file) {
+                        // @ts-ignore
+                        this.removeAllFiles();
+                        // @ts-ignore
+                        this.addFile(file);
+                    });
+                }
+            },
         };
         if (this.oneFile) {
             options.maxFiles = 1;
@@ -7132,17 +7145,6 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
                 composed: true,
             }));
         });
-        if (this.oneFile) {
-            dropzone.on('addedfile', function (file) {
-                // @ts-ignore
-                if (this.files.length > 1) {
-                    // @ts-ignore
-                    this.removeAllFiles();
-                    // @ts-ignore
-                    this.addFile(file);
-                }
-            });
-        }
     }
     render() {
         return html `
