@@ -7057,6 +7057,7 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
         /** Public attributes */
         super(...arguments);
         this.oneFile = false;
+        this.acceptedFiles = undefined;
         this._showIcon = true;
     }
     static get scopedElements() {
@@ -7121,17 +7122,24 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
                 if (oneFile) {
                     // @ts-ignore
                     this.hiddenFileInput.removeAttribute('multiple');
-                    this.on('maxfilesexceeded', function (file) {
+                    // @ts-ignore
+                    this.on('addedfile', function (file) {
                         // @ts-ignore
-                        this.removeAllFiles();
-                        // @ts-ignore
-                        this.addFile(file);
+                        if (this.files.length > 1) {
+                            // @ts-ignore
+                            this.removeAllFiles();
+                            // @ts-ignore
+                            this.addFile(file);
+                        }
                     });
                 }
             },
         };
         if (this.oneFile) {
             options.maxFiles = 1;
+        }
+        if (this.acceptedFiles) {
+            options.acceptedFiles = this.acceptedFiles;
         }
         const dropzone = new HolochainDropzone(this._dropzone, this._fileStorageService, options);
         dropzone.on('addedfile', () => (this._showIcon = false));
@@ -7184,6 +7192,9 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
 __decorate([
     property({ type: Boolean, attribute: 'one-file' })
 ], UploadFiles.prototype, "oneFile", void 0);
+__decorate([
+    property({ type: String, attribute: 'accepted-files' })
+], UploadFiles.prototype, "acceptedFiles", void 0);
 __decorate([
     query('.dropzone')
 ], UploadFiles.prototype, "_dropzone", void 0);
