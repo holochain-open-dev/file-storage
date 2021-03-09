@@ -7127,9 +7127,7 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
                         // @ts-ignore
                         if (this.files.length > 1) {
                             // @ts-ignore
-                            this.removeAllFiles();
-                            // @ts-ignore
-                            this.addFile(file);
+                            this.removeFile(this.files[0]);
                         }
                     });
                 }
