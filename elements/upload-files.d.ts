@@ -8,6 +8,7 @@ declare const UploadFiles_base: typeof LitElement & import("@open-wc/dedupe-mixi
  */
 export declare abstract class UploadFiles extends UploadFiles_base {
     /** Public attributes */
+    maxFiles: number | undefined;
     /** Dependencies */
     abstract get _fileStorageService(): FileStorageService;
     static get scopedElements(): {
