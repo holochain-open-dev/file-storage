@@ -7079,6 +7079,7 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
           border: 2px dashed rgb(0, 135, 247);
           border-image: none;
           color: rgba(0, 0, 0, 0.54);
+          min-height: 228px;
         }
 
         .dropzone .dz-message .dz-button {
