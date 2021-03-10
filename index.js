@@ -7238,7 +7238,7 @@ class FileStorageService {
      * @param file file to split and upload
      * @param chunkSize chunk size to split the file, default 256 KB
      */
-    async uploadFile(file, onProgress = undefined, chunkSize = 10 * 1024 * 1024) {
+    async uploadFile(file, onProgress = undefined, chunkSize = 256 * 1024) {
         const blobs = this._splitFile(file, chunkSize);
         const numberOfChunks = blobs.length;
         const bytesPerChunk = blobs[0].size;
