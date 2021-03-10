@@ -7097,6 +7097,7 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
         this.setupDropzone();
     }
     setupDropzone() {
+        let currentFile = undefined;
         const oneFile = this.oneFile;
         const options = {
             previewTemplate: `
@@ -7125,10 +7126,12 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
                     // @ts-ignore
                     this.on('addedfile', function (file) {
                         // @ts-ignore
-                        if (this.files.length > 1) {
+                        if (currentFile) {
+                            currentFile.previewElement = null;
                             // @ts-ignore
-                            this.removeFile(this.files[0]);
+                            this.removeFile(currentFile);
                         }
+                        currentFile = file;
                     });
                 }
             },
