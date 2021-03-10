@@ -21,5 +21,6 @@ module.exports = {
     'import/named': 'off',
     'import/no-unresolved': 'off',
     'import/extensions': 'off',
+    '@typescript-eslint/no-this-alias': 'off',
   },
 };
