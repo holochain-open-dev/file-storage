@@ -7097,6 +7097,7 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
         this.setupDropzone();
     }
     setupDropzone() {
+        const element = this;
         const oneFile = this.oneFile;
         const options = {
             addRemoveLinks: true,
@@ -7129,6 +7130,12 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
                         if (this.files.length > 1) {
                             // @ts-ignore
                             this.removeFile(this.files[0]);
+                        }
+                    });
+                    this.on('removedfile', function () {
+                        // @ts-ignore
+                        if (this.files.length === 0) {
+                            element._showIcon = true;
                         }
                     });
                 }
