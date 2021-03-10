@@ -7097,9 +7097,9 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
         this.setupDropzone();
     }
     setupDropzone() {
-        let currentFile = undefined;
         const oneFile = this.oneFile;
         const options = {
+            addRemoveLinks: true,
             previewTemplate: `
     <DIV class="dz-preview dz-file-preview">
     <DIV class="dz-image"><IMG data-dz-thumbnail=""></DIV>
@@ -7124,21 +7124,16 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
                     // @ts-ignore
                     this.hiddenFileInput.removeAttribute('multiple');
                     // @ts-ignore
-                    this.on('addedfile', function (file) {
+                    this.on('success', function (file) {
                         // @ts-ignore
-                        if (currentFile) {
-                            currentFile.previewElement = null;
+                        if (this.files.length > 1) {
                             // @ts-ignore
-                            this.removeFile(currentFile);
+                            this.removeFile(this.files[0]);
                         }
-                        currentFile = file;
                     });
                 }
             },
         };
-        if (this.oneFile) {
-            options.maxFiles = 1;
-        }
         if (this.acceptedFiles) {
             options.acceptedFiles = this.acceptedFiles;
         }
