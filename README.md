@@ -42,11 +42,51 @@ extern crate file_storage;
 
 ### Installing the UI module
 
-```bash
-npm install git://github.com/holochain-open-dev/file-storage.git#ui-build
+1. Install the module with `npm install https://github.com/holochain-open-dev/file-storage`.
+
+2. Import and define the the elements you want to include:
+
+```js
+import ConductorApi from "@holochain/conductor-api";
+import {
+  UploadFiles,
+  FileStorageService,
+} from "@holochain-open-dev/file-storage";
+
+async function setupFileStorage() {
+  const appWebsocket = await ConductorApi.AppWebsocket.connect(
+    "ws://localhost:8888"
+  );
+
+  const appInfo = await appWebsocket.appInfo({
+    installed_app_id: "test-app",
+  });
+  const cellId = appInfo.cell_data[0].cell_id;
+
+  const service = new FileStorageService(appWebsocket, cellId);
+
+  customElements.define(
+    "upload-files",
+    class extends HodMyCalendar {
+      get _fileStorageService() {
+        return service;
+      }
+    }
+  );
+}
 ```
 
-Done! You can already use all the elements of this library. See our [`storybook`](https://holochain-open-dev.github.io/file-storage) for documentation on those.
+3. Include the elements in your html:
+
+```html
+<body>
+  <upload-files> </upload-files>
+</body>
+```
+
+Take into account that at this point the elements already expect a holochain conductor running at `ws://localhost:8888`.
+
+You can see a full working example [here](/ui/demo/index.html).
 
 ## Developer setup
 
