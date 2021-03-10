@@ -7090,6 +7090,10 @@ class UploadFiles extends ScopedElementsMixin(LitElement) {
         .dropzone .dz-message {
           margin-top: 1em;
         }
+
+        .dropzone .dz-remove {
+          margin-top: 16px;
+        }
       `,
         ];
     }
