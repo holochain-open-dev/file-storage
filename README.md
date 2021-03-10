@@ -26,7 +26,7 @@ This module is designed to be included in other DNAs, assuming as little as poss
 
 ```toml
 [dependencies]
-file_storage = {git = "https://github.com/holochain-open-dev/file-storage-module", package = "file_storage"}
+file_storage = {git = "https://github.com/holochain-open-dev/file-storage", package = "file_storage"}
 ```
 
 - If you want to give the zome a different name you should also initialize the `FileStorageService` with it.
@@ -37,7 +37,7 @@ file_storage = {git = "https://github.com/holochain-open-dev/file-storage-module
 extern crate file_storage;
 ```
 
-6. Add the zome into your `*.dna.workdir/dna.json` file.
+6. Add the zome into your `*.dna.workdir/dna.yaml` file.
 7. Compile the DNA with the usual `CARGO_TARGET=target cargo build --release --target wasm32-unknown-unknown`.
 
 ### Installing the UI module
