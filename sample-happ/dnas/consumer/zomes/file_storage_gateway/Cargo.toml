@@ -1,16 +1,14 @@
 [package]
 authors = ["guillem.cordoba@gmail.com"]
 edition = "2018"
-name = "file_storage"
+name = "file_storage_gateway"
 version = "0.0.1"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
-name = "file_storage"
+name = "file_storage_gateway"
 
 [dependencies]
 derive_more = "0"
+holochain_file_storage_gateway_zome = {path = "../../../../../crates/file_storage_gateway_zome"}
 serde = "1"
-
-hc_utils = "0"
-hdk = "0.0.100"
