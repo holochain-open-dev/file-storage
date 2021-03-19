@@ -1,6 +1,9 @@
 [workspace]
 members = [
-  "zome/zomes/file_storage",
+  "crates/file_storage_provider_zome",
+  "crates/file_storage_gateway_zome",
+  "crates/file_storage_zome",
+  "crates/file_storage_types",
 ]
 
 [profile.dev]
