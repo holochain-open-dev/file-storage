@@ -6,19 +6,30 @@ import {
   ProxyConfigType,
   NetworkType,
   InstallHapp,
+  Cell,
+  KitsuneP2pConfig,
 } from "@holochain/tryorama";
 import { ScenarioApi } from "@holochain/tryorama/lib/api";
 import path from "path";
 import { InstallAppRequest } from "@holochain/conductor-api";
 import { Base64 } from "js-base64";
+import * as msgpack from "@msgpack/msgpack";
 
 const sleep = (ms: number) =>
   new Promise((resolve) => setTimeout(() => resolve(null), ms));
 
-const network = {
+const network: KitsuneP2pConfig = {
   transport_pool: [
     {
       type: TransportConfigType.Quic,
+      /* sub_transport:{
+        type: TransportConfigType.Quic
+      }
+      , 
+      proxy_config: {
+        type: ProxyConfigType.RemoteProxyClient,
+        proxy_url: 'kitsune-proxy://L6dcjD-I1xg23eU1Gwgxz6Xy1jb9gJmUhcqWAJlVafk/kitsune-quic/h/52.14.147.62/p/22224/--'
+      } */
     },
   ],
   bootstrap_service: "https://bootstrap-staging.holo.host",
@@ -43,10 +54,10 @@ const consumerNode: InstallAgentsHapps = [
 const orchestrator = new Orchestrator();
 
 export function deserializeHash(hash) {
-    return Base64.toUint8Array(hash.slice(1));
+  return Base64.toUint8Array(hash.slice(1));
 }
 export function serializeHash(hash) {
-    return `u${Base64.fromUint8Array(hash, true)}`;
+  return `u${Base64.fromUint8Array(hash, true)}`;
 }
 
 orchestrator.registerScenario(
@@ -58,47 +69,26 @@ orchestrator.registerScenario(
     );
     await alice_player.startup({});
     await bob_player.startup({});
-    const [alice_happ] = await alice_player.installAgentsHapps(consumerNode);
 
-    const gatewayDnaHash = await bob_player.registerDna({
-      path: path.join("../dnas/consumer/workdir/file_storage_gateway-test.dna"),
-    });
-    const providerDnaHash = await bob_player.registerDna({
-      path: path.join(
-        "../dnas/provider/workdir/file_storage_provider-test.dna"
-      ),
+    const aliceHapp = await alice_player.installBundledHapp({
+      path: path.join("../workdir/file-storage-test-happ.happ"),
     });
 
-    const req: InstallAppRequest = {
-      installed_app_id: `my_app:1234`, // my_app with some unique installed id value
-      agent_key: await bob_player.adminWs().generateAgentPubKey(),
-      dnas: [
-        {
-          hash: gatewayDnaHash,
-          nick: `gateway`,
-          properties: undefined,
-          membrane_proof: undefined,
-        },
-        {
-          hash: providerDnaHash,
-          nick: `provider`,
-          properties: {
-            provide_file_storage_for_dna: serializeHash(gatewayDnaHash),
-          },
-          membrane_proof: undefined,
-        },
-      ],
-    };
-    const installedHapp = await bob_player._installHapp(req);
+    const bobHapp = await bob_player.installBundledHapp({
+      path: path.join("../workdir/file-storage-test-happ.happ"),
+    });
 
-    await sleep(10000);
+    await sleep(2000);
 
     const ZOME_NAME = "file_storage_gateway";
-    const alice = alice_happ[0].cells[0];
-    const bob = installedHapp.cells[0];
+    const alice = aliceHapp.cells.find(c => c.cellNick.includes('consumer')) as Cell;
+    const bob = bobHapp.cells.find(c => c.cellNick.includes('consumer')) as Cell;
+
+    await bob.call(ZOME_NAME, "announce_as_provider", null);
+    await sleep(10000);
 
     // In memory dummy file to upload to DNA
-    const chunkSize = 2 * 1024 * 1024;
+    const chunkSize = 2;
     const chunkNumer = 1;
     const bufStr = Array(chunkSize).fill("h").join("");
     let chunkBytes = Buffer.from(bufStr, "utf8");
@@ -136,7 +126,7 @@ orchestrator.registerScenario(
     );
     t.ok(fileHash);
 
-    await sleep(60000);
+    await sleep(1000);
 
     let fileResult = await bob.call(ZOME_NAME, "get_file_metadata", fileHash);
     t.ok(fileResult);
@@ -166,8 +156,10 @@ orchestrator.registerScenario(
     await sleep(3000);
 
     await carol_player.startup({});
-    const [carol_happ] = await carol_player.installAgentsHapps(consumerNode);
-    const carol = carol_happ[0].cells[0];
+    const carol_happ = await carol_player.installBundledHapp({
+      path: path.join("../workdir/file-storage-test-happ.happ"),
+    });
+    const carol = carol_happ.cells.find(c => c.cellNick.includes('consumer')) as Cell;
 
     await sleep(3000);
     /* 

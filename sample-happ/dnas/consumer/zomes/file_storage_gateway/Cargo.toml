@@ -10,5 +10,6 @@ name = "file_storage_gateway"
 
 [dependencies]
 derive_more = "0"
+hdk = "0"
 holochain_file_storage_gateway_zome = {path = "../../../../../crates/file_storage_gateway_zome"}
 serde = "1"

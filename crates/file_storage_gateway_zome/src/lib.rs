@@ -1,5 +1,6 @@
 use hdk::prelude::*;
 
+mod provider_dna;
 mod provider;
 mod requestor;
 mod types;
@@ -9,4 +10,3 @@ pub fn err(reason: &str) -> WasmError {
 }
 
 entry_defs![Path::entry_def()];
-

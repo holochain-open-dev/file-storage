@@ -112,7 +112,8 @@ name = "file_storage_provider"
 version = "0.0.1"
 dependencies = [
  "derive_more",
- "holochain_file_storage_provider_zome",
+ "hdk",
+ "holochain_file_storage_zome",
  "serde",
 ]
 
@@ -206,17 +207,6 @@ dependencies = [
  "serde",
  "serde_bytes",
  "thiserror",
-]
-
-[[package]]
-name = "holochain_file_storage_provider_zome"
-version = "0.0.1"
-dependencies = [
- "derive_more",
- "hdk",
- "holo_hash",
- "holochain_file_storage_zome",
- "serde",
 ]
 
 [[package]]

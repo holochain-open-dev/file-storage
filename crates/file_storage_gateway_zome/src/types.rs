@@ -1,7 +1,12 @@
-use hdk::prelude::*;
+use std::fmt::Debug;
 
-#[derive(Clone, Serialize, Deserialize, Debug, SerializedBytes)]
-pub struct FileStorageRequest {
-    pub fn_name: String,
-    pub payload: SerializedBytes,
+use hdk::prelude::*;
+use holochain_file_storage_types::{CreateFileMetadataInput, FileChunk};
+
+#[derive(Clone, Serialize, Deserialize, Debug)]
+pub enum FileStorageRequest {
+    CreateFileChunk(FileChunk),
+    GetFileChunk(EntryHash),
+    CreateFileMetadata(CreateFileMetadataInput),
+    GetFileMetadata(EntryHash),
 }

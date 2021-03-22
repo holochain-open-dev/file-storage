@@ -1,11 +1,12 @@
+use std::fmt::Debug;
+
 use hdk::prelude::*;
-use holo_hash::DnaHashB64;
 use holochain_file_storage_types::FILE_STORAGE_PROVIDER_ZOME_NAME;
 
-use crate::{err, types::FileStorageRequest};
+use crate::{err, provider_dna::get_file_storage_provider_dna, types::FileStorageRequest};
 
 #[hdk_extern]
-pub fn announce_as_provider(file_storage_dna_provider_cell_id: CellId) -> ExternResult<()> {
+pub fn announce_as_provider(_: ()) -> ExternResult<()> {
     let path = providers_path();
 
     path.ensure()?;
@@ -18,13 +19,8 @@ pub fn announce_as_provider(file_storage_dna_provider_cell_id: CellId) -> Extern
     let mut functions: GrantedFunctions = HashSet::new();
     functions.insert((zome_info()?.zome_name, "handle_file_storage_request".into()));
 
-    let tag = format!(
-        "{}",
-        DnaHashB64::from(file_storage_dna_provider_cell_id.dna_hash().clone())
-    );
-
     create_cap_grant(CapGrantEntry {
-        tag,
+        tag: "".into(),
         // empty access converts to unrestricted
         access: ().into(),
         functions,
@@ -45,20 +41,20 @@ pub fn get_all_providers() -> ExternResult<Vec<AgentPubKey>> {
 }
 
 #[hdk_extern]
-pub fn handle_file_storage_request(request: FileStorageRequest) -> ExternResult<SerializedBytes> {
-    let cell_id = get_file_storage_provider_cell_id()?;
-
-    let response = call(
-        Some(cell_id),
-        FILE_STORAGE_PROVIDER_ZOME_NAME.into(),
-        request.fn_name.into(),
-        None,
-        request.payload,
-    )?;
-
-    match response {
-        ZomeCallResponse::Ok(bytes) => Ok(UnsafeBytes::from(bytes.0).into()),
-        _ => Err(err("Failed to handle file storage request")),
+pub fn handle_file_storage_request(request: FileStorageRequest) -> ExternResult<ExternIO> {
+    match request {
+        FileStorageRequest::CreateFileChunk(file_chunk) => {
+            bridged_call("create_file_chunk".into(), file_chunk)
+        }
+        FileStorageRequest::CreateFileMetadata(input) => {
+            bridged_call("create_file_metadata".into(), input)
+        }
+        FileStorageRequest::GetFileChunk(entry_hash) => {
+            bridged_call("get_file_chunk".into(), entry_hash)
+        }
+        FileStorageRequest::GetFileMetadata(entry_hash) => {
+            bridged_call("get_file_metadata".into(), entry_hash)
+        }
     }
 }
 
@@ -68,28 +64,20 @@ fn providers_path() -> Path {
     Path::from("file_storage_providers")
 }
 
-fn get_file_storage_provider_cell_id() -> ExternResult<CellId> {
-    let filter = ChainQueryFilter::new()
-        .entry_type(EntryType::CapGrant)
-        .include_entries(true);
-    let elements = query(filter)?;
+fn bridged_call<I: Serialize + Debug>(fn_name: String, payload: I) -> ExternResult<ExternIO> {
+    let provider_dna = get_file_storage_provider_dna()?;
 
-    let element = elements
-        .first()
-        .ok_or(err("This agent is not a file storage provider"))?;
+    let cell_id = CellId::new(provider_dna, agent_info()?.agent_initial_pubkey);
+    let response = call(
+        Some(cell_id),
+        FILE_STORAGE_PROVIDER_ZOME_NAME.into(),
+        fn_name.into(),
+        None,
+        payload,
+    )?;
 
-    let cap_grant = element
-        .entry()
-        .to_grant_option()
-        .ok_or(err("This agent is not a file storage provider"))?;
-
-    let dna_hash = DnaHashB64::from_b64_str(cap_grant.tag.as_str())
-        .or(Err(err("Could not convert CapGrantTag")))?;
-
-    let agent_info = agent_info()?;
-
-    Ok(CellId::new(
-        dna_hash.into(),
-        agent_info.agent_initial_pubkey,
-    ))
+    match response {
+        ZomeCallResponse::Ok(bytes) => Ok(bytes),
+        _ => Err(err("Failed to handle file storage request")),
+    }
 }

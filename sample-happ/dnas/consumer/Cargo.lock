@@ -112,6 +112,7 @@ name = "file_storage_gateway"
 version = "0.0.1"
 dependencies = [
  "derive_more",
+ "hdk",
  "holochain_file_storage_gateway_zome",
  "serde",
 ]

@@ -1,0 +1,25 @@
+---
+manifest_version: "1"
+name: file-storage-test-happ
+description: ~
+slots:
+  - id: consumer-slot
+    provisioning:
+      strategy: create
+      deferred: false
+    dna:
+      bundled: "../dnas/consumer/workdir/file_storage_gateway-test.dna"
+      properties: ~
+      uuid: ~
+      version: ~
+      clone_limit: 0
+  - id: provider-slot
+    provisioning:
+      strategy: create
+      deferred: false
+    dna:
+      bundled: "../dnas/provider/workdir/file_storage_provider-test.dna"
+      properties: ~
+      uuid: ~
+      version: ~
+      clone_limit: 0

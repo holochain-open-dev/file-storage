@@ -2,7 +2,8 @@
 manifest_version: "1"
 name: file_storage_gateway-test
 uuid: 00000000-0000-0000-0000-000000000000
-properties: ~
+properties: 
+  file_storage_provider_dna: "uhC0kNVV5gpkcJVAJC9gE93sTxwI7DMfN9TMBrrCBPTsGw2MH_AXG"
 zomes:
   - name: file_storage_gateway
     bundled: ../target/wasm32-unknown-unknown/release/file_storage_gateway.wasm
