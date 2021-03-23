@@ -41,14 +41,19 @@ fn make_file_storage_request(request: FileStorageRequest) -> ExternResult<Extern
     let providers = provider::get_all_providers()?;
 
     for provider in providers {
-        if let Ok(ZomeCallResponse::Ok(result)) = call_remote(
+        let response = call_remote(
             provider,
             FILE_STORAGE_GATEWAY_ZOME_NAME.into(),
             "handle_file_storage_request".into(),
             None,
             request.clone(),
-        ) {
-            return Ok(result.decode()?);
+        );
+        
+        match response {
+            Ok(ZomeCallResponse::Ok(result)) =>  {
+                return Ok(result.decode()?);
+            },
+            _ => warn!("{:?}", response),
         }
     }
 

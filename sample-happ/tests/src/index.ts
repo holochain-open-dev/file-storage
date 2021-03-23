@@ -21,15 +21,15 @@ const sleep = (ms: number) =>
 const network: KitsuneP2pConfig = {
   transport_pool: [
     {
-      type: TransportConfigType.Quic,
-      /* sub_transport:{
-        type: TransportConfigType.Quic
-      }
-      , 
+      type: TransportConfigType.Proxy,
+      sub_transport: {
+        type: TransportConfigType.Quic,
+      },
       proxy_config: {
         type: ProxyConfigType.RemoteProxyClient,
-        proxy_url: 'kitsune-proxy://L6dcjD-I1xg23eU1Gwgxz6Xy1jb9gJmUhcqWAJlVafk/kitsune-quic/h/52.14.147.62/p/22224/--'
-      } */
+        proxy_url:
+          "kitsune-proxy://t9471bRVOKH-HMInwG5jqwk3KBiiSmiEhy6F5Cu_8ys/kitsune-quic/h/52.14.147.62/p/22224/--",
+      },
     },
   ],
   bootstrap_service: "https://bootstrap-staging.holo.host",
@@ -81,15 +81,19 @@ orchestrator.registerScenario(
     await sleep(2000);
 
     const ZOME_NAME = "file_storage_gateway";
-    const alice = aliceHapp.cells.find(c => c.cellNick.includes('consumer')) as Cell;
-    const bob = bobHapp.cells.find(c => c.cellNick.includes('consumer')) as Cell;
+    const alice = aliceHapp.cells.find((c) =>
+      c.cellNick.includes("consumer")
+    ) as Cell;
+    const bob = bobHapp.cells.find((c) =>
+      c.cellNick.includes("consumer")
+    ) as Cell;
 
     await bob.call(ZOME_NAME, "announce_as_provider", null);
     await sleep(10000);
 
     // In memory dummy file to upload to DNA
-    const chunkSize = 2;
-    const chunkNumer = 1;
+    const chunkSize = 2 * 1024;
+    const chunkNumer = 10;
     const bufStr = Array(chunkSize).fill("h").join("");
     let chunkBytes = Buffer.from(bufStr, "utf8");
     const chunksHashes: any[] = [];
@@ -159,7 +163,9 @@ orchestrator.registerScenario(
     const carol_happ = await carol_player.installBundledHapp({
       path: path.join("../workdir/file-storage-test-happ.happ"),
     });
-    const carol = carol_happ.cells.find(c => c.cellNick.includes('consumer')) as Cell;
+    const carol = carol_happ.cells.find((c) =>
+      c.cellNick.includes("consumer")
+    ) as Cell;
 
     await sleep(3000);
     /* 

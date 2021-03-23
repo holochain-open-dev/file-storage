@@ -211,17 +211,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "holochain_file_storage_provider_zome"
-version = "0.0.1"
-dependencies = [
- "derive_more",
- "hdk",
- "holo_hash",
- "holochain_file_storage_zome",
- "serde",
-]
-
-[[package]]
 name = "holochain_file_storage_types"
 version = "0.0.1"
 dependencies = [
