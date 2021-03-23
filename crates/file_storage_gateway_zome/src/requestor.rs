@@ -43,7 +43,7 @@ fn make_file_storage_request(request: FileStorageRequest) -> ExternResult<Extern
     for provider in providers {
         let response = call_remote(
             provider,
-            FILE_STORAGE_GATEWAY_ZOME_NAME.into(),
+            zome_info()?.zome_name,
             "handle_file_storage_request".into(),
             None,
             request.clone(),
