@@ -93,7 +93,7 @@ orchestrator.registerScenario(
 
     // In memory dummy file to upload to DNA
     const chunkSize = 2 * 1024;
-    const chunkNumer = 10;
+    const chunkNumer = 1;
     const bufStr = Array(chunkSize).fill("h").join("");
     let chunkBytes = Buffer.from(bufStr, "utf8");
     const chunksHashes: any[] = [];

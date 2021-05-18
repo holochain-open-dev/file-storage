@@ -26,23 +26,22 @@ This module is designed to be included in other DNAs, assuming as little as poss
 
 ```toml
 [dependencies]
-file_storage = {git = "https://github.com/holochain-open-dev/file-storage", package = "file_storage"}
+holochain_file_storage_zome = {git = "https://github.com/holochain-open-dev/file-storage", package = "holochain_file_storage_zome"}
 ```
 
-- If you want to give the zome a different name you should also initialize the `FileStorageService` with it.
-
-5. Create a `src` folder besides the `Cargo.toml` with this content:
+1. Create a `src` folder besides the `Cargo.toml` with this content:
 
 ```rust
-extern crate file_storage;
+extern crate holochain_file_storage_zome;
 ```
 
-6. Add the zome into your `*.dna.workdir/dna.yaml` file.
-7. Compile the DNA with the usual `CARGO_TARGET=target cargo build --release --target wasm32-unknown-unknown`.
+1. Add the zome into your `dna.yaml` file, with the name `file_storage`.
+- If you want to give the zome a different name you should also initialize the `FileStorageService` with it.
+2. Compile the DNA with the usual `CARGO_TARGET=target cargo build --release --target wasm32-unknown-unknown`.
 
 ### Installing the UI module
 
-1. Install the module with `npm install https://github.com/holochain-open-dev/file-storage`.
+1. Install the module with `npm install https://github.com/holochain-open-dev/file-storage#ui-build`.
 
 2. Import and define the the elements you want to include:
 
