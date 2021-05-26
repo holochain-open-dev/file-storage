@@ -1,0 +1,21 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "hod-upload-files",
+      "path": "./src/elements/hod-upload-files.ts",
+      "events": [
+        {
+          "name": "file-uploaded",
+          "description": "Fired after having uploaded the file"
+        }
+      ],
+      "cssParts": [
+        {
+          "name": "dropzone",
+          "description": "Style the dropzone itself"
+        }
+      ]
+    }
+  ]
+}

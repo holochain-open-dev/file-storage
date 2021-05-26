@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      html {
+        font-family: 'Roboto', sans-serif;
+      }
+      body {
+        background: #fafafa;
+      }
+      html,
+      body,
+      hod-upload-file {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        display: flex;
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons&display=block"
+      rel="stylesheet"
+    />
+    <link
+      href="http://fonts.googleapis.com/css?family=Roboto"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+  <body>
+    <context-provider id="provider">
+      <upload-files></upload-files>
+    </context-provider>
+
+    <script type="module">
+      import {
+        UploadFiles,
+        FileStorageService,
+        FILE_STORAGE_SERVICE_CONTEXT,
+      } from '../dist';
+      import { ContextProviderElement } from '@holochain-open-dev/context';
+      import ConductorApi from '@holochain/conductor-api';
+
+      ConductorApi.AppWebsocket.connect('ws://localhost:8888').then(
+        async appWebsocket => {
+          const appInfo = await appWebsocket.appInfo({
+            installed_app_id: 'test-app',
+          });
+
+          const cellId = appInfo.cell_data[0].cell_id;
+
+          customElements.define('context-provider', ContextProviderElement);
+          const provider = document.getElementById('provider');
+          provider.name = FILE_STORAGE_SERVICE_CONTEXT;
+          provider.value = new FileStorageService(appWebsocket, cellId);
+          customElements.define('upload-files', UploadFiles);
+        }
+      );
+    </script>
+  </body>
+</html>
