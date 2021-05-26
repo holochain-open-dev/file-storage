@@ -10,6 +10,6 @@ name = "file_storage_provider"
 
 [dependencies]
 derive_more = "0"
-holochain_file_storage_zome = {path = "../../../../../crates/file_storage_zome"}
+hc_zome_file_storage = {path = "../../../../../crates/file_storage_zome"}
 serde = "1"
-hdk = "0"
+hdk = "0.0.100"

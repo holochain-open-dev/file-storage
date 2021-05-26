@@ -1,17 +1,18 @@
 [package]
 authors = ["guillem.cordoba@gmail.com"]
 edition = "2018"
-name = "holochain_file_storage_types"
+name = "hc_file_storage_types"
 version = "0.0.1"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
-name = "holochain_file_storage_types"
+name = "hc_file_storage_types"
 
 [dependencies]
 derive_more = "0"
 serde = "1"
 
-holo_hash = "0.0.2-alpha.1"
+chrono = {version = "0.4", features = ["serde"]}
 hdk = "0.0.100"
+holo_hash = "0.0.2-alpha.1"
 thiserror = "1.0.20"

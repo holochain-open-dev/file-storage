@@ -29,10 +29,17 @@
     />
   </head>
   <body>
-    <upload-files></upload-files>
+    <context-provider id="provider">
+      <upload-files></upload-files>
+    </context-provider>
 
     <script type="module">
-      import { UploadFiles, FileStorageService } from '../dist';
+      import {
+        UploadFiles,
+        FileStorageService,
+        FILE_STORAGE_SERVICE_CONTEXT,
+      } from '../dist';
+      import { ContextProviderElement } from '@holochain-open-dev/context';
       import ConductorApi from '@holochain/conductor-api';
 
       ConductorApi.AppWebsocket.connect('ws://localhost:8888').then(
@@ -43,14 +50,11 @@
 
           const cellId = appInfo.cell_data[0].cell_id;
 
-          customElements.define(
-            'upload-files',
-            class extends UploadFiles {
-              get _fileStorageService() {
-                return new FileStorageService(appWebsocket, cellId);
-              }
-            }
-          );
+          customElements.define('context-provider', ContextProviderElement);
+          const provider = document.getElementById('provider');
+          provider.name = FILE_STORAGE_SERVICE_CONTEXT;
+          provider.value = new FileStorageService(appWebsocket, cellId);
+          customElements.define('upload-files', UploadFiles);
         }
       );
     </script>

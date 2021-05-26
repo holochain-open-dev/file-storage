@@ -1,17 +1,17 @@
 [package]
 authors = ["guillem.cordoba@gmail.com"]
 edition = "2018"
-name = "holochain_file_storage_zome"
+name = "hc_zome_file_storage"
 version = "0.0.1"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
-name = "holochain_file_storage_zome"
+name = "hc_zome_file_storage"
 
 [dependencies]
 derive_more = "0"
 serde = "1"
 
-holochain_file_storage_types = { path = "../file_storage_types" }
+hc_file_storage_types = { path = "../file_storage_types" }
 hdk = "0.0.100"
 holo_hash = "0.0.2-alpha.1"

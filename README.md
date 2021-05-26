@@ -26,29 +26,33 @@ This module is designed to be included in other DNAs, assuming as little as poss
 
 ```toml
 [dependencies]
-holochain_file_storage_zome = {git = "https://github.com/holochain-open-dev/file-storage", package = "holochain_file_storage_zome"}
+hc_zome_file_storage = {git = "https://github.com/holochain-open-dev/file-storage", package = "hc_zome_file_storage"}
 ```
 
 1. Create a `src` folder besides the `Cargo.toml` with this content:
 
 ```rust
-extern crate holochain_file_storage_zome;
+extern crate hc_zome_file_storage;
 ```
 
 1. Add the zome into your `dna.yaml` file, with the name `file_storage`.
+
 - If you want to give the zome a different name you should also initialize the `FileStorageService` with it.
+
 2. Compile the DNA with the usual `CARGO_TARGET=target cargo build --release --target wasm32-unknown-unknown`.
 
 ### Installing the UI module
 
-1. Install the module with `npm install https://github.com/holochain-open-dev/file-storage#ui-build`.
+1. Install the module with `npm install "https://github.com/holochain-open-dev/file-storage#ui-build"`.
 
 2. Import and define the the elements you want to include:
 
 ```js
 import ConductorApi from "@holochain/conductor-api";
+import { ContextProviderElement } from "@holochain-open-dev/context";
 import {
   UploadFiles,
+  FILE_STORAGE_SERVICE_CONTEXT,
   FileStorageService,
 } from "@holochain-open-dev/file-storage";
 
@@ -64,14 +68,12 @@ async function setupFileStorage() {
 
   const service = new FileStorageService(appWebsocket, cellId);
 
-  customElements.define(
-    "upload-files",
-    class extends HodMyCalendar {
-      get _fileStorageService() {
-        return service;
-      }
-    }
-  );
+  customElements.define("context-provider", ContextProviderElement);
+  const provider = document.getElementById("provider");
+  provider.name = FILE_STORAGE_SERVICE_CONTEXT;
+  provider.value = service;
+
+  customElements.define("upload-files", UploadFiles);
 }
 ```
 
@@ -79,7 +81,9 @@ async function setupFileStorage() {
 
 ```html
 <body>
-  <upload-files> </upload-files>
+  <context-provider id="provider">
+    <upload-files> </upload-files>
+  </context-provider>
 </body>
 ```
 

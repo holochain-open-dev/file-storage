@@ -1,6 +1,6 @@
 ---
 manifest_version: "1"
-name: file-storage-test-happ
+name: file-storage-test
 description: ~
 slots:
   - id: consumer-slot

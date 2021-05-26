@@ -1,3 +1,4 @@
+use chrono::{serde::ts_milliseconds, DateTime, Utc};
 use hdk::prelude::*;
 use holo_hash::EntryHashB64;
 
@@ -15,7 +16,8 @@ pub struct FileChunk(SerializedBytes);
 #[serde(rename_all = "camelCase")]
 pub struct FileMetadata {
     pub name: String,
-    pub last_modified: Timestamp,
+    #[serde(with = "ts_milliseconds")]
+    pub last_modified: DateTime<Utc>,
     pub creator_pub_key: AgentPubKey,
     pub size: usize, // Size in bytes
     pub file_type: String,
@@ -28,7 +30,8 @@ pub struct FileMetadata {
 #[serde(rename_all = "camelCase")]
 pub struct CreateFileMetadataInput {
     pub name: String,
-    pub last_modified: timestamp::Timestamp,
+    #[serde(with = "ts_milliseconds")]
+    pub last_modified: DateTime<Utc>,
     pub size: usize,
     pub file_type: String,
     pub chunks_hashes: Vec<EntryHashB64>,

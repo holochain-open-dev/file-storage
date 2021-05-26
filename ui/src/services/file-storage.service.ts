@@ -1,6 +1,5 @@
 import type { AppWebsocket, CellId } from '@holochain/conductor-api';
 import { FileMetadata } from '../types';
-import { dateToTimestamp, timestampToDate } from '../utils';
 
 export class FileStorageService {
   /**
@@ -44,7 +43,7 @@ export class FileStorageService {
       name: file.name,
       size: file.size,
       fileType: file.type,
-      lastModified: dateToTimestamp(new Date(file.lastModified)),
+      lastModified: file.lastModified,
       chunksHashes,
     };
     const hash = await this._callZome('create_file_metadata', fileToCreate);
@@ -79,12 +78,7 @@ export class FileStorageService {
    * @param fileHash the hash of the file
    */
   async getFileMetadata(fileHash: string): Promise<FileMetadata> {
-    const metadata = await this._callZome('get_file_metadata', fileHash);
-
-    return {
-      ...metadata,
-      lastModifed: timestampToDate(metadata).valueOf(),
-    };
+    return await this._callZome('get_file_metadata', fileHash);
   }
 
   /**

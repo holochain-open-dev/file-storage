@@ -1,7 +1,7 @@
 use std::fmt::Debug;
 
 use hdk::prelude::*;
-use holochain_file_storage_types::FILE_STORAGE_PROVIDER_ZOME_NAME;
+use hc_file_storage_types::FILE_STORAGE_PROVIDER_ZOME_NAME;
 
 use crate::{err, provider_dna::get_file_storage_provider_dna, types::FileStorageRequest};
 

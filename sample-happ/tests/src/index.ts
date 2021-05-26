@@ -40,17 +40,6 @@ const conductorConfig = Config.gen({
   network,
 });
 
-const consumerNode: InstallAgentsHapps = [
-  // agent 0 ...
-  [
-    // happ 0
-    [
-      // dna 0
-      path.join("../dnas/consumer/workdir/file_storage_gateway-test.dna"),
-    ],
-  ],
-];
-
 const orchestrator = new Orchestrator();
 
 export function deserializeHash(hash) {
@@ -71,11 +60,11 @@ orchestrator.registerScenario(
     await bob_player.startup({});
 
     const aliceHapp = await alice_player.installBundledHapp({
-      path: path.join("../workdir/file-storage-test-happ.happ"),
+      path: path.join("../workdir/file-storage-test.happ"),
     });
 
     const bobHapp = await bob_player.installBundledHapp({
-      path: path.join("../workdir/file-storage-test-happ.happ"),
+      path: path.join("../workdir/file-storage-test.happ"),
     });
 
     await sleep(2000);
@@ -161,7 +150,7 @@ orchestrator.registerScenario(
 
     await carol_player.startup({});
     const carol_happ = await carol_player.installBundledHapp({
-      path: path.join("../workdir/file-storage-test-happ.happ"),
+      path: path.join("../workdir/file-storage-test.happ"),
     });
     const carol = carol_happ.cells.find((c) =>
       c.cellNick.includes("consumer")

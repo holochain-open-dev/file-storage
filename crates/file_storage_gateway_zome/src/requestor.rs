@@ -1,5 +1,5 @@
 use hdk::prelude::*;
-use holochain_file_storage_types::*;
+use hc_file_storage_types::*;
 
 use crate::{err, provider, types::FileStorageRequest};
 

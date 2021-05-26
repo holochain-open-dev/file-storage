@@ -1,1 +1,1 @@
-extern crate holochain_file_storage_zome;
+extern crate hc_zome_file_storage;

@@ -1,4 +1,4 @@
-use holochain_file_storage_types::*;
+use hc_file_storage_types::*;
 use hdk::prelude::*;
 
 pub fn create_file_chunk(file_chunk: FileChunk) -> ExternResult<EntryHash> {

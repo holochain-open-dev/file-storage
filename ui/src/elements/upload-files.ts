@@ -1,16 +1,9 @@
-import {
-  Constructor,
-  css,
-  html,
-  LitElement,
-  property,
-  PropertyValues,
-  query,
-} from 'lit-element';
-import { classMap } from 'lit-html/directives/class-map';
+import { css, html, LitElement } from 'lit';
+import { query, property } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 import { Icon } from 'scoped-material-components/mwc-icon';
-import { ScopedElementsMixin as Scoped } from '@open-wc/scoped-elements';
+import { ScopedRegistryHost } from '@lit-labs/scoped-registry-mixin';
 
 import { FileStorageService } from '../services/file-storage.service';
 import { sharedStyles } from '../sharedStyles';
@@ -20,12 +13,14 @@ import basicStyles from 'dropzone/dist/min/basic.min.css';
 // @ts-ignore
 import dropzoneStyles from 'dropzone/dist/min/dropzone.min.css';
 import { DropzoneOptions } from 'dropzone';
+import { FILE_STORAGE_SERVICE_CONTEXT } from '../types';
+import { requestContext } from '@holochain-open-dev/context';
 
 /**
  * @fires file-uploaded - Fired after having uploaded the file
  * @csspart dropzone - Style the dropzone itself
  */
-export abstract class UploadFiles extends Scoped(LitElement) {
+export class UploadFiles extends ScopedRegistryHost(LitElement) {
   /** Public attributes */
 
   @property({ type: Boolean, attribute: 'one-file' }) oneFile = false;
@@ -34,53 +29,15 @@ export abstract class UploadFiles extends Scoped(LitElement) {
     | undefined = undefined;
 
   /** Dependencies */
-  abstract get _fileStorageService(): FileStorageService;
 
-  static get scopedElements() {
-    return {
-      'mwc-icon': Icon,
-    };
-  }
+  @requestContext(FILE_STORAGE_SERVICE_CONTEXT)
+  _service!: FileStorageService;
 
   /** Private properties */
 
   @query('.dropzone') _dropzone!: HTMLElement;
 
   @property({ type: Boolean }) _showIcon = true;
-
-  static get styles() {
-    return [
-      sharedStyles,
-      css`
-        :host {
-          display: contents;
-        }
-
-        .dropzone {
-          background: #f5f5f5;
-          border-radius: 5px;
-          border: 2px dashed rgb(0, 135, 247);
-          border-image: none;
-          color: rgba(0, 0, 0, 0.54);
-          min-height: 228px;
-        }
-
-        .dropzone .dz-message .dz-button {
-          font-weight: 500;
-          font-size: initial;
-          text-transform: uppercase;
-        }
-
-        .dropzone .dz-message {
-          margin-top: 1em;
-        }
-
-        .dropzone .dz-remove {
-          margin-top: 16px;
-        }
-      `,
-    ];
-  }
 
   firstUpdated() {
     this.setupDropzone();
@@ -136,7 +93,7 @@ export abstract class UploadFiles extends Scoped(LitElement) {
     }
     const dropzone = new HolochainDropzone(
       this._dropzone,
-      this._fileStorageService,
+      this._service,
       options
     );
 
@@ -188,5 +145,43 @@ export abstract class UploadFiles extends Scoped(LitElement) {
           : html``}
       </div>
     `;
+  }
+
+  static elementDefinitions = {
+    'mwc-icon': Icon,
+  };
+
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: contents;
+        }
+
+        .dropzone {
+          background: #f5f5f5;
+          border-radius: 5px;
+          border: 2px dashed rgb(0, 135, 247);
+          border-image: none;
+          color: rgba(0, 0, 0, 0.54);
+          min-height: 228px;
+        }
+
+        .dropzone .dz-message .dz-button {
+          font-weight: 500;
+          font-size: initial;
+          text-transform: uppercase;
+        }
+
+        .dropzone .dz-message {
+          margin-top: 1em;
+        }
+
+        .dropzone .dz-remove {
+          margin-top: 16px;
+        }
+      `,
+    ];
   }
 }

@@ -1,6 +1,6 @@
 use hdk::prelude::*;
 use holo_hash::EntryHashB64;
-use holochain_file_storage_types::*;
+use hc_file_storage_types::*;
 
 mod file_chunk;
 mod file_metadata;
