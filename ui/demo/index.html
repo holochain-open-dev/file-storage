@@ -29,32 +29,45 @@
     />
   </head>
   <body>
-    <context-provider id="provider">
-      <upload-files></upload-files>
-    </context-provider>
+    <file-storage-demo></file-storage-demo>
 
     <script type="module">
       import {
         UploadFiles,
         FileStorageService,
-        FILE_STORAGE_SERVICE_CONTEXT,
+        fileStorageServiceContext,
       } from '../dist';
-      import { ContextProviderElement } from '@holochain-open-dev/context';
-      import ConductorApi from '@holochain/conductor-api';
+      import { css, html, LitElement } from 'lit';
+      import { ScopedElementsMixin } from '@open-wc/scoped-elements';
+      import { ContextProvider } from '@lit-labs/context';
+      import { AppWebsocket } from '@holochain/conductor-api';
 
-      ConductorApi.AppWebsocket.connect('ws://localhost:8888').then(
-        async appWebsocket => {
-          const appInfo = await appWebsocket.appInfo({
-            installed_app_id: 'test-app',
-          });
+      customElements.define(
+        'file-storage-demo',
+        class extends ScopedElementsMixin(LitElement) {
+          async firstUpdated() {
+            const appWebsocket = await AppWebsocket.connect(
+              'ws://localhost:8888'
+            );
+            const appInfo = await appWebsocket.appInfo({
+              installed_app_id: 'test-app',
+            });
 
-          const cellId = appInfo.cell_data[0].cell_id;
+            const cellId = appInfo.cell_data[0].cell_id;
+            const service = new FileStorageService(appWebsocket, cellId);
 
-          customElements.define('context-provider', ContextProviderElement);
-          const provider = document.getElementById('provider');
-          provider.name = FILE_STORAGE_SERVICE_CONTEXT;
-          provider.value = new FileStorageService(appWebsocket, cellId);
-          customElements.define('upload-files', UploadFiles);
+            new ContextProvider(this, fileStorageServiceContext, service);
+          }
+
+          render() {
+            return html`<upload-files></upload-files>`;
+          }
+
+          static get scopedElements() {
+            return {
+              'upload-files': UploadFiles,
+            };
+          }
         }
       );
     </script>

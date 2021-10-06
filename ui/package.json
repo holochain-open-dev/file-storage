@@ -27,13 +27,12 @@
     "publish-to-branch": "npm run lint && npm run build && gh-pages -d ./ -b ui-build"
   },
   "dependencies": {
-    "@holochain-open-dev/context": "git+https://github.com/holochain-open-dev/context.git#ui-build",
-    "@holochain/conductor-api": "^0.0.4",
-    "@lit-labs/scoped-registry-mixin": "^1.0.0-rc.1",
-    "@webcomponents/scoped-custom-element-registry": "0.0.1",
-    "dropzone": "5.7.2",
-    "lit": "^2.0.0-rc.2",
-    "scoped-material-components": "^0.1.6"
+    "@holochain/conductor-api": "^0.2.1",
+    "@lit-labs/context": "git+https://github.com/holochain-open-dev/context.git#build",
+    "@open-wc/scoped-elements": "^2.0.0-next.6",
+    "@scoped-elements/dropzone": "^0.0.1",
+    "@scoped-elements/material-web": "^0.0.5",
+    "lit": "^2.0.0"
   },
   "devDependencies": {
     "@open-wc/demoing-storybook": "^2.0.0",

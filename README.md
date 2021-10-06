@@ -48,42 +48,51 @@ extern crate hc_zome_file_storage;
 2. Import and define the the elements you want to include:
 
 ```js
-import ConductorApi from "@holochain/conductor-api";
-import { ContextProviderElement } from "@holochain-open-dev/context";
+import { AppWebsocket } from "@holochain/conductor-api";
+import { ContextProvider } from "@lit-labs/context";
 import {
   UploadFiles,
-  FILE_STORAGE_SERVICE_CONTEXT,
+  fileStorageServiceContext,
   FileStorageService,
 } from "@holochain-open-dev/file-storage";
+import { css, html, LitElement } from "lit";
+import { ScopedElementsMixin } from "@open-wc/scoped-elements";
+import { ContextProvider } from "@lit-labs/context";
+import { AppWebsocket } from "@holochain/conductor-api";
 
-async function setupFileStorage() {
-  const appWebsocket = await ConductorApi.AppWebsocket.connect(
-    "ws://localhost:8888"
-  );
+customElements.define(
+  "file-storage-demo",
+  class extends ScopedElementsMixin(LitElement) {
+    async firstUpdated() {
+      const appWebsocket = await AppWebsocket.connect("ws://localhost:8888");
+      const appInfo = await appWebsocket.appInfo({
+        installed_app_id: "test-app",
+      });
 
-  const appInfo = await appWebsocket.appInfo({
-    installed_app_id: "test-app",
-  });
-  const cellId = appInfo.cell_data[0].cell_id;
+      const cellId = appInfo.cell_data[0].cell_id;
+      const service = new FileStorageService(appWebsocket, cellId);
 
-  const service = new FileStorageService(appWebsocket, cellId);
+      new ContextProvider(this, fileStorageServiceContext, service);
+    }
 
-  customElements.define("context-provider", ContextProviderElement);
-  const provider = document.getElementById("provider");
-  provider.name = FILE_STORAGE_SERVICE_CONTEXT;
-  provider.value = service;
+    render() {
+      return html`<upload-files></upload-files>`;
+    }
 
-  customElements.define("upload-files", UploadFiles);
-}
+    static get scopedElements() {
+      return {
+        "upload-files": UploadFiles,
+      };
+    }
+  }
+);
 ```
 
 3. Include the elements in your html:
 
 ```html
 <body>
-  <context-provider id="provider">
-    <upload-files> </upload-files>
-  </context-provider>
+  <file-storage-demo></file-storage-demo>
 </body>
 ```
 
@@ -93,4 +102,4 @@ You can see a full working example [here](/ui/demo/index.html).
 
 ## Developer setup
 
-Visit the [developer setup](/dev-setup.md).
+Visit the [developer setup](/SETUP.md).

@@ -1,7 +1,7 @@
 [workspace]
 members = [
-  "crates/file_storage_gateway_zome",
-  "crates/file_storage_zome",
+  "dnas/consumer/zomes/file_storage_gateway",
+  "dnas/provider/zomes/file_storage",
   "crates/file_storage_types",
 ]
 

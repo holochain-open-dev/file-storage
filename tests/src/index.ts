@@ -21,19 +21,10 @@ const sleep = (ms: number) =>
 const network: KitsuneP2pConfig = {
   transport_pool: [
     {
-      type: TransportConfigType.Proxy,
-      sub_transport: {
-        type: TransportConfigType.Quic,
-      },
-      proxy_config: {
-        type: ProxyConfigType.RemoteProxyClient,
-        proxy_url:
-          "kitsune-proxy://t9471bRVOKH-HMInwG5jqwk3KBiiSmiEhy6F5Cu_8ys/kitsune-quic/h/52.14.147.62/p/22224/--",
-      },
+      type: TransportConfigType.Quic,
     },
   ],
-  bootstrap_service: "https://bootstrap-staging.holo.host",
-  network_type: NetworkType.QuicBootstrap,
+  network_type: NetworkType.QuicMdns,
 };
 
 const conductorConfig = Config.gen({
@@ -52,18 +43,15 @@ export function serializeHash(hash) {
 orchestrator.registerScenario(
   "testing file gossip",
   async (s: ScenarioApi, t) => {
-    const [alice_player, bob_player, carol_player] = await s.players(
-      [conductorConfig, conductorConfig, conductorConfig],
-      false
+    const [player] = await s.players(
+      [conductorConfig],
     );
-    await alice_player.startup({});
-    await bob_player.startup({});
 
-    const aliceHapp = await alice_player.installBundledHapp({
+    const aliceHapp = await player.installBundledHapp({
       path: path.join("../workdir/file-storage-test.happ"),
     });
 
-    const bobHapp = await bob_player.installBundledHapp({
+    const bobHapp = await player.installBundledHapp({
       path: path.join("../workdir/file-storage-test.happ"),
     });
 
@@ -110,7 +98,7 @@ orchestrator.registerScenario(
       fileType: "text/plain",
       chunksHashes,
       size: chunkSize * chunkNumer,
-      lastModified: [Math.floor(Date.now() / 1000), 0],
+      lastModified: Date.now(),
     };
     let fileHash = await alice.call(
       ZOME_NAME,
@@ -135,7 +123,6 @@ orchestrator.registerScenario(
     await sleep(10000);
     */
 
-    await alice_player.shutdown();
     await sleep(10000);
 
     fileResult = await bob.call(ZOME_NAME, "get_file_metadata", fileHash);
@@ -148,8 +135,7 @@ orchestrator.registerScenario(
     }
     await sleep(3000);
 
-    await carol_player.startup({});
-    const carol_happ = await carol_player.installBundledHapp({
+    const carol_happ = await player.installBundledHapp({
       path: path.join("../workdir/file-storage-test.happ"),
     });
     const carol = carol_happ.cells.find((c) =>

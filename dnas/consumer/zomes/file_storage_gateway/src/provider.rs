@@ -16,7 +16,7 @@ pub fn announce_as_provider(_: ()) -> ExternResult<()> {
     create_link(path.hash()?, agent_info.agent_latest_pubkey.into(), ())?;
 
     // grant unrestricted access to accept_cap_claim so other agents can send us claims
-    let mut functions: GrantedFunctions = HashSet::new();
+    let mut functions: GrantedFunctions = BTreeSet::new();
     functions.insert((zome_info()?.zome_name, "handle_file_storage_request".into()));
 
     create_cap_grant(CapGrantEntry {

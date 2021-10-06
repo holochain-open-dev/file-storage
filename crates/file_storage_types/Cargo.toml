@@ -13,6 +13,6 @@ derive_more = "0"
 serde = "1"
 
 chrono = {version = "0.4", features = ["serde"]}
-hdk = "0.0.100"
-holo_hash = "0.0.2-alpha.1"
+hdk = "0.0.108"
+holo_hash = {version = "0.0.7", features = ["encoding"]}
 thiserror = "1.0.20"

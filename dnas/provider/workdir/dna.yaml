@@ -5,4 +5,4 @@ uuid: 00000000-0000-0000-0000-000000000000
 properties: ~
 zomes:
   - name: file_storage_provider
-    bundled: ../target/wasm32-unknown-unknown/release/file_storage_provider.wasm
+    bundled: ../../../target/wasm32-unknown-unknown/release/hc_zome_file_storage.wasm
