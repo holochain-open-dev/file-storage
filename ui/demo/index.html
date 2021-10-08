@@ -47,19 +47,23 @@
         class extends ScopedElementsMixin(LitElement) {
           async firstUpdated() {
             const appWebsocket = await AppWebsocket.connect(
-              'ws://localhost:8888'
+              `ws://localhost:${process.env.HC_PORT}`
             );
             const appInfo = await appWebsocket.appInfo({
               installed_app_id: 'test-app',
             });
 
-            const cellId = appInfo.cell_data[0].cell_id;
-            const service = new FileStorageService(appWebsocket, cellId);
+            const cellId = appInfo.cell_data.find(cellData => cellData.cell_nick.includes('provider')).cell_id;
+
+            const service = new FileStorageService(appWebsocket, cellId, 'file_storage_provider');
 
             new ContextProvider(this, fileStorageServiceContext, service);
+            this.loaded = true;
+            this.requestUpdate();
           }
 
           render() {
+            if (!this.loaded) return html`Loading...`;
             return html`<upload-files></upload-files>`;
           }
 

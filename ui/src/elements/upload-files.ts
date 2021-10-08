@@ -2,13 +2,13 @@ import { css, html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import { ScopedElementsMixin } from '@open-wc/scoped-elements';
-
 import { DropzoneElement } from '@scoped-elements/dropzone';
+import { contextProvided } from '@lit-labs/context';
+import { DropzoneOptions } from 'dropzone';
+
 import { FileStorageService } from '../services/file-storage.service';
 import { sharedStyles } from '../sharedStyles';
 import { HolochainDropzone } from '../holochain-dropzone';
-import { DropzoneOptions } from 'dropzone';
-import { contextProvided } from '@lit-labs/context';
 import { fileStorageServiceContext } from '../context';
 
 /**
@@ -32,6 +32,7 @@ export class UploadFiles extends ScopedElementsMixin(LitElement) {
 
   firstUpdated() {
     const service = this._service;
+
     this.defineScopedElement(
       'drop-zone',
       class extends DropzoneElement {
@@ -41,12 +42,13 @@ export class UploadFiles extends ScopedElementsMixin(LitElement) {
       }
     );
 
-    this.addEventListener;
   }
 
   render() {
     return html`
       <drop-zone
+        .oneFile=${this.oneFile}
+        .acceptedFiles=${this.acceptedFiles}
         @file-uploaded=${(e: CustomEvent) =>
           (e.detail.hash = e.detail.file.hash)}
       ></drop-zone>
@@ -59,29 +61,6 @@ export class UploadFiles extends ScopedElementsMixin(LitElement) {
       css`
         :host {
           display: contents;
-        }
-
-        .dropzone {
-          background: #f5f5f5;
-          border-radius: 5px;
-          border: 2px dashed rgb(0, 135, 247);
-          border-image: none;
-          color: rgba(0, 0, 0, 0.54);
-          min-height: 228px;
-        }
-
-        .dropzone .dz-message .dz-button {
-          font-weight: 500;
-          font-size: initial;
-          text-transform: uppercase;
-        }
-
-        .dropzone .dz-message {
-          margin-top: 1em;
-        }
-
-        .dropzone .dz-remove {
-          margin-top: 16px;
         }
       `,
     ];

@@ -5,9 +5,10 @@ export default {
   watch: true,
   nodeResolve: {
     browser: true,
-    preferBuiltins: false
+    preferBuiltins: false,
   },
-  appIndex: 'demo/index.html',
+  appIndex: 'ui/demo/index.html',
   open: true,
   plugins,
+  rootDir: '../',
 };
