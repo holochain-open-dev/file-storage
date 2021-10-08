@@ -1,0 +1,1 @@
+{"version":3,"file":"types.js","sourceRoot":"","sources":["../src/types.ts"],"names":[],"mappings":"","sourcesContent":["export interface FileMetadata {\n  name: string;\n  lastModifed: number;\n  size: number;\n  fileType: string;\n  creatorPubKey: string;\n  chunksHashes: Array<string>;\n}\n"]}

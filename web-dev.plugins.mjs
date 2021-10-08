@@ -13,17 +13,11 @@ export default [
   replace({
     global: 'window',
     'process.env.NODE_ENV': '"production"',
-    'process.env.CONDUCTOR_URL': process.env.CONDUCTOR_URL
-      ? `"${process.env.CONDUCTOR_URL}"`
-      : undefined,
+    'process.env.HC_PORT': process.env.HC_PORT
+      ? JSON.stringify(process.env.HC_PORT)
+      : 8888,
   }),
   builtins(),
-  commonjs({
-    include: [
-      'node_modules/isomorphic-ws/**/*',
-      'node_modules/@msgpack/**/*',
-      'node_modules/@holochain/conductor-api/**/*',
-    ],
-  }),
+  commonjs({}),
   globals(),
 ];
