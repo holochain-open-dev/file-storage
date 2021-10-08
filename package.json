@@ -24,19 +24,18 @@
     "publish-to-branch": "npm run lint && npm run build && gh-pages -d ./ -b ui-build"
   },
   "dependencies": {
+    "@holochain-open-dev/cell-client": "^0.0.5",
     "@holochain/conductor-api": "^0.2.1",
     "@lit-labs/context": "git+https://github.com/holochain-open-dev/context.git#build",
     "@open-wc/scoped-elements": "^2.0.0-next.6",
     "@scoped-elements/dropzone": "^0.0.3",
     "@scoped-elements/material-web": "^0.0.8",
-    "lit": "^2.0.0",
-    "lit-element": "^3.0.0",
-    "lit-html": "^2.0.1"
+    "lit": "^2.0.0"
   },
   "devDependencies": {
     "@open-wc/eslint-config": "^2.1.0",
-    "@open-wc/testing": "^2.0.0",
-    "@open-wc/testing-karma": "^3.0.0",
+    "@open-wc/testing": "^3.0.0-next.5",
+    "@open-wc/testing-karma": "^4.0.9",
     "@rollup/plugin-commonjs": "^15.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-replace": "^2.4.2",

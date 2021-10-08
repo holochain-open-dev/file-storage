@@ -4,9 +4,8 @@ export class FileStorageService {
      * @param cellId the cell to which to upload the file
      * @param zomeName the zome name of the file_storage zome in the given cell
      */
-    constructor(appWebsocket, cellId, zomeName = 'file_storage') {
-        this.appWebsocket = appWebsocket;
-        this.cellId = cellId;
+    constructor(cellClient, zomeName = 'file_storage') {
+        this.cellClient = cellClient;
         this.zomeName = zomeName;
     }
     /**
@@ -84,14 +83,7 @@ export class FileStorageService {
         return this._callZome('create_file_chunk', new Uint8Array(bytes));
     }
     _callZome(fnName, payload) {
-        return this.appWebsocket.callZome({
-            cap: null,
-            cell_id: this.cellId,
-            zome_name: this.zomeName,
-            fn_name: fnName,
-            payload: payload,
-            provenance: this.cellId[1],
-        });
+        return this.cellClient.callZome(this.zomeName, fnName, payload);
     }
 }
 //# sourceMappingURL=file-storage.service.js.map

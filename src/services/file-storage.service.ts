@@ -1,4 +1,4 @@
-import type { AppWebsocket, CellId } from '@holochain/conductor-api';
+import type { CellClient } from '@holochain-open-dev/cell-client';
 import { FileMetadata } from '../types';
 
 export class FileStorageService {
@@ -8,8 +8,7 @@ export class FileStorageService {
    * @param zomeName the zome name of the file_storage zome in the given cell
    */
   constructor(
-    protected appWebsocket: AppWebsocket,
-    protected cellId: CellId,
+    protected cellClient: CellClient,
     protected zomeName: string = 'file_storage'
   ) {}
 
@@ -114,13 +113,6 @@ export class FileStorageService {
   }
 
   private _callZome(fnName: string, payload: any): Promise<any> {
-    return this.appWebsocket.callZome({
-      cap: null as any,
-      cell_id: this.cellId,
-      zome_name: this.zomeName,
-      fn_name: fnName,
-      payload: payload,
-      provenance: this.cellId[1],
-    });
+    return this.cellClient.callZome(this.zomeName, fnName, payload);
   }
 }

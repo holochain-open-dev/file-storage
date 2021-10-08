@@ -1,15 +1,14 @@
-import type { AppWebsocket, CellId } from '@holochain/conductor-api';
+import type { CellClient } from '@holochain-open-dev/cell-client';
 import { FileMetadata } from '../types';
 export declare class FileStorageService {
-    protected appWebsocket: AppWebsocket;
-    protected cellId: CellId;
+    protected cellClient: CellClient;
     protected zomeName: string;
     /**
      * @param appWebsocket connection to the holochain backend
      * @param cellId the cell to which to upload the file
      * @param zomeName the zome name of the file_storage zome in the given cell
      */
-    constructor(appWebsocket: AppWebsocket, cellId: CellId, zomeName?: string);
+    constructor(cellClient: CellClient, zomeName?: string);
     /**
      * Upload a file to the file_storage zome, splitting it into chunks
      *
