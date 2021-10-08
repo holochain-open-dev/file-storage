@@ -41,6 +41,7 @@
       import { ScopedElementsMixin } from '@open-wc/scoped-elements';
       import { ContextProvider } from '@lit-labs/context';
       import { AppWebsocket } from '@holochain/conductor-api';
+      import { HolochainClient } from '@holochain-open-dev/cell-client';
 
       customElements.define(
         'file-storage-demo',
@@ -53,9 +54,14 @@
               installed_app_id: 'test-app',
             });
 
-            const cellId = appInfo.cell_data.find(cellData => cellData.cell_nick.includes('provider')).cell_id;
+            const cellData = appInfo.cell_data.find(cellData =>
+              cellData.cell_nick.includes('provider')
+            );
 
-            const service = new FileStorageService(appWebsocket, cellId, 'file_storage_provider');
+            const service = new FileStorageService(
+              new HolochainClient(appWebsocket, cellData),
+              'file_storage_provider'
+            );
 
             new ContextProvider(this, fileStorageServiceContext, service);
             this.loaded = true;
