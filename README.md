@@ -8,7 +8,7 @@ This module is designed to be included in other DNAs, assuming as little as poss
 
 ## Documentation
 
-- [`Storybook`](https://holochain-open-dev.github.io/file-storage-module?path=/docs/hoduploadfiles--default) for elements documentation.
+- [`Storybook`](https://holochain-open-dev.github.io/file-storage) for elements documentation.
 - [Here](/ui/docs/classes/filestorageservice.md) for documentation about the `FileStorageService`.
 
 ## Assumptions
