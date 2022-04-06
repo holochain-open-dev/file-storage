@@ -1,7 +1,7 @@
 use std::fmt::Debug;
 
-use hdk::prelude::*;
 use hc_file_storage_types::FILE_STORAGE_PROVIDER_ZOME_NAME;
+use hdk::prelude::*;
 
 use crate::{err, provider_dna::get_file_storage_provider_dna, types::FileStorageRequest};
 
@@ -13,11 +13,15 @@ pub fn announce_as_provider(_: ()) -> ExternResult<()> {
 
     let agent_info = agent_info()?;
 
-    create_link(path.hash()?, agent_info.agent_latest_pubkey.into(), ())?;
+    create_link(
+        path.path_entry_hash()?,
+        agent_info.agent_latest_pubkey.into(),
+        (),
+    )?;
 
     // grant unrestricted access to accept_cap_claim so other agents can send us claims
     let mut functions: GrantedFunctions = BTreeSet::new();
-    functions.insert((zome_info()?.zome_name, "handle_file_storage_request".into()));
+    functions.insert((zome_info()?.name, "handle_file_storage_request".into()));
 
     create_cap_grant(CapGrantEntry {
         tag: "".into(),
@@ -30,10 +34,9 @@ pub fn announce_as_provider(_: ()) -> ExternResult<()> {
 }
 
 pub fn get_all_providers() -> ExternResult<Vec<AgentPubKey>> {
-    let links = get_links(providers_path().hash()?, None)?;
+    let links = get_links(providers_path().path_entry_hash()?, None)?;
 
     let providers_pub_keys = links
-        .into_inner()
         .into_iter()
         .map(|link| AgentPubKey::from(link.target.clone()))
         .collect();
@@ -69,7 +72,7 @@ fn bridged_call<I: Serialize + Debug>(fn_name: String, payload: I) -> ExternResu
 
     let cell_id = CellId::new(provider_dna, agent_info()?.agent_initial_pubkey);
     let response = call(
-        Some(cell_id),
+        CallTargetCell::Other(cell_id),
         FILE_STORAGE_PROVIDER_ZOME_NAME.into(),
         fn_name.into(),
         None,

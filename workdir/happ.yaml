@@ -2,8 +2,8 @@
 manifest_version: "1"
 name: file-storage-test
 description: ~
-slots:
-  - id: consumer-slot
+roles:
+  - id: consumer
     provisioning:
       strategy: create
       deferred: false
@@ -13,7 +13,7 @@ slots:
       uuid: ~
       version: ~
       clone_limit: 0
-  - id: provider-slot
+  - id: provider
     provisioning:
       strategy: create
       deferred: false

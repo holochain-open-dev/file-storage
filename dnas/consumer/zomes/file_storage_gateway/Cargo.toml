@@ -1,6 +1,6 @@
 [package]
 authors = ["guillem.cordoba@gmail.com"]
-edition = "2018"
+edition = "2021"
 name = "hc_zome_file_storage_gateway"
 version = "0.0.1"
 
@@ -13,5 +13,4 @@ derive_more = "0"
 serde = "1"
 
 hc_file_storage_types = {path = "../../../../crates/file_storage_types"}
-hdk = "0.0.108"
-holo_hash = {version = "0.0.7", features = ["encoding"]}
+hdk = {version = "0.0.124", features = ["encoding"]}

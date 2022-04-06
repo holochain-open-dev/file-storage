@@ -14,7 +14,8 @@
     "sourceMap": true,
     "inlineSources": true,
     "rootDir": "./src",
-    "declaration": true
+    "declaration": true,
+    "incremental": true
   },
   "include": ["src/**/*.ts"],
   "typedocOptions": {

@@ -1,6 +1,6 @@
 [package]
 authors = ["guillem.cordoba@gmail.com"]
-edition = "2018"
+edition = "2021"
 name = "hc_file_storage_types"
 version = "0.0.1"
 
@@ -13,6 +13,5 @@ derive_more = "0"
 serde = "1"
 
 chrono = {version = "0.4", features = ["serde"]}
-hdk = "0.0.108"
-holo_hash = {version = "0.0.7", features = ["encoding"]}
+hdk = {version = "0.0.124", features = ["encoding"]}
 thiserror = "1.0.20"

@@ -39,27 +39,23 @@
       } from '../dist';
       import { css, html, LitElement } from 'lit';
       import { ScopedElementsMixin } from '@open-wc/scoped-elements';
-      import { ContextProvider } from '@lit-labs/context';
-      import { AppWebsocket } from '@holochain/conductor-api';
+      import { ContextProvider } from '@holochain-open-dev/context';
       import { HolochainClient } from '@holochain-open-dev/cell-client';
 
       customElements.define(
         'file-storage-demo',
         class extends ScopedElementsMixin(LitElement) {
           async firstUpdated() {
-            const appWebsocket = await AppWebsocket.connect(
-              `ws://localhost:${process.env.HC_PORT}`
+            const client = await HolochainClient.connect(
+              `ws://localhost:${process.env.HC_PORT}`,
+              'test-app'
             );
-            const appInfo = await appWebsocket.appInfo({
-              installed_app_id: 'test-app',
-            });
-
-            const cellData = appInfo.cell_data.find(cellData =>
-              cellData.cell_nick.includes('provider')
+            const cellClient = client.forCell(
+              client.cellDataByRoleId('provider')
             );
 
             const service = new FileStorageService(
-              new HolochainClient(appWebsocket, cellData),
+              cellClient,
               'file_storage_provider'
             );
 

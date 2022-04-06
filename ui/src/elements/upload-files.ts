@@ -3,7 +3,7 @@ import { property } from 'lit/decorators.js';
 
 import { ScopedElementsMixin } from '@open-wc/scoped-elements';
 import { DropzoneElement } from '@scoped-elements/dropzone';
-import { contextProvided } from '@lit-labs/context';
+import { contextProvided } from '@holochain-open-dev/context';
 import { DropzoneOptions } from 'dropzone';
 
 import { FileStorageService } from '../services/file-storage.service';

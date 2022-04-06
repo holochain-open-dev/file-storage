@@ -49,7 +49,7 @@ extern crate hc_zome_file_storage;
 
 ```js
 import { AppWebsocket } from "@holochain/conductor-api";
-import { ContextProvider } from "@lit-labs/context";
+import { ContextProvider } from "@holochain-open-dev/context";
 import {
   UploadFiles,
   fileStorageServiceContext,
@@ -57,7 +57,7 @@ import {
 } from "@holochain-open-dev/file-storage";
 import { css, html, LitElement } from "lit";
 import { ScopedElementsMixin } from "@open-wc/scoped-elements";
-import { ContextProvider } from "@lit-labs/context";
+import { ContextProvider } from "@holochain-open-dev/context";
 import { AppWebsocket } from "@holochain/conductor-api";
 
 customElements.define(

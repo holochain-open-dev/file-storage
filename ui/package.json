@@ -6,9 +6,17 @@
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./upload-files": "./dist/definitions/upload-files.js"
+  },
+  "files": [
+    "dist"
+  ],
+
   "scripts": {
     "start": "npm run build && concurrently -k --names tsc,dev-server \"npm run build-watch\" \"web-dev-server --config demo/web-dev-server.config.mjs\"",
-    "build": "rimraf dist && tsc",
+    "build": "tsc",
     "build-watch": "tsc -w --preserveWatchOutput",
     "test": "npm run build && web-test-runner --coverage --puppeteer",
     "test-debug": "npm run build && DEBUG=true web-test-runner --coverage --puppeteer",
@@ -16,21 +24,16 @@
     "e2e": "CONDUCTOR_URL=ws://localhost:8888 concurrently -k -s first \"npm:test\" \"npm:start-holochain\"",
     "analyze": "wca analyze src --format json --outFile custom-elements.json",
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore",
-    "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore",
-    "storybook": "npm run analyze && concurrently -k --names tsc,storybook \"npm:build-watch\" \"start-storybook --node-resolve --watch --open\"",
-    "build-storybook": "npm run analyze && build-storybook",
-    "publish-storybook": "npm run lint && npm run build-storybook && gh-pages -d storybook-static",
-    "publish-npm": "npm run lint && npm run build && npm publish --access public && rimraf dist/",
-    "publish-to-branch": "npm run lint && npm run build && gh-pages -d ./ -b ui-build"
+    "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "@holochain-open-dev/cell-client": "^0.0.5",
-    "@holochain/conductor-api": "^0.2.1",
-    "@lit-labs/context": "git+https://github.com/holochain-open-dev/context.git#build",
-    "@open-wc/scoped-elements": "^2.0.0-next.6",
+    "@holochain/client": "^0.3.2",
+    "@holochain-open-dev/cell-client": "^0.3.2",
+    "@holochain-open-dev/context": "^0.0.3",
+    "@open-wc/scoped-elements": "^2.0.1",
     "@scoped-elements/dropzone": "^0.0.3",
-    "@scoped-elements/material-web": "^0.0.8",
-    "lit": "^2.0.0"
+    "@scoped-elements/material-web": "^0.0.19",
+    "lit": "^2.2.0"
   },
   "devDependencies": {
     "@open-wc/eslint-config": "^2.1.0",
@@ -77,5 +80,10 @@
   "prettier": {
     "singleQuote": true,
     "arrowParens": "avoid"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "customElements": "custom-elements.json",
+  "type": "module"
 }
