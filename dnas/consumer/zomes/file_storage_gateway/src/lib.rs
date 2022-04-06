@@ -9,4 +9,4 @@ pub fn err(reason: &str) -> WasmError {
     WasmError::Guest(String::from(reason))
 }
 
-entry_defs![Path::entry_def()];
+entry_defs![PathEntry::entry_def()];

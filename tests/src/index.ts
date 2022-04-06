@@ -11,7 +11,6 @@ import {
 } from "@holochain/tryorama";
 import { ScenarioApi } from "@holochain/tryorama/lib/api";
 import path from "path";
-import { InstallAppRequest } from "@holochain/conductor-api";
 import { Base64 } from "js-base64";
 import * as msgpack from "@msgpack/msgpack";
 
@@ -43,9 +42,7 @@ export function serializeHash(hash) {
 orchestrator.registerScenario(
   "testing file gossip",
   async (s: ScenarioApi, t) => {
-    const [player] = await s.players(
-      [conductorConfig],
-    );
+    const [player] = await s.players([conductorConfig]);
 
     const aliceHapp = await player.installBundledHapp({
       path: path.join("../workdir/file-storage-test.happ"),
@@ -59,11 +56,16 @@ orchestrator.registerScenario(
 
     const ZOME_NAME = "file_storage_gateway";
     const alice = aliceHapp.cells.find((c) =>
-      c.cellNick.includes("consumer")
+      c.cellRole.includes("consumer")
+    ) as Cell;
+    const aliceProvider = aliceHapp.cells.find((c) =>
+      c.cellRole.includes("provider")
     ) as Cell;
     const bob = bobHapp.cells.find((c) =>
-      c.cellNick.includes("consumer")
+      c.cellRole.includes("consumer")
     ) as Cell;
+
+    console.log('Provider DNA hash: ' + serializeHash(aliceProvider.cellId[0]))
 
     await bob.call(ZOME_NAME, "announce_as_provider", null);
     await sleep(10000);
@@ -139,7 +141,7 @@ orchestrator.registerScenario(
       path: path.join("../workdir/file-storage-test.happ"),
     });
     const carol = carol_happ.cells.find((c) =>
-      c.cellNick.includes("consumer")
+      c.cellRole.includes("consumer")
     ) as Cell;
 
     await sleep(3000);

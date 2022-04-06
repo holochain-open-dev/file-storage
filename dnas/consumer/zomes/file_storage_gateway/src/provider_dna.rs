@@ -7,7 +7,7 @@ pub struct FileStorageProviderDnaProperties {
 }
 
 pub fn get_file_storage_provider_dna() -> ExternResult<DnaHash> {
-    let props: FileStorageProviderDnaProperties = zome_info()?.properties.try_into()?;
+    let props: FileStorageProviderDnaProperties = dna_info()?.properties.try_into()?;
 
     Ok(props.file_storage_provider_dna.into())
 }
