@@ -13,4 +13,4 @@ derive_more = "0"
 serde = "1"
 
 hc_file_storage_types = {path = "../../../../crates/file_storage_types"}
-hdk = {version = "0.0.124", features = ["encoding"]}
+hdk = {version = "0.0.130", features = ["encoding"]}

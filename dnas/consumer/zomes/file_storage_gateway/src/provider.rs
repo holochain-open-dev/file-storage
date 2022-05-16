@@ -14,8 +14,9 @@ pub fn announce_as_provider(_: ()) -> ExternResult<()> {
     let agent_info = agent_info()?;
 
     create_link(
-        path.path_entry_hash()?,
+        path.path_entry_hash()?.into(),
         agent_info.agent_latest_pubkey.into(),
+        HdkLinkType::Any,
         (),
     )?;
 
@@ -34,11 +35,11 @@ pub fn announce_as_provider(_: ()) -> ExternResult<()> {
 }
 
 pub fn get_all_providers() -> ExternResult<Vec<AgentPubKey>> {
-    let links = get_links(providers_path().path_entry_hash()?, None)?;
+    let links = get_links(providers_path().path_entry_hash()?.into(), None)?;
 
     let providers_pub_keys = links
         .into_iter()
-        .map(|link| AgentPubKey::from(link.target.clone()))
+        .map(|link| AgentPubKey::from(EntryHash::from(link.target.clone())))
         .collect();
     Ok(providers_pub_keys)
 }

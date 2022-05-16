@@ -13,7 +13,6 @@
   "files": [
     "dist"
   ],
-
   "scripts": {
     "start": "npm run build && concurrently -k --names tsc,dev-server \"npm run build-watch\" \"web-dev-server --config demo/web-dev-server.config.mjs\"",
     "build": "tsc",
