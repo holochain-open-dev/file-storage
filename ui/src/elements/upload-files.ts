@@ -3,13 +3,13 @@ import { property } from 'lit/decorators.js';
 
 import { ScopedElementsMixin } from '@open-wc/scoped-elements';
 import { DropzoneElement } from '@scoped-elements/dropzone';
-import { contextProvided } from '@holochain-open-dev/context';
+import { contextProvided } from '@lit-labs/context';
 import { DropzoneOptions } from 'dropzone';
 
-import { FileStorageService } from '../services/file-storage.service';
-import { sharedStyles } from '../sharedStyles';
+import { FileStorageClient } from '../file-storage-client';
+import { sharedStyles } from '../shared-styles';
 import { HolochainDropzone } from '../holochain-dropzone';
-import { fileStorageServiceContext } from '../context';
+import { fileStorageClientContext } from '../context';
 
 /**
  * @fires file-uploaded - Fired after having uploaded the file
@@ -25,19 +25,19 @@ export class UploadFiles extends ScopedElementsMixin(LitElement) {
 
   /** Dependencies */
 
-  @contextProvided({ context: fileStorageServiceContext })
-  _service!: FileStorageService;
+  @contextProvided({ context: fileStorageClientContext })
+  _client!: FileStorageClient;
 
   /** Private properties */
 
   firstUpdated() {
-    const service = this._service;
+    const client = this._client;
 
     this.defineScopedElement(
       'drop-zone',
       class extends DropzoneElement {
         buildDropzone(dropzoneElement: HTMLElement, options: DropzoneOptions) {
-          return new HolochainDropzone(dropzoneElement, service, options);
+          return new HolochainDropzone(dropzoneElement, client, options);
         }
       }
     );
@@ -50,7 +50,7 @@ export class UploadFiles extends ScopedElementsMixin(LitElement) {
         .oneFile=${this.oneFile}
         .acceptedFiles=${this.acceptedFiles}
         @file-uploaded=${(e: CustomEvent) =>
-          (e.detail.hash = e.detail.file.hash)}
+        (e.detail.hash = e.detail.file.hash)}
       ></drop-zone>
     `;
   }

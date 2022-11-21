@@ -34,32 +34,36 @@
     <script type="module">
       import {
         UploadFiles,
-        FileStorageService,
-        fileStorageServiceContext,
+        FileStorageClient,
+        fileStorageClientContext,
       } from '../dist';
       import { css, html, LitElement } from 'lit';
       import { ScopedElementsMixin } from '@open-wc/scoped-elements';
-      import { ContextProvider } from '@holochain-open-dev/context';
-      import { HolochainClient } from '@holochain-open-dev/cell-client';
+      import { ContextProvider } from '@lit-labs/context';
+      import { HolochainClient, CellClient } from '@holochain-open-dev/cell-client';
+      import { AppWebsocket } from '@holochain/client';
 
       customElements.define(
         'file-storage-demo',
         class extends ScopedElementsMixin(LitElement) {
           async firstUpdated() {
-            const client = await HolochainClient.connect(
+            const appWs = await AppWebsocket.connect(
               `ws://localhost:${process.env.HC_PORT}`,
-              'test-app'
             );
-            const cellClient = client.forCell(
-              client.cellDataByRoleId('provider')
-            );
+            const appInfo = await appWs.appInfo({
+              installed_app_id: 'test-app'
+            });
+            
+            const hcclient = new HolochainClient(appWs);
+            
+            const cellClient = new CellClient(hcclient, appInfo.cell_data.find(c => c.role_id === 'provider'));
 
-            const service = new FileStorageService(
+            const client = new FileStorageClient(
               cellClient,
               'file_storage_provider'
             );
 
-            new ContextProvider(this, fileStorageServiceContext, service);
+            new ContextProvider(this, fileStorageClientContext, client);
             this.loaded = true;
             this.requestUpdate();
           }

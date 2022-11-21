@@ -1,5 +1,5 @@
 export * from './elements/upload-files';
-export * from './services/file-storage.service';
+export * from './file-storage-client';
 export * from './holochain-dropzone';
 export * from './types';
 export * from './context';

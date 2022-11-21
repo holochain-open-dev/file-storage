@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2018",
     "module": "esnext",
     "moduleResolution": "node",
     "noEmitOnError": true,
@@ -15,12 +15,8 @@
     "inlineSources": true,
     "rootDir": "./src",
     "declaration": true,
-    "incremental": true
+    "incremental": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*.ts"],
-  "typedocOptions": {
-    "mode": "file",
-    "out": "docs",
-    "inputFiles": ["./src/services"]
-  }
+  "include": ["src/**/*.ts"]
 }

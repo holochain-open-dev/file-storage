@@ -1,5 +1,5 @@
-import { createContext, Context } from '@holochain-open-dev/context';
-import { FileStorageService } from './services/file-storage.service';
+import { createContext } from '@lit-labs/context';
+import { FileStorageClient } from './file-storage-client';
 
-export const fileStorageServiceContext: Context<FileStorageService> =
-  createContext('hc_zome_file_storage/file-storage-servce');
+export const fileStorageClientContext =
+  createContext<FileStorageClient>('hc_zome_file_storage/file-storage-client');

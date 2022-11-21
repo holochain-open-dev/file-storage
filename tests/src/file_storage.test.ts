@@ -10,8 +10,8 @@ test('create file in provider, read from consumer', { concurrency: 1 }, async t 
 
     // Construct proper paths for your app.
     // This assumes app bundle created by the `hc app pack` command.
-    const providerDnaPath = process.cwd() + '/' + "../dnas/provider/workdir/provider.dna";
-    const consumerDnaPath = process.cwd() + '/' + "../dnas/consumer/workdir/consumer.dna";
+    const providerDnaPath = process.cwd() + '/' + "../dnas/file_storage_provider/workdir/file_storage_provider.dna";
+    const consumerDnaPath = process.cwd() + '/' + "../dnas/file_storage_consumer/workdir/file_storage_consumer.dna";
 
     const [bob, carol] = await scenario.addPlayersWithHapps([[{ path: consumerDnaPath }], [{ path: consumerDnaPath }]]);
 

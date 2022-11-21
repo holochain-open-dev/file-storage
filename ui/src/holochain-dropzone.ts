@@ -1,16 +1,16 @@
 import Dropzone, { DropzoneOptions } from 'dropzone';
-import { FileStorageService } from './services/file-storage.service';
+import { FileStorageClient } from './file-storage-client';
 
 export class HolochainDropzone extends Dropzone {
-  fileStorageService: FileStorageService;
+  fileStorageClient: FileStorageClient;
   constructor(
     el: HTMLElement,
-    fileStorageService: FileStorageService,
+    fileStorageClient: FileStorageClient,
     options: DropzoneOptions
   ) {
     options.url = 'https://holochain.org/'; // just to bypass the check.
     super(el, options);
-    this.fileStorageService = fileStorageService;
+    this.fileStorageClient = fileStorageClient;
   }
 
   uploadFiles(files: Dropzone.DropzoneFile[]) {
@@ -23,7 +23,7 @@ export class HolochainDropzone extends Dropzone {
     for (const file of dropzoneFiles) {
       try {
         this.emit('sending', file, undefined, undefined);
-        const hash = await this.fileStorageService.uploadFile(
+        const hash = await this.fileStorageClient.uploadFile(
           file,
           (percentatge, bytesSent) => {
             this.emit('uploadprogress', file, percentatge * 100, bytesSent);
