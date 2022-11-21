@@ -36,16 +36,24 @@
         UploadFiles,
         FileStorageClient,
         fileStorageClientContext,
+        ShowImage
       } from '../dist';
       import { css, html, LitElement } from 'lit';
       import { ScopedElementsMixin } from '@open-wc/scoped-elements';
       import { ContextProvider } from '@lit-labs/context';
-      import { HolochainClient, CellClient } from '@holochain-open-dev/cell-client';
+      import { HolochainClient, CellClient } from '@holochain-open-dev/common';
       import { AppWebsocket } from '@holochain/client';
 
       customElements.define(
         'file-storage-demo',
         class extends ScopedElementsMixin(LitElement) {
+          static properties= {
+            
+              hash: {type: Object},
+              loaded: {type: Boolean}
+            
+          }
+          
           async firstUpdated() {
             const appWs = await AppWebsocket.connect(
               `ws://localhost:${process.env.HC_PORT}`,
@@ -69,12 +77,15 @@
 
           render() {
             if (!this.loaded) return html`Loading...`;
-            return html`<upload-files></upload-files>`;
+            return html`<upload-files @file-uploaded=${e => this.hash = e.detail.hash}></upload-files>
+            ${this.hash? html`<show-image .imageHash=${this.hash}></show-image>`: html``}
+            `;
           }
 
           static get scopedElements() {
             return {
               'upload-files': UploadFiles,
+              'show-image': ShowImage,
             };
           }
         }
