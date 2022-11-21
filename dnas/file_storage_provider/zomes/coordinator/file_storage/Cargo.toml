@@ -1,0 +1,15 @@
+[package]
+name = "hc_zome_file_storage_coordinator"
+version = "0.0.1"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+name = "hc_zome_file_storage_coordinator"
+
+[dependencies]
+hdk = { workspace = true }
+
+serde = { workspace = true }
+
+hc_zome_file_storage_integrity = { workspace = true }

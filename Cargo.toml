@@ -1,12 +1,26 @@
-[workspace]
-members = [
-  "dnas/consumer/zomes/file_storage_gateway",
-  "dnas/provider/zomes/file_storage",
-  "crates/file_storage_types",
-]
-
 [profile.dev]
 opt-level = "z"
 
 [profile.release]
 opt-level = "z"
+
+[workspace]
+members = ["dnas/*/zomes/integrity/*", "dnas/*/zomes/coordinator/*"]
+
+[workspace.dependencies]
+hdi = "0.1"
+hdk = "0.0.161"
+holochain = "0.0.173"
+serde = "1"
+
+[workspace.dependencies.hc_zome_file_storage]
+path = "dnas/file_storage_provider/zomes/coordinator/file_storage"
+
+[workspace.dependencies.hc_zome_file_storage_gateway]
+path = "dnas/file_storage_consumer/zomes/coordinator/file_storage_gateway"
+
+[workspace.dependencies.hc_zome_file_storage_gateway_integrity]
+path = "dnas/file_storage_consumer/zomes/integrity/file_storage_gateway"
+
+[workspace.dependencies.hc_zome_file_storage_integrity]
+path = "dnas/file_storage_provider/zomes/integrity/file_storage"

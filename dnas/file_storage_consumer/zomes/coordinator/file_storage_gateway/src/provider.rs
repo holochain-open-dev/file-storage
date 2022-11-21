@@ -1,22 +1,23 @@
 use std::fmt::Debug;
 
-use hc_file_storage_types::FILE_STORAGE_PROVIDER_ZOME_NAME;
 use hdk::prelude::*;
 
-use crate::{err, provider_dna::get_file_storage_provider_dna, types::FileStorageRequest};
+use hc_zome_file_storage_gateway_integrity::*;
+
+use crate::types::FileStorageRequest;
 
 #[hdk_extern]
 pub fn announce_as_provider(_: ()) -> ExternResult<()> {
-    let path = providers_path();
+    let path = providers_path()?;
 
     path.ensure()?;
 
     let agent_info = agent_info()?;
 
     create_link(
-        path.path_entry_hash()?.into(),
-        agent_info.agent_latest_pubkey.into(),
-        HdkLinkType::Any,
+        path.path_entry_hash()?,
+        agent_info.agent_latest_pubkey,
+        LinkTypes::GatewayProviderAgent,
         (),
     )?;
 
@@ -35,7 +36,11 @@ pub fn announce_as_provider(_: ()) -> ExternResult<()> {
 }
 
 pub fn get_all_providers() -> ExternResult<Vec<AgentPubKey>> {
-    let links = get_links(providers_path().path_entry_hash()?.into(), None)?;
+    let links = get_links(
+        providers_path()?.path_entry_hash()?,
+        LinkTypes::GatewayProviderAgent,
+        None,
+    )?;
 
     let providers_pub_keys = links
         .into_iter()
@@ -64,17 +69,17 @@ pub fn handle_file_storage_request(request: FileStorageRequest) -> ExternResult<
 
 /** Helpers */
 
-fn providers_path() -> Path {
-    Path::from("file_storage_providers")
+fn providers_path() -> ExternResult<TypedPath> {
+    Path::from("file_storage_providers").typed(LinkTypes::GatewayProviderAgent)
 }
 
-fn bridged_call<I: Serialize + Debug>(fn_name: String, payload: I) -> ExternResult<ExternIO> {
-    let provider_dna = get_file_storage_provider_dna()?;
+pub const FILE_STORAGE_PROVIDER_ZOME_NAME: &'static str = "file_storage";
+pub const FILE_STORAGE_PROVIDER_ROLE_ID: &'static str = "file_storage_provider";
 
-    let cell_id = CellId::new(provider_dna, agent_info()?.agent_initial_pubkey);
+fn bridged_call<I: Serialize + Debug>(fn_name: String, payload: I) -> ExternResult<ExternIO> {
     let response = call(
-        CallTargetCell::Other(cell_id),
-        FILE_STORAGE_PROVIDER_ZOME_NAME.into(),
+        CallTargetCell::OtherRole(FILE_STORAGE_PROVIDER_ROLE_ID.into()),
+        ZomeName::from(String::from(FILE_STORAGE_PROVIDER_ZOME_NAME)),
         fn_name.into(),
         None,
         payload,
@@ -82,6 +87,8 @@ fn bridged_call<I: Serialize + Debug>(fn_name: String, payload: I) -> ExternResu
 
     match response {
         ZomeCallResponse::Ok(bytes) => Ok(bytes),
-        _ => Err(err("Failed to handle file storage request")),
+        _ => Err(wasm_error!(WasmErrorInner::Guest(
+            "Failed to handle file storage request".into()
+        ))),
     }
 }

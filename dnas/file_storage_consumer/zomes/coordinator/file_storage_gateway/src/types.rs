@@ -1,12 +1,12 @@
 use std::fmt::Debug;
 
+use hc_zome_file_storage_integrity::*;
 use hdk::prelude::*;
-use hc_file_storage_types::{CreateFileMetadataInput, FileChunk};
 
-#[derive(Clone, Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum FileStorageRequest {
     CreateFileChunk(FileChunk),
     GetFileChunk(EntryHash),
-    CreateFileMetadata(CreateFileMetadataInput),
+    CreateFileMetadata(FileMetadata),
     GetFileMetadata(EntryHash),
 }

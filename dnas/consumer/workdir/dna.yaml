@@ -1,9 +1,0 @@
----
-manifest_version: "1"
-name: file_storage_gateway-test
-uuid: 00000000-0000-0000-0000-000000000000
-properties: 
-  file_storage_provider_dna: "uhC0kk6CGDrheVd4rB-qtxn7G67_hFa2htn4dwvuBUrm9430NJhrH"
-zomes:
-  - name: file_storage_gateway
-    bundled: ../../../target/wasm32-unknown-unknown/release/hc_zome_file_storage_gateway.wasm

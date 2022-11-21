@@ -3,23 +3,27 @@ manifest_version: "1"
 name: file-storage-test
 description: ~
 roles:
-  - id: consumer
+  - id: file_storage_consumer
     provisioning:
       strategy: create
       deferred: false
     dna:
-      bundled: "../dnas/consumer/workdir/file_storage_gateway-test.dna"
-      properties: ~
-      uuid: ~
+      bundled: "../dnas/file_storage_consumer/workdir/file_storage_consumer.dna"
+      modifiers:
+        network_seed: ~
+        properties: ~
+        origin_time: ~
       version: ~
       clone_limit: 0
-  - id: provider
+  - id: file_storage_provider
     provisioning:
       strategy: create
       deferred: false
     dna:
-      bundled: "../dnas/provider/workdir/file_storage_provider-test.dna"
-      properties: ~
-      uuid: ~
+      bundled: "../dnas/file_storage_provider/workdir/file_storage_provider.dna"
+      modifiers:
+        network_seed: ~
+        properties: ~
+        origin_time: ~
       version: ~
       clone_limit: 0
