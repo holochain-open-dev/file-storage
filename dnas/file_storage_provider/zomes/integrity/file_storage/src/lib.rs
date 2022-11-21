@@ -14,6 +14,7 @@ pub struct FileMetadata {
     pub chunks_hashes: Vec<EntryHash>,
 }
 
+#[cfg(feature = "externs")]
 #[hdk_entry_defs]
 #[unit_enum(UnitEntryTypes)]
 pub enum EntryTypes {

@@ -2,8 +2,8 @@ import { EntryHash } from "@holochain/client";
 
 export interface FileMetadata {
   name: string;
-  lastModifed: number;
+  last_modifed: number;
   size: number;
-  fileType: string;
-  chunksHashes: Array<EntryHash>;
+  file_type: string;
+  chunks_hashes: Array<EntryHash>;
 }

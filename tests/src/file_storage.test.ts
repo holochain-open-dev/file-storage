@@ -10,12 +10,12 @@ test('create file in provider, read from consumer', { concurrency: 1 }, async t 
 
     // Construct proper paths for your app.
     // This assumes app bundle created by the `hc app pack` command.
-    const providerDnaPath = process.cwd() + '/' + "../dnas/file_storage_provider/workdir/file_storage_provider.dna";
     const consumerDnaPath = process.cwd() + '/' + "../dnas/file_storage_consumer/workdir/file_storage_consumer.dna";
+    const appBundlePath = process.cwd() + '/' + "../workdir/file-storage-test.happ";
 
-    const [bob, carol] = await scenario.addPlayersWithHapps([[{ path: consumerDnaPath }], [{ path: consumerDnaPath }]]);
+    const [bob] = await scenario.addPlayersWithHapps([[{ path: consumerDnaPath }]]);
 
-    const [alice] = await scenario.addPlayersWithHapps([[{ path: consumerDnaPath }, { path: providerDnaPath }]]);
+    const [alice] = await scenario.addPlayersWithHappBundles([{ appBundleSource: { path: appBundlePath } }]);
     // conductor of the scenario.
     await scenario.shareAllAgents();
 
@@ -29,17 +29,13 @@ test('create file in provider, read from consumer', { concurrency: 1 }, async t 
     const bobConsumer = bob.cells.find((c) =>
       c.role_id.includes("consumer")
     )!;
-    const carolConsumer = carol.cells.find((c) =>
-      c.role_id.includes("consumer")
-    )!;
-
-    await carol.conductor.shutDown();
 
     await aliceConsumer.callZome({
       zome_name: "file_storage_gateway",
-      fn_name: "announce_as_provider", payload: null
+      fn_name: "announce_as_provider",
+      payload: null
     });
-    await pause(10000);
+    await pause(5000);
 
     // In memory dummy file to upload to DNA
     const chunkSize = 2 * 1024;
@@ -68,10 +64,10 @@ test('create file in provider, read from consumer', { concurrency: 1 }, async t 
     /////// Upload file Metadata to DNA
     let fileMetadata = {
       name: "example.txt",
-      fileType: "text/plain",
-      chunksHashes,
+      file_type: "text/plain",
+      chunks_hashes: chunksHashes,
       size: chunkSize * chunkNumer,
-      lastModified: Date.now(),
+      last_modified: Date.now(),
     };
     let fileHash = await bobConsumer.callZome({
       zome_name: ZOME_NAME,
@@ -89,7 +85,7 @@ test('create file in provider, read from consumer', { concurrency: 1 }, async t 
     });
     assert.ok(fileResult);
 
-    for (const chunkHash of fileResult.chunksHashes) {
+    for (const chunkHash of fileResult.chunks_hashes) {
       let chunk = await aliceConsumer.callZome({
         zome_name: ZOME_NAME, fn_name: "get_file_chunk", payload: chunkHash
       });
@@ -109,7 +105,7 @@ test('create file in provider, read from consumer', { concurrency: 1 }, async t 
     });
     assert.ok(fileResult);
 
-    for (const chunkHash of fileResult.chunksHashes) {
+    for (const chunkHash of fileResult.chunks_hashes) {
       let chunk = await bobConsumer.callZome({
         zome_name: ZOME_NAME, fn_name: "get_file_chunk", payload: chunkHash
       });
@@ -118,9 +114,13 @@ test('create file in provider, read from consumer', { concurrency: 1 }, async t 
     }
     await pause(3000);
 
-    await carol.conductor.startUp();
 
+    const [carol] = await scenario.addPlayersWithHapps([[{ path: consumerDnaPath }]]);
+    await scenario.shareAllAgents();
     await pause(3000);
+    const carolConsumer = carol.cells.find((c) =>
+      c.role_id.includes("consumer")
+    )!;
     /* 
     await bob_player.shutdown();
     await pause(10000);
@@ -133,7 +133,7 @@ test('create file in provider, read from consumer', { concurrency: 1 }, async t 
     });
     assert.ok(fileResult);
 
-    for (const chunkHash of fileResult.chunksHashes) {
+    for (const chunkHash of fileResult.chunks_hashes) {
       let chunk = await carolConsumer.callZome({ zome_name: ZOME_NAME, fn_name: "get_file_chunk", payload: chunkHash });
       assert.ok(chunk);
       console.log(chunk);

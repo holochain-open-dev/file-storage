@@ -8,9 +8,7 @@ use crate::types::FileStorageRequest;
 
 #[hdk_extern]
 pub fn announce_as_provider(_: ()) -> ExternResult<()> {
-    let path = providers_path()?;
-
-    path.ensure()?;
+    let path = providers_path();
 
     let agent_info = agent_info()?;
 
@@ -37,7 +35,7 @@ pub fn announce_as_provider(_: ()) -> ExternResult<()> {
 
 pub fn get_all_providers() -> ExternResult<Vec<AgentPubKey>> {
     let links = get_links(
-        providers_path()?.path_entry_hash()?,
+        providers_path().path_entry_hash()?,
         LinkTypes::GatewayProviderAgent,
         None,
     )?;
@@ -69,8 +67,8 @@ pub fn handle_file_storage_request(request: FileStorageRequest) -> ExternResult<
 
 /** Helpers */
 
-fn providers_path() -> ExternResult<TypedPath> {
-    Path::from("file_storage_providers").typed(LinkTypes::GatewayProviderAgent)
+fn providers_path() -> Path {
+    Path::from("file_storage_providers")
 }
 
 pub const FILE_STORAGE_PROVIDER_ZOME_NAME: &'static str = "file_storage";

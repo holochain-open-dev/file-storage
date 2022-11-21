@@ -56,11 +56,10 @@
             
             const hcclient = new HolochainClient(appWs);
             
-            const cellClient = new CellClient(hcclient, appInfo.cell_data.find(c => c.role_id === 'provider'));
+            const cellClient = new CellClient(hcclient, appInfo.cell_data.find(c => c.role_id === 'file_storage_provider'));
 
             const client = new FileStorageClient(
-              cellClient,
-              'file_storage_provider'
+              cellClient             
             );
 
             new ContextProvider(this, fileStorageClientContext, client);

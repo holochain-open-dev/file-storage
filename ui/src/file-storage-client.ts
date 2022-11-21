@@ -42,9 +42,9 @@ export class FileStorageClient {
     const fileToCreate = {
       name: file.name,
       size: file.size,
-      fileType: file.type,
-      lastModified: file.lastModified,
-      chunksHashes,
+      file_type: file.type,
+      last_modified: file.lastModified,
+      chunks_hashes: chunksHashes,
     };
     const hash = await this._callZome('create_file_metadata', fileToCreate);
 
@@ -58,15 +58,15 @@ export class FileStorageClient {
   async downloadFile(fileHash: EntryHash): Promise<File> {
     const metadata = await this.getFileMetadata(fileHash);
 
-    const fetchChunksPromises = metadata.chunksHashes.map(hash =>
+    const fetchChunksPromises = metadata.chunks_hashes.map(hash =>
       this.fetchChunk(hash)
     );
 
     const chunks = await Promise.all(fetchChunksPromises);
 
     const file = new File(chunks, metadata.name, {
-      lastModified: metadata.lastModifed,
-      type: metadata.fileType,
+      lastModified: metadata.last_modifed,
+      type: metadata.file_type,
     });
 
     return file;
