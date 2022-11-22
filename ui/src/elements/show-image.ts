@@ -1,6 +1,6 @@
 import { css, html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
-import { hashProperty } from '@holochain-open-dev/common'
+import { hashProperty } from '@holochain-open-dev/elements';
 import { ScopedElementsMixin } from '@open-wc/scoped-elements';
 import { contextProvided } from '@lit-labs/context';
 
