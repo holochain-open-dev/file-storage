@@ -4,13 +4,14 @@ import { hashProperty } from '@holochain-open-dev/elements';
 import { ScopedElementsMixin } from '@open-wc/scoped-elements';
 import { contextProvided } from '@lit-labs/context';
 
-import { FileStorageClient } from '../file-storage-client';
-import { sharedStyles } from '../shared-styles';
-import { fileStorageClientContext } from '../context';
 import { EntryHash } from '@holochain/client';
 import { Task } from '@lit-labs/task';
 import { SlSkeleton } from '@scoped-elements/shoelace'
 import { fromUint8Array } from 'js-base64'
+
+import { FileStorageClient } from '../file-storage-client';
+import { sharedStyles } from '../shared-styles';
+import { fileStorageClientContext } from '../context';
 
 /**
  * @fires file-uploaded - Fired after having uploaded the file
