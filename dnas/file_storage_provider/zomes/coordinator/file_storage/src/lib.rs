@@ -28,7 +28,7 @@ pub fn get_file_metadata(file_metadata_hash: EntryHash) -> ExternResult<FileMeta
     let file_metadata: FileMetadata = record
         .entry()
         .to_app_option()
-        .map_err(|e| wasm_error!(e))?
+        .map_err(|e| wasm_error!(WasmErrorInner::Serialize(e)))?
         .ok_or(wasm_error!(WasmErrorInner::Guest(
             "Malformed file chunk".into()
         )))?;
@@ -44,7 +44,7 @@ pub fn get_file_chunk(file_chunk_hash: EntryHash) -> ExternResult<FileChunk> {
     let file_chunk: FileChunk = record
         .entry()
         .to_app_option()
-        .map_err(|e| wasm_error!(e))?
+        .map_err(|e| wasm_error!(WasmErrorInner::Serialize(e)))?
         .ok_or(wasm_error!(WasmErrorInner::Guest(
             "Malformed file chunk".into()
         )))?;
