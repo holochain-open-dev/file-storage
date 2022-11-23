@@ -9,7 +9,8 @@ members = ["dnas/*/zomes/integrity/*", "dnas/*/zomes/coordinator/*"]
 
 [workspace.dependencies]
 hdi = "0.1"
-hdk = "0.0.157"
+hdk = "0.0.161"
+holochain = "0.0.173"
 serde = "1"
 
 [workspace.dependencies.hc_zome_file_storage]
