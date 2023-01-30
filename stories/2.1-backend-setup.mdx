@@ -1,0 +1,36 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title="Backend/Setting up the zomes" />
+
+# Setting up the zomes
+
+> It's much much easier to set up the backend by using the [holochain-open-dev template](https://github.com/holochain-open-dev/templates). Only follow this guide if you can't use the template.
+
+> This guide assumes you are inside a nix-shell environment with `hc scaffold` available.
+
+1. Scaffold a new zome pair named `profiles` with:
+
+```bash
+hc scaffold zome profiles
+```
+
+Select the "Integrity/coordinator zome pair" option, and accept the path that the scaffolding tool offers to scaffold the zomes.
+
+2. Add the `hc_zome_profiles_coordinator` and `hc_zome_profiles_integrity` zomes as dependencies with:
+
+```bash
+cargo add -p profiles hc_zome_profiles_coordinator
+cargo add -p profiles_integrity hc_zome_profiles_integrity
+```
+
+3. Go into the newly scaffolded integrity zome's `lib.rs` (its path may be similar to `dnas/lobby/zomes/integrity/profiles/src/lib.rs`) and **replace its contents with**:
+
+```rust
+extern crate hc_zome_profiles_integrity;
+```
+
+4. Go into the newly scaffolded coordinator zome's `lib.rs` (its path may be similar to `dnas/lobby/zomes/coordinator/profiles/src/lib.rs`) and **replace its contents with**:
+
+```rust
+extern crate hc_zome_profiles_coordinator;
+```

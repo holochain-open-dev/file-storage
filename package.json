@@ -1,30 +1,31 @@
 {
   "name": "@holochain-open-dev/file-storage-dev",
   "private": true,
-  "workspaces": [
-    "ui",
-    "tests"
-  ],
+  "workspaces": ["ui", "tests"],
   "scripts": {
-    "start": "npm run network 2",
-    "network": "hc s clean && npm run build:happ && concurrently-repeat \"npm run start:agent\"",
-    "start:agent": "cross-env HC_PORT=$(port) concurrently -k \"npm run start:happ\" \"sleep 5 && npm run start -w @holochain-open-dev/file-storage\"",
-    "test": "npm run build:zomes && hc app pack workdir --recursive && npm t -w tests",
-    "start:happ": "concurrently \"RUST_LOG=warn echo \"pass\" | hc s --piped generate workdir/file-storage-test.happ --run=$HC_PORT -a test-app network mdns\" \"npm run playground\"",
-    "build:happ": "npm run build:zomes && hc app pack workdir --recursive",
-    "build:zomes": "CARGO_TARGET_DIR=target cargo build --release --target wasm32-unknown-unknown",
-    "playground": "run-singleton \"holochain-playground\""
+    "start": "AGENTS=2 npm run network",
+    "network": "hc s clean && npm run build:happ && UI_PORT=8888 concurrently -k \"npm start -w ui\" \"npm run launch:happ\" \"holochain-playground\"",
+    "test": "npm run build:happ && npm t -w tests",
+    "launch:happ": "echo \"pass\" | hc launch --piped -n $AGENTS dnas/file_storage_provider/workdir/file-storage-test.happ --ui-port $UI_PORT network mdns",
+    "build:happ": "npm run build:zome && hc app pack dnas/file_storage_consumer/workdir --recursive && hc app pack dnas/file_storage_provider/workdir",
+    "build:zome": "CARGO_TARGET_DIR=target cargo build --release --target wasm32-unknown-unknown",
+    "docs:start": "npm run docs:setup && storybook dev -p 6006",
+    "docs:publish": "npm run docs:setup && storybook build && gh-pages -d ./storybook-static -b gh-pages",
+    "docs:setup": "npm run build -w @holochain-open-dev/file-storage && npm run analyze -w @holochain-open-dev/profiles"
   },
   "devDependencies": {
-    "@holochain-playground/cli": "^0.0.11",
+    "@holochain-playground/cli": "^0.1.0",
+    "@storybook/addon-essentials": "^7.0.0-beta.33",
+    "@storybook/addon-links": "^7.0.0-beta.33",
+    "@storybook/blocks": "^7.0.0-beta.33",
+    "@storybook/web-components": "^7.0.0-beta.33",
+    "@storybook/web-components-webpack5": "^7.0.0-beta.33",
     "concurrently": "^6.2.1",
-    "concurrently-repeat": "^0.0.1",
-    "cross-env": "^7.0.3",
-    "new-port-cli": "^1.0.0",
-    "rimraf": "^3.0.2",
-    "run-singleton-cli": "^0.0.5"
+    "gh-pages": "^3.2.3",
+    "lit-html": "^2.6.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "storybook": "^7.0.0-beta.33"
   },
-  "engines": {
-    "npm": ">=7.0.0"
-  }
+  "type": "module"
 }

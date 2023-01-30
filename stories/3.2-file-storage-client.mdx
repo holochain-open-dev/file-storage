@@ -1,0 +1,35 @@
+import { Meta } from '@storybook/addon-docs';
+import { ArgsTable } from '@storybook/addon-docs/blocks';
+import {ProfilesStore} from '@holochain-open-dev/profiles'
+
+<Meta title="Frontend/ProfilesStore" 
+  parameters={{ previewTabs: { canvas: { hidden: true } } }}
+/>
+
+# ProfilesStore
+
+The `ProfilesStore` is a typescript class that contains `svelte` stores, to which you can subscribe to get reactive updates in your elements.
+
+```js
+import { ProfilesStore, ProfilesClient } from "@holochain-open-dev/profiles";
+
+const config = {
+  avatarMode: "identicon",
+  additionalFields: ["Location", "Bio"], // Custom app level profile fields
+};
+const store = new ProfilesStore(new ProfilesClient(appAgentClient, 'my-role-name'), config);
+```
+
+> Learn how to setup the `AppAgentClient` object [here](https://www.npmjs.com/package/@holochain/client).
+
+The config for the `ProfilesStore` has these options:
+
+```ts
+export interface ProfilesConfig {
+  avatarMode: "identicon" | "avatar-required" | "avatar-optional"; // default: 'avatar-optional'
+  additionalFields: string[]; // default: []
+  minNicknameLength: number; // default: 3
+}
+```
+
+Learn more about the stores and how to integrate them in different frameworks [here](https://holochain-open-dev.github.io/reusable-modules/frontend/using/#stores).

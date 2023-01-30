@@ -1,17 +1,21 @@
-import type { CellClient } from '@holochain-open-dev/cell-client';
-import { EntryHash } from '@holochain/client';
-import { FileMetadata } from './types';
+import type {
+  AppAgentCallZomeRequest,
+  AppAgentClient,
+} from "@holochain/client";
+import { EntryHash } from "@holochain/client";
+import { FileMetadata } from "./types";
 
 export class FileStorageClient {
   /**
-   * @param appWebsocket connection to the holochain backend
-   * @param cellId the cell to which to upload the file
+   * @param client connection to the holochain backend
+   * @param roleName
    * @param zomeName the zome name of the file_storage zome in the given cell
    */
   constructor(
-    protected cellClient: CellClient,
-    protected zomeName: string = 'file_storage'
-  ) { }
+    public client: AppAgentClient,
+    public roleName: string,
+    public zomeName: string = "file_storage"
+  ) {}
 
   /**
    * Upload a file to the file_storage zome, splitting it into chunks
@@ -46,7 +50,7 @@ export class FileStorageClient {
       last_modified: file.lastModified,
       chunks_hashes: chunksHashes,
     };
-    const hash = await this._callZome('create_file_metadata', fileToCreate);
+    const hash = await this._callZome("create_file_metadata", fileToCreate);
 
     return hash;
   }
@@ -58,7 +62,7 @@ export class FileStorageClient {
   async downloadFile(fileHash: EntryHash): Promise<File> {
     const metadata = await this.getFileMetadata(fileHash);
 
-    const fetchChunksPromises = metadata.chunks_hashes.map(hash =>
+    const fetchChunksPromises = metadata.chunks_hashes.map((hash) =>
       this.fetchChunk(hash)
     );
 
@@ -78,7 +82,7 @@ export class FileStorageClient {
    * @param fileHash the hash of the file
    */
   async getFileMetadata(fileHash: EntryHash): Promise<FileMetadata> {
-    return await this._callZome('get_file_metadata', fileHash);
+    return await this._callZome("get_file_metadata", fileHash);
   }
 
   /**
@@ -87,7 +91,7 @@ export class FileStorageClient {
    * @param fileChunkHash
    */
   async fetchChunk(fileChunkHash: EntryHash): Promise<Blob> {
-    const bytes = await this._callZome('get_file_chunk', fileChunkHash);
+    const bytes = await this._callZome("get_file_chunk", fileChunkHash);
 
     return new Blob([new Uint8Array(bytes)]);
   }
@@ -110,10 +114,16 @@ export class FileStorageClient {
   private async _createChunk(chunk: Blob): Promise<EntryHash> {
     const bytes = await chunk.arrayBuffer();
 
-    return this._callZome('create_file_chunk', new Uint8Array(bytes));
+    return this._callZome("create_file_chunk", new Uint8Array(bytes));
   }
 
-  private _callZome(fnName: string, payload: any): Promise<any> {
-    return this.cellClient.callZome(this.zomeName, fnName, payload);
+  private _callZome(fn_name: string, payload: any) {
+    const req: AppAgentCallZomeRequest = {
+      role_name: this.roleName,
+      zome_name: this.zomeName,
+      fn_name,
+      payload,
+    };
+    return this.client.callZome(req);
   }
 }

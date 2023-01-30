@@ -20,8 +20,10 @@ pub fn announce_as_provider(_: ()) -> ExternResult<()> {
     )?;
 
     // grant unrestricted access to accept_cap_claim so other agents can send us claims
-    let mut functions: GrantedFunctions = BTreeSet::new();
-    functions.insert((zome_info()?.name, "handle_file_storage_request".into()));
+    let functions = GrantedFunctions::Listed(BTreeSet::from([(
+        zome_info()?.name,
+        FunctionName::from("handle_file_storage_request"),
+    )]));
 
     create_cap_grant(CapGrantEntry {
         tag: "".into(),

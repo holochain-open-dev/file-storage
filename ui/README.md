@@ -1,6 +1,6 @@
 # @holochain-open-dev/file-storage
 
-Frontend module for the Holochain zome `hc_zome_file_storage`.
+Frontend module for the Holochain zome pair `hc_zome_file_storage_integrity` and `hc_zome_file_storage_coordinator`.
 
 This package includes types, a service and a collection of Custom Elements to build Holochain applications that automatically connect and interact with the `hc_zome_file_storage` zome. 
 

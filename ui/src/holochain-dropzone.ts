@@ -1,5 +1,5 @@
-import Dropzone, { DropzoneOptions } from 'dropzone';
-import { FileStorageClient } from './file-storage-client';
+import Dropzone, { DropzoneOptions } from "dropzone";
+import { FileStorageClient } from "./file-storage-client";
 
 export class HolochainDropzone extends Dropzone {
   fileStorageClient: FileStorageClient;
@@ -8,7 +8,7 @@ export class HolochainDropzone extends Dropzone {
     fileStorageClient: FileStorageClient,
     options: DropzoneOptions
   ) {
-    options.url = 'https://holochain.org/'; // just to bypass the check.
+    options.url = "https://holochain.org/"; // just to bypass the check.
     super(el, options);
     this.fileStorageClient = fileStorageClient;
   }
@@ -22,20 +22,19 @@ export class HolochainDropzone extends Dropzone {
   ): Promise<void> {
     for (const file of dropzoneFiles) {
       try {
-        this.emit('sending', file, undefined, undefined);
+        this.emit("sending", file, undefined, undefined);
         const hash = await this.fileStorageClient.uploadFile(
           file,
           (percentatge, bytesSent) => {
-            this.emit('uploadprogress', file, percentatge * 100, bytesSent);
+            this.emit("uploadprogress", file, percentatge * 100, bytesSent);
           }
         );
-        this.emit('success', file, undefined);
-        // @ts-ignore
-        file.hash = hash;
-        this.emit('complete', file);
+        this.emit("success", file, undefined);
+        (file as any).hash = hash;
+        this.emit("complete", file);
       } catch (e) {
         console.error(e);
-        this.emit('error', file, (e as any).data.data);
+        this.emit("error", file, (e as any).data.data);
       }
     }
   }

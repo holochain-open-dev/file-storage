@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <style>
       html {
-        font-family: 'Roboto', sans-serif;
+        font-family: "Roboto", sans-serif;
       }
       body {
         background: #fafafa;
@@ -36,38 +36,27 @@
         UploadFiles,
         FileStorageClient,
         fileStorageClientContext,
-        ShowImage
-      } from '../dist';
-      import { css, html, LitElement } from 'lit';
-      import { ScopedElementsMixin } from '@open-wc/scoped-elements';
-      import { ContextProvider } from '@lit-labs/context';
-      import { HolochainClient, CellClient } from '@holochain-open-dev/common';
-      import { AppWebsocket } from '@holochain/client';
+        ShowImage,
+      } from "../src";
+      import { css, html, LitElement } from "lit";
+      import { ScopedElementsMixin } from "@open-wc/scoped-elements";
+      import { ContextProvider } from "@lit-labs/context";
+      import { AppAgentWebsocket } from "@holochain/client";
 
       customElements.define(
-        'file-storage-demo',
+        "file-storage-demo",
         class extends ScopedElementsMixin(LitElement) {
-          static properties= {
-            
-              hash: {type: Object},
-              loaded: {type: Boolean}
-            
-          }
-          
+          static properties = {
+            hash: { type: Object },
+            loaded: { type: Boolean },
+          };
+
           async firstUpdated() {
-            const appWs = await AppWebsocket.connect(
-              `ws://localhost:${process.env.HC_PORT}`,
-            );
-            const appInfo = await appWs.appInfo({
-              installed_app_id: 'test-app'
-            });
-            
-            const hcclient = new HolochainClient(appWs);
-            
-            const cellClient = new CellClient(hcclient, appInfo.cell_data.find(c => c.role_id === 'file_storage_provider'));
+            const hcclient = await AppAgentWebsocket.connect("", "");
 
             const client = new FileStorageClient(
-              cellClient             
+              hcclient,
+              "file_storage_provider"
             );
 
             new ContextProvider(this, fileStorageClientContext, client);
@@ -77,15 +66,18 @@
 
           render() {
             if (!this.loaded) return html`Loading...`;
-            return html`<upload-files @file-uploaded=${e => this.hash = e.detail.hash}></upload-files>
-            ${this.hash? html`<show-image .imageHash=${this.hash}></show-image>`: html``}
-            `;
+            return html`<upload-files
+                @file-uploaded=${(e) => (this.hash = e.detail.hash)}
+              ></upload-files>
+              ${this.hash
+                ? html`<show-image .imageHash=${this.hash}></show-image>`
+                : html``} `;
           }
 
           static get scopedElements() {
             return {
-              'upload-files': UploadFiles,
-              'show-image': ShowImage,
+              "upload-files": UploadFiles,
+              "show-image": ShowImage,
             };
           }
         }
