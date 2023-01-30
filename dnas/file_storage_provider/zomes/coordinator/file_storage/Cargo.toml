@@ -2,6 +2,8 @@
 name = "hc_zome_file_storage_coordinator"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+description = "File storage zome to store files in holochain"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
