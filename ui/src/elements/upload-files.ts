@@ -18,13 +18,22 @@ import { fileStorageClientContext } from "../context";
 export class UploadFiles extends ScopedElementsMixin(LitElement) {
   /** Public attributes */
 
+  /**
+   * Whether this element should allow only file to be uploaded
+   */
   @property({ type: Boolean, attribute: "one-file" }) oneFile = false;
+
+  /**
+   * The type of files accepted by this element
+   * Learn how to use this here: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept
+   */
   @property({ type: String, attribute: "accepted-files" }) acceptedFiles:
     | string
     | undefined = undefined;
 
-  /** Dependencies */
-
+  /**
+   * @internal
+   */
   @consume({ context: fileStorageClientContext })
   _client!: FileStorageClient;
 

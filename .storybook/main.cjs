@@ -14,5 +14,11 @@ module.exports = {
   },
   "docs": {
     "autodocs": "tag"
+  },
+  webpackFinal: async (config) => {
+    config.experiments = {
+      topLevelAwait: true
+    };
+    return config;
   }
 }

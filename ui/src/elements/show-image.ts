@@ -23,13 +23,20 @@ import { fileStorageClientContext } from "../context";
 export class ShowImage extends ScopedElementsMixin(LitElement) {
   /** Public attributes */
 
+  /**
+   * REQUIRED. The hash of the image to be rendered
+   */
   @property(hashProperty("image-hash")) imageHash!: EntryHash;
 
-  /** Dependencies */
-
+  /**
+   * @internal
+   */
   @consume({ context: fileStorageClientContext })
   _client!: FileStorageClient;
 
+  /**
+   * @internal
+   */
   _renderImage = new Task(
     this,
     async ([fileHash]) => {
@@ -69,6 +76,9 @@ export class ShowImage extends ScopedElementsMixin(LitElement) {
     ];
   }
 
+  /**
+   * @internal
+   */
   static get scopedElements() {
     return { "sl-skeleton": SlSkeleton, "display-error": DisplayError };
   }

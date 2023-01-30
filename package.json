@@ -11,7 +11,7 @@
     "build:zome": "CARGO_TARGET_DIR=target cargo build --release --target wasm32-unknown-unknown",
     "docs:start": "npm run docs:setup && storybook dev -p 6006",
     "docs:publish": "npm run docs:setup && storybook build && gh-pages -d ./storybook-static -b gh-pages",
-    "docs:setup": "npm run build -w @holochain-open-dev/file-storage && npm run analyze -w @holochain-open-dev/profiles"
+    "docs:setup": "npm run build -w @holochain-open-dev/file-storage && npm run analyze -w @holochain-open-dev/file-storage"
   },
   "devDependencies": {
     "@holochain-playground/cli": "^0.1.0",
