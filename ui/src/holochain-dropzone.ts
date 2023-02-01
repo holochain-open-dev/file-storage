@@ -1,4 +1,5 @@
-import Dropzone, { DropzoneOptions } from "dropzone";
+//@ts-nocheck
+import { Dropzone, DropzoneOptions } from "dropzone";
 import { FileStorageClient } from "./file-storage-client";
 
 export class HolochainDropzone extends Dropzone {

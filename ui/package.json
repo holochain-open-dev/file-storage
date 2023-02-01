@@ -1,6 +1,6 @@
 {
   "name": "@holochain-open-dev/file-storage",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "File storage utilities to store and retrieve files in a holochain DHT",
   "author": "guillem.cordoba@gmail.com",
   "license": "MIT",
@@ -30,6 +30,7 @@
     "@open-wc/scoped-elements": "^2.1.0",
     "@scoped-elements/dropzone": "^0.0.3",
     "@scoped-elements/material-web": "^0.0.19",
+    "dropzone": "^5.9.3",
     "lit": "^2.6.0"
   },
   "devDependencies": {

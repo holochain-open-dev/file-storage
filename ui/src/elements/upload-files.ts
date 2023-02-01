@@ -46,7 +46,11 @@ export class UploadFiles extends ScopedElementsMixin(LitElement) {
       "drop-zone",
       class extends DropzoneElement {
         buildDropzone(dropzoneElement: HTMLElement, options: DropzoneOptions) {
-          return new HolochainDropzone(dropzoneElement, client, options);
+          return new HolochainDropzone(
+            dropzoneElement,
+            client,
+            options
+          ) as any as Dropzone;
         }
       }
     );
