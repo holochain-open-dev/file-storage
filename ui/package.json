@@ -51,9 +51,6 @@
     "vite": "^4.0.4",
     "vite-plugin-checker": "^0.5.3"
   },
-  "eslintConfig": {
-    "extends": ["@open-wc/eslint-config", "eslint-config-prettier"]
-  },
   "prettier": {
     "singleQuote": true,
     "arrowParens": "avoid"

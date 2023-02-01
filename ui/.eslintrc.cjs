@@ -23,5 +23,6 @@ module.exports = {
     'import/no-unresolved': 'off',
     'import/extensions': 'off',
     '@typescript-eslint/no-this-alias': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off'
   },
 };
