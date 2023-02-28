@@ -12,6 +12,7 @@ import { EntryHash } from "@holochain/client";
 import { Task } from "@lit-labs/task";
 import { SlSkeleton } from "@scoped-elements/shoelace";
 import { fromUint8Array } from "js-base64";
+import { localized, msg } from "@lit/localize";
 
 import { FileStorageClient } from "../file-storage-client";
 import { fileStorageClientContext } from "../context";
@@ -20,6 +21,7 @@ import { fileStorageClientContext } from "../context";
  * @fires file-uploaded - Fired after having uploaded the file
  * @csspart dropzone - Style the dropzone itself
  */
+@localized()
 export class ShowImage extends ScopedElementsMixin(LitElement) {
   /** Public attributes */
 
@@ -32,7 +34,7 @@ export class ShowImage extends ScopedElementsMixin(LitElement) {
    * @internal
    */
   @consume({ context: fileStorageClientContext })
-  _client!: FileStorageClient;
+  client!: FileStorageClient;
 
   /**
    * @internal
@@ -40,7 +42,7 @@ export class ShowImage extends ScopedElementsMixin(LitElement) {
   _renderImage = new Task(
     this,
     async ([fileHash]) => {
-      const file = await this._client.downloadFile(fileHash);
+      const file = await this.client.downloadFile(fileHash);
       const data = await file.arrayBuffer();
 
       return [file, new Uint8Array(data)] as [File, Uint8Array];
@@ -60,7 +62,9 @@ export class ShowImage extends ScopedElementsMixin(LitElement) {
       pending: () =>
         html`<sl-skeleton effect="pulse" style="flex: 1"></sl-skeleton>`,
       error: (e: any) =>
-        html`<display-error .error=${e.data.data}></display-error>`,
+        html`<display-error
+          .headline=${msg("Error fetching the image")}
+        ></display-error>`,
     });
   }
 

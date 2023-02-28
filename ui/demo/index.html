@@ -62,12 +62,20 @@
             new ContextProvider(this, fileStorageClientContext, client);
             this.loaded = true;
             this.requestUpdate();
+
+            setTimeout(
+              () => this.shadowRoot.getElementById("uf").clear(),
+              10000
+            );
           }
 
           render() {
             if (!this.loaded) return html`Loading...`;
             return html`<upload-files
-                @file-uploaded=${(e) => (this.hash = e.detail.hash)}
+                id="uf"
+                @file-uploaded=${(e) => {
+                  this.hash = e.detail.hash;
+                }}
               ></upload-files>
               ${this.hash
                 ? html`<show-image .imageHash=${this.hash}></show-image>`

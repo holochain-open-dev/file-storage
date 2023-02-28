@@ -37,7 +37,9 @@ export class UploadFiles extends ScopedElementsMixin(LitElement) {
   @consume({ context: fileStorageClientContext })
   _client!: FileStorageClient;
 
-  /** Private properties */
+  clear() {
+    (this.shadowRoot?.getElementById("dropzone") as DropzoneElement).clear();
+  }
 
   firstUpdated() {
     const client = this._client;
@@ -59,6 +61,7 @@ export class UploadFiles extends ScopedElementsMixin(LitElement) {
   render() {
     return html`
       <drop-zone
+        id="dropzone"
         .oneFile=${this.oneFile}
         .acceptedFiles=${this.acceptedFiles}
         @file-uploaded=${(e: CustomEvent) =>

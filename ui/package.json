@@ -27,8 +27,9 @@
     "@holochain/client": "^0.12.0",
     "@lit-labs/context": "^0.2.0",
     "@lit-labs/task": "^2.0.0",
+    "@lit/localize": "^0.11.4",
     "@open-wc/scoped-elements": "^2.1.0",
-    "@scoped-elements/dropzone": "^0.0.3",
+    "@scoped-elements/dropzone": "^0.1.0",
     "@scoped-elements/material-web": "^0.0.19",
     "dropzone": "^5.9.3",
     "lit": "^2.6.0"
