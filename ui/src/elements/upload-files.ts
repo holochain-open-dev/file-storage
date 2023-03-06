@@ -2,9 +2,8 @@ import { css, html, LitElement } from "lit";
 import { property } from "lit/decorators.js";
 
 import { ScopedElementsMixin } from "@open-wc/scoped-elements";
-import { DropzoneElement } from "@scoped-elements/dropzone";
+import { DropzoneOptions, DropzoneElement } from "@scoped-elements/dropzone";
 import { consume } from "@lit-labs/context";
-import { DropzoneOptions } from "dropzone";
 import { sharedStyles } from "@holochain-open-dev/elements";
 
 import { FileStorageClient } from "../file-storage-client";
