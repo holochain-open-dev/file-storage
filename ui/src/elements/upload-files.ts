@@ -1,13 +1,9 @@
-import { css, html, LitElement } from "lit";
+import { html } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 
 import { DropzoneElement, DropzoneOptions } from "@scoped-elements/dropzone";
 import { consume } from "@lit-labs/context";
-import {
-  FormField,
-  FormFieldController,
-  sharedStyles,
-} from "@holochain-open-dev/elements";
+import { FormField, FormFieldController } from "@holochain-open-dev/elements";
 import { localized } from "@lit/localize";
 
 import { FileStorageClient } from "../file-storage-client.js";
@@ -116,7 +112,7 @@ export class UploadFiles extends DropzoneElement implements FormField {
       this._input.reportValidity();
     }
 
-    return invalid;
+    return !invalid;
   }
 
   buildDropzone(dropzoneElement: HTMLElement, options: DropzoneOptions) {

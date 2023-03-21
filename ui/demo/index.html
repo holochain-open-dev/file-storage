@@ -69,6 +69,7 @@
                 <upload-files
                   id="uf"
                   .oneFile=${true}
+                  required
                   name="file_hash"
                   @file-uploaded=${(e) => {
                     this.hash = e.detail.file.hash;
