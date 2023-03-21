@@ -32,20 +32,18 @@
     <file-storage-demo></file-storage-demo>
 
     <script type="module">
-      import {
-        UploadFiles,
-        FileStorageClient,
-        fileStorageClientContext,
-        ShowImage,
-      } from "../src";
+      import "@shoelace-style/shoelace/dist/themes/light.css";
+      import { FileStorageClient, fileStorageClientContext } from "../src";
+      import "../src/elements/upload-files.ts";
+      import "../src/elements/show-image.ts";
       import { css, html, LitElement } from "lit";
-      import { ScopedElementsMixin } from "@open-wc/scoped-elements";
       import { ContextProvider } from "@lit-labs/context";
       import { AppAgentWebsocket } from "@holochain/client";
+      import { onSubmit } from "@holochain-open-dev/elements";
 
       customElements.define(
         "file-storage-demo",
-        class extends ScopedElementsMixin(LitElement) {
+        class extends LitElement {
           static properties = {
             hash: { type: Object },
             loaded: { type: Boolean },
@@ -62,24 +60,34 @@
             new ContextProvider(this, fileStorageClientContext, client);
             this.loaded = true;
             this.requestUpdate();
-
-            setTimeout(
-              () => this.shadowRoot.getElementById("uf").clear(),
-              10000
-            );
           }
 
           render() {
             if (!this.loaded) return html`Loading...`;
-            return html`<upload-files
-                id="uf"
-                @file-uploaded=${(e) => {
-                  this.hash = e.detail.hash;
-                }}
-              ></upload-files>
-              ${this.hash
-                ? html`<show-image .imageHash=${this.hash}></show-image>`
-                : html``} `;
+            return html`
+              <form ${onSubmit((data) => console.log(data))}>
+                <upload-files
+                  id="uf"
+                  .oneFile=${true}
+                  name="file_hash"
+                  @file-uploaded=${(e) => {
+                    this.hash = e.detail.file.hash;
+                  }}
+                ></upload-files>
+                ${
+                  this.hash
+                    ? html`<show-image .imageHash=${this.hash}></show-image>
+
+                        <upload-files
+                          .defaultValue=${this.hash}
+                          .oneFile=${true}
+                          name="file_hash"
+                        ></upload-files> `
+                    : html``
+                }
+                <input type="submit"></input>
+              </form>
+            `;
           }
 
           static get scopedElements() {

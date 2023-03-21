@@ -1,6 +1,6 @@
 {
   "name": "@holochain-open-dev/file-storage",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "File storage utilities to store and retrieve files in a holochain DHT",
   "author": "guillem.cordoba@gmail.com",
   "license": "MIT",
@@ -8,10 +8,8 @@
   "module": "dist/index.js",
   "exports": {
     ".": "./dist/index.js",
-    "./file-storage-context": "./dist/definitions/file-storage-context.js",
-    "./upload-files": "./dist/definitions/upload-files.js",
     "./mocks": "./dist/mocks.js",
-    "./show-image": "./dist/definitions/show-image.js"
+    "./elements/*": "./dist/elements/*"
   },
   "files": ["dist"],
   "scripts": {
@@ -22,16 +20,14 @@
     "format": "eslint --ext .ts,.html src --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "@holochain-open-dev/elements": "^0.2.3",
+    "@holochain-open-dev/elements": "^0.3.0",
     "@holochain-open-dev/utils": "^0.12.0",
     "@holochain/client": "^0.12.0",
     "@lit-labs/context": "^0.2.0",
     "@lit-labs/task": "^2.0.0",
     "@lit/localize": "^0.11.4",
-    "@open-wc/scoped-elements": "^2.1.0",
     "@scoped-elements/dropzone": "^0.1.2",
-    "@scoped-elements/material-web": "^0.1.7",
-    "@scoped-elements/shoelace": "^0.1.0",
+    "@shoelace-style/shoelace": "^2.3.0",
     "lit": "^2.6.0"
   },
   "devDependencies": {

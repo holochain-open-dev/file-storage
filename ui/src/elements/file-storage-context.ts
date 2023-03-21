@@ -1,10 +1,11 @@
 import { css, html, LitElement } from "lit";
 import { provide } from "@lit-labs/context";
-import { property } from "lit/decorators.js";
+import { property, customElement } from "lit/decorators.js";
 
-import { fileStorageClientContext } from "../context";
-import { FileStorageClient } from "../file-storage-client";
+import { fileStorageClientContext } from "../context.js";
+import { FileStorageClient } from "../file-storage-client.js";
 
+@customElement("file-storage-context")
 export class FileStorageContext extends LitElement {
   @provide({ context: fileStorageClientContext })
   @property({ type: Object })

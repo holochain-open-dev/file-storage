@@ -1,16 +1,13 @@
 import { css, html, LitElement } from "lit";
-import { property } from "lit/decorators.js";
-import {
-  DisplayError,
-  hashProperty,
-  sharedStyles,
-} from "@holochain-open-dev/elements";
-import { ScopedElementsMixin } from "@open-wc/scoped-elements";
+import { property, customElement } from "lit/decorators.js";
+import { hashProperty, sharedStyles } from "@holochain-open-dev/elements";
 import { consume } from "@lit-labs/context";
+
+import "@shoelace-style/shoelace/dist/components/spinner/spinner.js";
+import "@holochain-open-dev/elements/elements/display-error.js";
 
 import { EntryHash } from "@holochain/client";
 import { Task } from "@lit-labs/task";
-import { CircularProgress } from "@scoped-elements/material-web";
 import { fromUint8Array } from "js-base64";
 import { localized, msg } from "@lit/localize";
 
@@ -22,7 +19,8 @@ import { fileStorageClientContext } from "../context";
  * @csspart dropzone - Style the dropzone itself
  */
 @localized()
-export class ShowImage extends ScopedElementsMixin(LitElement) {
+@customElement("show-image")
+export class ShowImage extends LitElement {
   /** Public attributes */
 
   /**
@@ -61,7 +59,7 @@ export class ShowImage extends ScopedElementsMixin(LitElement) {
       complete: ([f, d]) => this.renderImage(f, d),
       pending: () =>
         html`<div class="row center-content" style="flex: 1">
-          <mwc-circular-progress></mwc-circular-progress>
+          <sl-spinner style="font-size: 2rem"></sl-spinner>
         </div>`,
       error: (e: any) =>
         html`<display-error
@@ -80,15 +78,5 @@ export class ShowImage extends ScopedElementsMixin(LitElement) {
         }
       `,
     ];
-  }
-
-  /**
-   * @internal
-   */
-  static get scopedElements() {
-    return {
-      "mwc-circular-progress": CircularProgress,
-      "display-error": DisplayError,
-    };
   }
 }

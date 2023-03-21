@@ -1,6 +1,6 @@
 import { html } from "lit-html";
-import "@holochain-open-dev/file-storage/show-image";
-import "@holochain-open-dev/file-storage/file-storage-context";
+import "@holochain-open-dev/file-storage/elements/show-image.js";
+import "@holochain-open-dev/file-storage/elements/file-storage-context.js";
 import { FileStorageZomeMock } from "@holochain-open-dev/file-storage/mocks";
 import { FileStorageClient } from "@holochain-open-dev/file-storage";
 
