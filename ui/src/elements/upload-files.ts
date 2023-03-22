@@ -1,22 +1,22 @@
-import { html } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { html } from 'lit';
+import { customElement, property, query } from 'lit/decorators.js';
 
-import { DropzoneElement, DropzoneOptions } from "@scoped-elements/dropzone";
-import { consume } from "@lit-labs/context";
-import { FormField, FormFieldController } from "@holochain-open-dev/elements";
-import { localized } from "@lit/localize";
+import { DropzoneElement, DropzoneOptions } from '@scoped-elements/dropzone';
+import { consume } from '@lit-labs/context';
+import { FormField, FormFieldController } from '@holochain-open-dev/elements';
+import { localized } from '@lit/localize';
 
-import { FileStorageClient } from "../file-storage-client.js";
-import { fileStorageClientContext } from "../context.js";
-import { HolochainDropzone } from "../holochain-dropzone.js";
-import { EntryHash } from "@holochain/client";
+import { FileStorageClient } from '../file-storage-client.js';
+import { fileStorageClientContext } from '../context.js';
+import { HolochainDropzone } from '../holochain-dropzone.js';
+import { EntryHash } from '@holochain/client';
 
 /**
  * @fires file-uploaded - Fired after having uploaded the file
  * @csspart dropzone - Style the dropzone itself
  */
 @localized()
-@customElement("upload-files")
+@customElement('upload-files')
 export class UploadFiles extends DropzoneElement implements FormField {
   /**
    * The name of the field if this element is used inside a form
@@ -48,13 +48,13 @@ export class UploadFiles extends DropzoneElement implements FormField {
   /**
    * Whether this element should allow only file to be uploaded
    */
-  @property({ type: Boolean, attribute: "one-file" }) oneFile = false;
+  @property({ type: Boolean, attribute: 'one-file' }) oneFile = false;
 
   /**
    * The type of files accepted by this element
    * Learn how to use this here: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept
    */
-  @property({ type: String, attribute: "accepted-files" }) acceptedFiles:
+  @property({ type: String, attribute: 'accepted-files' }) acceptedFiles:
     | string
     | undefined = undefined;
 
@@ -96,13 +96,13 @@ export class UploadFiles extends DropzoneElement implements FormField {
       return this.dropzone.files[0]
         ? (this.dropzone.files[0] as any).hash
         : undefined;
-    return this.dropzone.files.map((file) => (file as any).hash);
+    return this.dropzone.files.map(file => (file as any).hash);
   }
 
   /**
    * @internal
    */
-  @query("#hidden-input")
+  @query('#hidden-input')
   private _input!: HTMLInputElement;
 
   reportValidity() {
@@ -125,7 +125,7 @@ export class UploadFiles extends DropzoneElement implements FormField {
 
   render() {
     return html`
-      <div style="position:relative">
+      <div style="position: relative; flex: 1">
         <input
           id="hidden-input"
           style="width:0; height: 0; position: absolute; z-index: -1; left: 50%; top: 20%"
