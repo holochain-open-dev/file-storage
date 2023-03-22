@@ -1,6 +1,6 @@
 {
   "name": "@holochain-open-dev/file-storage",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "File storage utilities to store and retrieve files in a holochain DHT",
   "author": "guillem.cordoba@gmail.com",
   "license": "MIT",

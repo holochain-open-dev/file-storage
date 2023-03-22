@@ -51,7 +51,7 @@ export class ShowImage extends LitElement {
   renderImage(file: File, data: Uint8Array) {
     return html`<img src="data:${file.type};base64,${fromUint8Array(
       data
-    )}" style="flex: 1; object-fit: cover"></img>`;
+    )}" style="flex: 1; object-fit: cover; overflow: hidden"></img>`;
   }
 
   render() {
