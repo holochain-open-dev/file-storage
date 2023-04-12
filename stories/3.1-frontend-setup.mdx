@@ -59,7 +59,7 @@ You need to set the `client` property of it to your already instantiated `FileSt
 
 ```html
 <!-- React -->
-<file-storage-context client="{fileStorageClient}"><!-- ... --></file-storage-context>
+<file-storage-context client={fileStorageClient}><!-- ... --></file-storage-context>
 
 <!-- Angular -->
 <file-storage-context [client]="fileStorageClient"><!-- ... --></file-storage-context>
@@ -68,10 +68,10 @@ You need to set the `client` property of it to your already instantiated `FileSt
 <file-storage-context :client="fileStorageClient"><!-- ... --></file-storage-context>
 
 <!-- Svelte -->
-<file-storage-context client="{fileStorageClient}"><!-- ... --></file-storage-context>
+<file-storage-context client={fileStorageClient}><!-- ... --></file-storage-context>
 
 <!-- Lit -->
-<file-storage-context .client="${fileStorageClient}"><!-- ... --></file-storage-context>
+<file-storage-context .client=${fileStorageClient}><!-- ... --></file-storage-context>
 ```
 
 OR
