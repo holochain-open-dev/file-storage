@@ -1,12 +1,10 @@
 import { html } from "lit-html";
-import "@holochain-open-dev/file-storage/elements/upload-files.js";
-import "@holochain-open-dev/file-storage/elements/file-storage-context.js";
-import { FileStorageZomeMock } from "@holochain-open-dev/file-storage/mocks";
+import "@holochain-open-dev/file-storage/dist/elements/upload-files.js";
+import "@holochain-open-dev/file-storage/dist/elements/file-storage-context.js";
+import { FileStorageZomeMock } from "@holochain-open-dev/file-storage/dist/mocks.js";
 import { FileStorageClient } from "@holochain-open-dev/file-storage";
 
 const mock = new FileStorageZomeMock();
-
-const client = new FileStorageClient(mock);
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/web-components/writing-stories/introduction
 export default {

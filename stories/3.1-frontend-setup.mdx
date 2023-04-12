@@ -38,7 +38,7 @@ async function setupClient() {
 
 ```js
 // This can be placed in the index.js, at the top level of your web-app.
-import "@holochain-open-dev/file-storage/elements/file-storage-context.js";
+import "@holochain-open-dev/file-storage/dist/elements/file-storage-context.js";
 ```
 
 And then add the `<file-storage-context>` element in your html:
@@ -90,8 +90,8 @@ contextElement.client = client;
 **If you are developing a web-app SPA** (and not a library of elements):
 
 ```js
-import "@holochain-open-dev/file-storage/elements/show-image.js";
-import "@holochain-open-dev/file-storage/elements/upload-files.js";
+import "@holochain-open-dev/file-storage/dist/elements/show-image.js";
+import "@holochain-open-dev/file-storage/dist/elements/upload-files.js";
 ```
 
 This will define all the elements from this module in the global `CustomElementsRegistry`. You can read more about Custom Elements [here](https://developers.google.com/web/fundamentals/web-components/customelements).

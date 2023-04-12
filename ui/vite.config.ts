@@ -29,7 +29,7 @@ export default defineConfig({
   optimizeDeps: {
     exclude: [
       ...exclude,
-      "@holochain-open-dev/elements/elements/display-error.js",
+      "@holochain-open-dev/elements/dist/elements/display-error.js",
     ],
   },
   root: "./demo",

@@ -4,7 +4,7 @@ import { hashProperty, sharedStyles } from "@holochain-open-dev/elements";
 import { consume } from "@lit-labs/context";
 
 import "@shoelace-style/shoelace/dist/components/spinner/spinner.js";
-import "@holochain-open-dev/elements/elements/display-error.js";
+import "@holochain-open-dev/elements/dist/elements/display-error.js";
 
 import { EntryHash } from "@holochain/client";
 import { Task } from "@lit-labs/task";
