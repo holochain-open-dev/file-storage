@@ -41,11 +41,12 @@ pub fn get_all_providers() -> ExternResult<Vec<AgentPubKey>> {
         LinkTypes::GatewayProviderAgent,
         None,
     )?;
-
-    let providers_pub_keys = links
-        .into_iter()
-        .map(|link| AgentPubKey::from(EntryHash::from(link.target.clone())))
-        .collect();
+    
+    let mut providers_pub_keys = Vec::new();
+    for link in links {
+        providers_pub_keys.push(AgentPubKey::from(EntryHash::try_from(link.target.clone())
+            .map_err(|err| wasm_error!(err))?));
+    }
     Ok(providers_pub_keys)
 }
 
