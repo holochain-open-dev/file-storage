@@ -49,9 +49,11 @@ export class ShowImage extends LitElement {
   );
 
   renderImage(file: File, data: Uint8Array) {
-    return html`<img src="data:${file.type};base64,${fromUint8Array(
+    return html`<div style="flex:1"><img src="data:${
+      file.type
+    };base64,${fromUint8Array(
       data
-    )}" style="flex: 1; object-fit: cover; overflow: hidden"></img>`;
+    )}" style="object-fit: cover; overflow: hidden; width: 100%; height: 100%"></img></div>`;
   }
 
   render() {
@@ -74,7 +76,6 @@ export class ShowImage extends LitElement {
       css`
         :host {
           display: flex;
-          flex: 1;
         }
       `,
     ];

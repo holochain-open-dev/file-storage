@@ -10,8 +10,7 @@
         background: #fafafa;
       }
       html,
-      body,
-      hod-upload-file {
+      body {
         height: 100%;
         width: 100%;
         margin: 0;
@@ -20,7 +19,7 @@
     </style>
   </head>
   <body>
-    <file-storage-demo></file-storage-demo>
+    <file-storage-demo style="display: flex; flex: 1"></file-storage-demo>
 
     <script type="module">
       import "@shoelace-style/shoelace/dist/themes/light.css";
@@ -56,37 +55,44 @@
           render() {
             if (!this.loaded) return html`Loading...`;
             return html`
-              <form ${onSubmit((data) => console.log(data))}>
+              <form ${onSubmit((data) => {
+                console.log(data);
+                // this.shadowRoot.querySelector("form").reset();
+              })} style="display: flex; flex-direction: column; flex: 1">
                 <upload-files
                   id="uf"
                   .oneFile=${true}
                   required
                   name="file_hash"
+                  style="flex: 1"
                   @file-uploaded=${(e) => {
                     this.hash = e.detail.file.hash;
                   }}
                 ></upload-files>
                 ${
                   this.hash
-                    ? html`<show-image .imageHash=${this.hash}></show-image>
+                    ? html`
+                        <div
+                          style="display: flex; flex-direction: row; flex: 1"
+                        >
+                          <show-image
+                            .imageHash=${this.hash}
+                            style="width: 500px; height: 500px"
+                          ></show-image>
 
-                        <upload-files
-                          .defaultValue=${this.hash}
-                          .oneFile=${true}
-                          name="file_hash"
-                        ></upload-files> `
+                          <upload-files
+                            .defaultValue=${this.hash}
+                            style="flex: 1"
+                            .oneFile=${true}
+                            name="file_hash"
+                          ></upload-files>
+                        </div>
+                      `
                     : html``
                 }
                 <input type="submit"></input>
               </form>
             `;
-          }
-
-          static get scopedElements() {
-            return {
-              "upload-files": UploadFiles,
-              "show-image": ShowImage,
-            };
           }
         }
       );
