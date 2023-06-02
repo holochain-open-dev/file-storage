@@ -64,7 +64,7 @@
                   .oneFile=${true}
                   required
                   name="file_hash"
-                  style="flex: 1"
+                  style="max-width: 20px; max-height:20px"
                   @file-uploaded=${(e) => {
                     this.hash = e.detail.file.hash;
                   }}

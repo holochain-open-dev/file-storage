@@ -75,7 +75,13 @@ export class UploadFiles extends DropzoneElement implements FormField {
 
   async firstUpdated() {
     super.firstUpdated();
-    if (this.defaultValue !== undefined) {
+
+    this.reset();
+  }
+
+  async reset() {
+    this.clear();
+    if (this.defaultValue) {
       if (Array.isArray(this.defaultValue)) {
         for (const fileHash of this.defaultValue) {
           const image = await this._client.downloadFile(fileHash);
@@ -86,11 +92,6 @@ export class UploadFiles extends DropzoneElement implements FormField {
         this.dropzone.addFile(image as any);
       }
     }
-  }
-
-  reset() {
-    this.dropzone.removeAllFiles(true);
-    this.clear();
   }
 
   /**
