@@ -66,6 +66,7 @@ export class ShowImage extends LitElement {
       error: (e: any) =>
         html`<display-error
           .headline=${msg("Error fetching the image")}
+          .error=${e}
         ></display-error>`,
     });
   }

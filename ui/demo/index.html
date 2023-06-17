@@ -57,7 +57,7 @@
             return html`
               <form ${onSubmit((data) => {
                 console.log(data);
-                // this.shadowRoot.querySelector("form").reset();
+                this.shadowRoot.querySelector("form").reset();
               })} style="display: flex; flex-direction: column; flex: 1">
                 <upload-files
                   id="uf"
