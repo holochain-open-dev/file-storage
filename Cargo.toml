@@ -8,9 +8,9 @@ opt-level = "z"
 members = ["dnas/*/zomes/integrity/*", "dnas/*/zomes/coordinator/*"]
 
 [workspace.dependencies]
-hdi = "0.2"
-hdk = "0.1"
-holochain = "0.1"
+hdi = "0.3"
+hdk = "0.2"
+holochain = "0.3.0-beta-dev.8"
 serde = "1"
 hc_zome_file_storage_integrity = { path = "dnas/file_storage_provider/zomes/integrity/file_storage", version = "0.1.0" }
 

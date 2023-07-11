@@ -47,7 +47,7 @@ export class FileStorageClient {
       name: file.name,
       size: file.size,
       file_type: file.type,
-      last_modified: file.lastModified,
+      last_modified: file.lastModified * 1000,
       chunks_hashes: chunksHashes,
     };
     const hash = await this._callZome("create_file_metadata", fileToCreate);
@@ -69,7 +69,7 @@ export class FileStorageClient {
     const chunks = await Promise.all(fetchChunksPromises);
 
     const file = new File(chunks, metadata.name, {
-      lastModified: metadata.last_modifed,
+      lastModified: Math.floor(metadata.last_modifed / 1000),
       type: metadata.file_type,
     });
 

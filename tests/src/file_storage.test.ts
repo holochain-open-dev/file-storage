@@ -4,13 +4,6 @@ import test from "node:test";
 import assert from "node:assert";
 
 import { runScenario, pause } from "@holochain/tryorama";
-import {
-  NewEntryAction,
-  ActionHash,
-  Record,
-  DnaSource,
-} from "@holochain/client";
-import { decode } from "@msgpack/msgpack";
 
 test(
   "create file in provider, read from consumer",
@@ -51,7 +44,7 @@ test(
         fn_name: "announce_as_provider",
         payload: null,
       });
-      await pause(500000);
+      await pause(1000);
 
       // In memory dummy file to upload to DNA
       const chunkSize = 2 * 1024;
@@ -83,7 +76,7 @@ test(
         file_type: "text/plain",
         chunks_hashes: chunksHashes,
         size: chunkSize * chunkNumer,
-        last_modified: Date.now(),
+        last_modified: Date.now() * 1000,
       };
       let fileHash = await bobConsumer.callZome({
         zome_name: ZOME_NAME,

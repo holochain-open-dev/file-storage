@@ -44,7 +44,7 @@ pub fn get_all_providers() -> ExternResult<Vec<AgentPubKey>> {
 
     let providers_pub_keys = links
         .into_iter()
-        .map(|link| AgentPubKey::from(EntryHash::from(link.target.clone())))
+        .filter_map(|link| link.target.into_agent_pub_key())
         .collect();
     Ok(providers_pub_keys)
 }

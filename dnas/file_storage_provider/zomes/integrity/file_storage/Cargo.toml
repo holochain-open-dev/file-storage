@@ -12,7 +12,6 @@ name = "hc_zome_file_storage_integrity"
 [dependencies]
 hdi = { workspace = true }
 
-chrono = { version = "0.4", default-features = false, features = ["serde"] }
 serde = { workspace = true }
 
 [features]
