@@ -12,7 +12,7 @@ hdi = "0.3"
 hdk = "0.2"
 holochain = "0.3.0-beta-dev.8"
 serde = "1"
-hc_zome_file_storage_integrity = { path = "dnas/file_storage_provider/zomes/integrity/file_storage", version = "0.1.0" }
+hc_zome_file_storage_integrity = { path = "dnas/file_storage_provider/zomes/integrity/file_storage", version = "0.2.0" }
 
 [workspace.dependencies.hc_zome_file_storage]
 path = "dnas/file_storage_provider/zomes/coordinator/file_storage"

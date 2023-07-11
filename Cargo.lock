@@ -762,7 +762,7 @@ dependencies = [
 
 [[package]]
 name = "hc_zome_file_storage_coordinator"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "hc_zome_file_storage_integrity",
  "hdk",
@@ -789,7 +789,7 @@ dependencies = [
 
 [[package]]
 name = "hc_zome_file_storage_integrity"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "hdi",
  "serde",
