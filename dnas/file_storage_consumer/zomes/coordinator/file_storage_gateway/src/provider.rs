@@ -46,6 +46,7 @@ pub fn get_all_providers() -> ExternResult<Vec<AgentPubKey>> {
         .into_iter()
         .filter_map(|link| link.target.into_agent_pub_key())
         .collect();
+
     Ok(providers_pub_keys)
 }
 
