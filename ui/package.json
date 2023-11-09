@@ -1,6 +1,6 @@
 {
   "name": "@holochain-open-dev/file-storage",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "File storage utilities to store and retrieve files in a holochain DHT",
   "author": "guillem.cordoba@gmail.com",
   "license": "MIT",
@@ -19,15 +19,15 @@
     "format": "eslint --ext .ts,.html src --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "@holochain-open-dev/elements": "^0.7.0",
-    "@holochain-open-dev/utils": "^0.15.0",
+    "@holochain-open-dev/elements": "^0.8.2",
+    "@holochain-open-dev/utils": "^0.16.0",
     "@holochain/client": "^0.16.1",
-    "@lit-labs/context": "^0.2.0",
+    "@lit/context": "^1.0.0",
     "@lit-labs/task": "^2.0.0",
-    "@lit/localize": "^0.11.4",
+    "@lit/localize": "^0.12.0",
     "@scoped-elements/dropzone": "^0.2.1",
-    "@shoelace-style/shoelace": "^2.3.0",
-    "lit": "^2.6.0"
+    "@shoelace-style/shoelace": "^2.11.0",
+    "lit": "^3.0.0"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.5.7",

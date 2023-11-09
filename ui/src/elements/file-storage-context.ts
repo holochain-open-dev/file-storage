@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import { provide } from "@lit-labs/context";
+import { provide } from "@lit/context";
 import { property, customElement } from "lit/decorators.js";
 
 import { fileStorageClientContext } from "../context.js";

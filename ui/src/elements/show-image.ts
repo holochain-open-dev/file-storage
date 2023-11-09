@@ -1,7 +1,7 @@
 import { css, html, LitElement } from "lit";
 import { property, customElement } from "lit/decorators.js";
 import { hashProperty, sharedStyles } from "@holochain-open-dev/elements";
-import { consume } from "@lit-labs/context";
+import { consume } from "@lit/context";
 
 import "@shoelace-style/shoelace/dist/components/spinner/spinner.js";
 import "@holochain-open-dev/elements/dist/elements/display-error.js";
