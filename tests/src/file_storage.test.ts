@@ -44,7 +44,7 @@ test(
         fn_name: "announce_as_provider",
         payload: null,
       });
-      await pause(1000);
+      await pause(3000);
 
       // In memory dummy file to upload to DNA
       const chunkSize = 2 * 1024;
