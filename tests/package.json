@@ -3,13 +3,12 @@
   "version": "0.0.0",
   "description": "",
   "scripts": {
-    "test": "foreach -g \"**/*.test.ts\" -x \"TRYORAMA_LOG_LEVEL=warn NODE_NO_WARNINGS=1 ts-node-test #{path}\" --no-C"
+    "test": "vitest run"
   },
   "dependencies": {
     "@msgpack/msgpack": "^2.7.0",
     "@holochain/tryorama": "file:~/projects/holochain/core/tryorama",
-    "foreach-cli": "^1.8.1",
-    "ts-node-test": "^0.2.0"
+    "vitest": "^0.34.5"
   },
   "type": "module"
 }
