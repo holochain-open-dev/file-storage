@@ -9,6 +9,7 @@
     holochain = {
       url = "github:holochain/holochain";
       inputs.versions.follows = "versions";
+      inputs.launcher.url = "github:holochain/launcher/bump-weekly-0.3-32";
     };
   };
 

@@ -34,14 +34,26 @@ export class FileStorageClient {
     const numberOfChunks = blobs.length;
     const bytesPerChunk = blobs[0].size;
 
-    const chunksHashes: Array<EntryHash> = [];
-    for (let i = 0; i < blobs.length; i++) {
-      const chunkHash = await this._createChunk(blobs[i]);
-      chunksHashes.push(chunkHash);
+    let uploadedChunks = 0;
+
+    const onChunkUploaded = () => {
       if (onProgress) {
-        onProgress(((i + 1) * 1.0) / numberOfChunks, bytesPerChunk * (i + 1));
+        uploadedChunks++;
+        onProgress(
+          ((uploadedChunks + 1) * 1.0) / numberOfChunks,
+          bytesPerChunk * (uploadedChunks + 1)
+        );
       }
-    }
+    };
+
+    const chunksHashes: Array<EntryHash> = await Promise.all(
+      blobs.map(async (blob) => {
+        const chunkHash = await this._createChunk(blob);
+
+        onChunkUploaded();
+        return chunkHash;
+      })
+    );
 
     const fileToCreate = {
       name: file.name,
