@@ -43,7 +43,6 @@ export class ShowImage extends LitElement {
     async ([fileHash]) => {
       const image = await getImage(fileHash);
       if (image) {
-        console.log("hit chace");
         return image;
       }
 
