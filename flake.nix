@@ -9,16 +9,23 @@
     holochain = {
       url = "github:holochain/holochain";
       inputs.versions.follows = "versions";
-      inputs.launcher.url = "github:holochain/launcher/bump-weekly-0.3-32";
     };
+		hcUtils.url = "github:holochain-open-dev/common";
   };
 
   outputs = inputs @ { ... }:
     inputs.holochain.inputs.flake-parts.lib.mkFlake
       {
         inherit inputs;
+        specialArgs.rootPath = ./.;
       }
       {
+        # Import all `dnas/*/dna.nix` files
+        imports = [
+          ./dnas/file_storage_provider/zomes/integrity/file_storage/zome.nix
+          ./dnas/file_storage_provider/zomes/coordinator/file_storage/zome.nix
+        ];
+
         systems = builtins.attrNames inputs.holochain.devShells;
         perSystem =
           { inputs'
@@ -31,9 +38,7 @@
             devShells.default = pkgs.mkShell {
               inputsFrom = [ inputs'.holochain.devShells.holonix ];
               packages = with pkgs; [
-                nodejs-18_x
-                # more packages go here
-                cargo-nextest
+                nodejs_20
               ];
             };
           };

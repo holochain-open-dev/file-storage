@@ -6,9 +6,9 @@ name: CI
 # events but only for the main branch
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -23,27 +23,32 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - uses: cachix/install-nix-action@v12
+      - name: Install nix
+        uses: cachix/install-nix-action@v18
         with:
-          nix_path: nixpkgs=channel:nixos-unstable
+          install_url: https://releases.nixos.org/nix/nix-2.12.0/install
+          extra_nix_config: |
+            experimental-features = flakes nix-command
 
-      - name: cachix
-        run: |
-          nix-env -iA cachix -f https://cachix.org/api/v1/install
-          cachix use holochain-ci
+      - uses: cachix/cachix-action@v10
+        with:
+          name: holochain-ci
 
-      - name: build-holochain
+      - uses: cachix/cachix-action@v10
+        with:
+          name: holochain-open-dev
+
+      - name: Install and test
         run: |
-          cd $GITHUB_WORKSPACE
-          nix-shell . --run "npm install"
-          nix-shell . --run "npm run build:happ"
-          
-      - name: test-holochain
+          nix develop --command bash -c "npm i && npm t"
+
+      - name: Build UI
         run: |
-          cd $GITHUB_WORKSPACE
-          nix-shell . --run "npm test"
-          
-      - name: build-ui
-        run: |
-          cd $GITHUB_WORKSPACE
-          nix-shell . --run "cd ui && npm run lint && npm run build"
+          nix develop --command bash -c "npm run build -w ui"
+
+  update-nix-cache:
+      strategy:
+        matrix:
+          os: [ ubuntu-latest, ] 
+      needs: build-and-test
+      if: github.ref == 'refs/heads/master'
