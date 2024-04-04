@@ -5,12 +5,12 @@ opt-level = "z"
 opt-level = "z"
 
 [workspace]
+resolver = "2"
 members = ["dnas/*/zomes/integrity/*", "dnas/*/zomes/coordinator/*"]
 
 [workspace.dependencies]
-hdi = "0.4.0-beta-dev.31"
-hdk = "0.3.0-beta-dev.35"
-holochain = "0.3.0-beta-dev.42"
+hdi = "0.4.0-beta-dev"
+hdk = "0.3.0-beta-dev"
 
 serde = "1.0.193"
 
