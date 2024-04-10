@@ -10,7 +10,7 @@
     , options
     , ...
     }: {
-      packages.file_storage = inputs.hcUtils.outputs.lib.rustZome {
+      packages.file_storage = inputs.hc-infra.outputs.lib.rustZome {
         workspacePath = rootPath;
         holochain = inputs'.holochain;
         crateCargoToml = ./Cargo.toml;
