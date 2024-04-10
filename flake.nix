@@ -48,7 +48,7 @@
               buildInputs = [ pkgs.makeWrapper ];
               postBuild = ''
                 wrapProgram $out/bin/scaffold-remote-zome \
-                  --add-flags "profiles \
+                  --add-flags "file-storage \
                     --integrity-zome-name file_storage_integrity \
                     --coordinator-zome-name file_storage \
                     --remote-zome-git-url github:holochain-open-dev/file-storage \
