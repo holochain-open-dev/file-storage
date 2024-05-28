@@ -1,7 +1,4 @@
-import type {
-  AppAgentCallZomeRequest,
-  AppAgentClient,
-} from "@holochain/client";
+import type { AppCallZomeRequest, AppClient } from "@holochain/client";
 import { EntryHash } from "@holochain/client";
 import { FileMetadata } from "./types";
 
@@ -12,7 +9,7 @@ export class FileStorageClient {
    * @param zomeName the zome name of the file_storage zome in the given cell
    */
   constructor(
-    public client: AppAgentClient,
+    public client: AppClient,
     public roleName: string,
     public zomeName: string = "file_storage"
   ) {}
@@ -130,7 +127,7 @@ export class FileStorageClient {
   }
 
   private _callZome(fn_name: string, payload: any) {
-    const req: AppAgentCallZomeRequest = {
+    const req: AppCallZomeRequest = {
       role_name: this.roleName,
       zome_name: this.zomeName,
       fn_name,

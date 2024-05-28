@@ -15,7 +15,7 @@
     "docs:setup": "npm run build -w @holochain-open-dev/file-storage && npm run analyze -w @holochain-open-dev/file-storage"
   },
   "devDependencies": {
-    "@holochain-playground/cli": "^0.1.0",
+    "@holochain-playground/cli": "^0.300.0-rc",
     "@storybook/addon-essentials": "^7.0.0-beta.33",
     "@storybook/addon-links": "^7.0.0-beta.33",
     "@storybook/blocks": "^7.0.0-beta.33",
