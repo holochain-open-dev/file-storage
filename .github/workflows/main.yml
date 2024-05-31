@@ -1,54 +1,51 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the main branch
+name: "Build and cache nix packages"
 on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main, develop ]
+  push: 
+    branches: [ main ]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build-and-test:
+  testbuild:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      # Checks out a copy of your repository on the ubuntu-latest machine
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install nix
-        uses: cachix/install-nix-action@v18
+        uses: cachix/install-nix-action@v25
         with:
-          install_url: https://releases.nixos.org/nix/nix-2.12.0/install
-          extra_nix_config: |
-            experimental-features = flakes nix-command
+          nix_path: nixpkgs=channel:nixos-unstable
 
-      - uses: cachix/cachix-action@v10
+      - uses: cachix/cachix-action@v14
         with:
           name: holochain-ci
 
-      - uses: cachix/cachix-action@v10
+      - uses: cachix/cachix-action@v14
         with:
           name: holochain-open-dev
 
+      - uses: cachix/cachix-action@v14
+        with:
+          name: darksoil-studio
+
       - name: Install and test
         run: |
-          nix develop --command bash -c "npm i && npm t"
+          nix develop --command bash -c "npm i && npm t && npm run -w @holochain-open-dev/file-storage build"
 
-      - name: Build UI
+      - name: Build zomes
+        env:
+          CACHIX_AUTH_TOKEN: "${{ secrets.CACHIX_TOKEN_HOLOCHAIN_OPEN_DEV }}"
         run: |
-          nix develop --command bash -c "npm run build -w ui"
+          nix build -L .#file_storage_integrity
+          cachix push darksoil-studio $(nix path-info .#file_storage_integrity)
+          cachix pin darksoil-studio file_storage_integrity_debug $(nix path-info .#file_storage_integrity)
 
-  update-nix-cache:
-      strategy:
-        matrix:
-          os: [ ubuntu-latest, ] 
-      needs: build-and-test
-      if: github.ref == 'refs/heads/master'
+          nix build -L .#file_storage_integrity.meta.release
+          cachix push darksoil-studio $(nix path-info .#file_storage_integrity.meta.release)
+          cachix pin darksoil-studio file_storage_integrity $(nix path-info .#file_storage_integrity.meta.release)
+
+          nix build -L .#file_storage
+          cachix push darksoil-studio $(nix path-info .#file_storage)
+          cachix pin darksoil-studio file_storage_debug $(nix path-info .#file_storage)
+
+          nix build -L .#file_storage.meta.release
+          cachix push darksoil-studio $(nix path-info .#file_storage.meta.release)
+          cachix pin darksoil-studio file_storage $(nix path-info .#file_storage.meta.release)
