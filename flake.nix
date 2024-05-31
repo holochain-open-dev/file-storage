@@ -14,10 +14,7 @@
   };
 
   outputs = inputs@{ ... }:
-    inputs.holochain.inputs.flake-parts.lib.mkFlake {
-      inherit inputs;
-      specialArgs.rootPath = ./.;
-    } {
+    inputs.holochain.inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       # Import all `dnas/*/dna.nix` files
       imports = [
         ./dnas/file_storage_provider/zomes/integrity/file_storage/zome.nix
