@@ -61,7 +61,7 @@ export class ShowImage extends LitElement {
   );
 
   renderImage(data: string) {
-    return html`<div style="flex:1"><img src="${data}" style="object-fit: cover; overflow: hidden; width: 100%; height: 100%"></img></div>`;
+    return html`<div style="flex:1"><img src="${data}" part="image" style="object-fit: cover; overflow: hidden; width: 100%; height: 100%"></img></div>`;
   }
 
   render() {
