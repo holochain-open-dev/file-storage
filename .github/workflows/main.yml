@@ -1,7 +1,7 @@
 name: "Build and cache nix packages"
 on:
   push: 
-    branches: [ main ]
+    branches: [ main, nixify ]
 
 jobs:
   testbuild:
@@ -22,10 +22,6 @@ jobs:
         with:
           name: holochain-open-dev
 
-      - uses: cachix/cachix-action@v14
-        with:
-          name: darksoil-studio
-
       - name: Install and test
         run: |
           nix develop --command bash -c "npm i && npm t && npm run -w @holochain-open-dev/file-storage build"
@@ -35,17 +31,17 @@ jobs:
           CACHIX_AUTH_TOKEN: "${{ secrets.CACHIX_TOKEN_HOLOCHAIN_OPEN_DEV }}"
         run: |
           nix build -L .#file_storage_integrity
-          cachix push darksoil-studio $(nix path-info .#file_storage_integrity)
-          cachix pin darksoil-studio file_storage_integrity_debug $(nix path-info .#file_storage_integrity)
+          cachix push holochain-open-dev $(nix path-info .#file_storage_integrity)
+          cachix pin holochain-open-dev file_storage_integrity_debug $(nix path-info .#file_storage_integrity)
 
           nix build -L .#file_storage_integrity.meta.release
-          cachix push darksoil-studio $(nix path-info .#file_storage_integrity.meta.release)
-          cachix pin darksoil-studio file_storage_integrity $(nix path-info .#file_storage_integrity.meta.release)
+          cachix push holochain-open-dev $(nix path-info .#file_storage_integrity.meta.release)
+          cachix pin holochain-open-dev file_storage_integrity $(nix path-info .#file_storage_integrity.meta.release)
 
           nix build -L .#file_storage
-          cachix push darksoil-studio $(nix path-info .#file_storage)
-          cachix pin darksoil-studio file_storage_debug $(nix path-info .#file_storage)
+          cachix push holochain-open-dev $(nix path-info .#file_storage)
+          cachix pin holochain-open-dev file_storage_debug $(nix path-info .#file_storage)
 
           nix build -L .#file_storage.meta.release
-          cachix push darksoil-studio $(nix path-info .#file_storage.meta.release)
-          cachix pin darksoil-studio file_storage $(nix path-info .#file_storage.meta.release)
+          cachix push holochain-open-dev $(nix path-info .#file_storage.meta.release)
+          cachix pin holochain-open-dev file_storage $(nix path-info .#file_storage.meta.release)
