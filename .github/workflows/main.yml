@@ -1,11 +1,17 @@
-name: "Build and cache nix packages"
+name: "Build and cache zomes"
 on:
   push: 
     branches: [ main, nixify ]
+  pull_request: 
+    branches: [ main, nixify ]
 
 jobs:
-  testbuild:
-    runs-on: ubuntu-latest
+  build-and-cache-zomes:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
 
@@ -24,24 +30,29 @@ jobs:
 
       - name: Install and test
         run: |
-          nix develop --command bash -c "npm i && npm t && npm run -w @holochain-open-dev/file-storage build"
+          nix develop --no-update-lock-file --accept-flake-config --command bash -c "npm i && npm t && npm run -w @holochain-open-dev/file-storage build"
 
-      - name: Build zomes
+      - name: Build debug zomes
         env:
           CACHIX_AUTH_TOKEN: "${{ secrets.CACHIX_TOKEN_HOLOCHAIN_OPEN_DEV }}"
         run: |
-          nix build -L .#file_storage_integrity
-          cachix push holochain-open-dev $(nix path-info .#file_storage_integrity)
-          cachix pin holochain-open-dev file_storage_integrity_debug $(nix path-info .#file_storage_integrity)
+          cachix watch-exec holochain-open-dev -- nix build --no-update-lock-file --accept-flake-config -L .#file_storage_integrity
+          cachix push holochain-open-dev $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity | nix run nixpkgs#jq -- -r '.[].path')
+          cachix pin holochain-open-dev file_storage_integrity_debug $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity | nix run nixpkgs#jq -- -r '.[].path')
 
-          nix build -L .#file_storage_integrity.meta.release
-          cachix push holochain-open-dev $(nix path-info .#file_storage_integrity.meta.release)
-          cachix pin holochain-open-dev file_storage_integrity $(nix path-info .#file_storage_integrity.meta.release)
+          cachix watch-exec holochain-open-dev -- nix build --no-update-lock-file --accept-flake-config -L .#file_storage
+          cachix push holochain-open-dev $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage | nix run nixpkgs#jq -- -r '.[].path')
+          cachix pin holochain-open-dev file_storage_debug $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage | nix run nixpkgs#jq -- -r '.[].path')
 
-          nix build -L .#file_storage
-          cachix push holochain-open-dev $(nix path-info .#file_storage)
-          cachix pin holochain-open-dev file_storage_debug $(nix path-info .#file_storage)
+      - name: Build release zomes
+        if: matrix.os == 'ubuntu-latest'
+        env:
+          CACHIX_AUTH_TOKEN: "${{ secrets.CACHIX_TOKEN_HOLOCHAIN_OPEN_DEV }}"
+        run: |
+          cachix watch-exec holochain-open-dev -- nix build --no-update-lock-file --accept-flake-config -L .#file_storage_integrity.meta.release
+          cachix push holochain-open-dev $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity.meta.release | nix run nixpkgs#jq -- -r '.[].path')
+          cachix pin holochain-open-dev file_storage_integrity $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity.meta.release | nix run nixpkgs#jq -- -r '.[].path')
 
-          nix build -L .#file_storage.meta.release
-          cachix push holochain-open-dev $(nix path-info .#file_storage.meta.release)
-          cachix pin holochain-open-dev file_storage $(nix path-info .#file_storage.meta.release)
+          cachix watch-exec holochain-open-dev -- nix build --no-update-lock-file --accept-flake-config -L .#file_storage.meta.release
+          cachix push holochain-open-dev $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage.meta.release | nix run nixpkgs#jq -- -r '.[].path')
+          cachix pin holochain-open-dev file_storage $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage.meta.release | nix run nixpkgs#jq -- -r '.[].path')
