@@ -32,17 +32,21 @@ jobs:
         run: |
           nix develop --no-update-lock-file --accept-flake-config --command bash -c "npm i && npm t && npm run -w @holochain-open-dev/file-storage build"
 
+      - name: Install jq
+        uses: dcarbone/install-jq-action@v2.1.0
+    
       - name: Build debug zomes
         env:
           CACHIX_AUTH_TOKEN: "${{ secrets.CACHIX_TOKEN_HOLOCHAIN_OPEN_DEV }}"
         run: |
           cachix watch-exec holochain-open-dev -- nix build --no-update-lock-file --accept-flake-config -L .#file_storage_integrity
-          cachix push holochain-open-dev $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity | nix run nixpkgs#jq -- -r '.[].path')
-          cachix pin holochain-open-dev file_storage_integrity_debug $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity | nix run nixpkgs#jq -- -r '.[].path')
+          nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity | jq -r '.[].path'
+          cachix push holochain-open-dev $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity | jq -r '.[].path')
+          cachix pin holochain-open-dev file_storage_integrity_debug $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity | jq -r '.[].path')
 
           cachix watch-exec holochain-open-dev -- nix build --no-update-lock-file --accept-flake-config -L .#file_storage
-          cachix push holochain-open-dev $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage | nix run nixpkgs#jq -- -r '.[].path')
-          cachix pin holochain-open-dev file_storage_debug $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage | nix run nixpkgs#jq -- -r '.[].path')
+          cachix push holochain-open-dev $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage | jq -r '.[].path')
+          cachix pin holochain-open-dev file_storage_debug $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage | jq -r '.[].path')
 
       - name: Build release zomes
         if: matrix.os == 'ubuntu-latest'
@@ -50,9 +54,9 @@ jobs:
           CACHIX_AUTH_TOKEN: "${{ secrets.CACHIX_TOKEN_HOLOCHAIN_OPEN_DEV }}"
         run: |
           cachix watch-exec holochain-open-dev -- nix build --no-update-lock-file --accept-flake-config -L .#file_storage_integrity.meta.release
-          cachix push holochain-open-dev $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity.meta.release | nix run nixpkgs#jq -- -r '.[].path')
-          cachix pin holochain-open-dev file_storage_integrity $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity.meta.release | nix run nixpkgs#jq -- -r '.[].path')
+          cachix push holochain-open-dev $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity.meta.release | jq -r '.[].path')
+          cachix pin holochain-open-dev file_storage_integrity $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity.meta.release | jq -r '.[].path')
 
           cachix watch-exec holochain-open-dev -- nix build --no-update-lock-file --accept-flake-config -L .#file_storage.meta.release
-          cachix push holochain-open-dev $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage.meta.release | nix run nixpkgs#jq -- -r '.[].path')
-          cachix pin holochain-open-dev file_storage $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage.meta.release | nix run nixpkgs#jq -- -r '.[].path')
+          cachix push holochain-open-dev $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage.meta.release | jq -r '.[].path')
+          cachix pin holochain-open-dev file_storage $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage.meta.release | jq -r '.[].path')
