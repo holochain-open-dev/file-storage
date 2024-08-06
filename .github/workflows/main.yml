@@ -40,7 +40,9 @@ jobs:
           CACHIX_AUTH_TOKEN: "${{ secrets.CACHIX_TOKEN_HOLOCHAIN_OPEN_DEV }}"
         run: |
           cachix watch-exec holochain-open-dev -- nix build --no-update-lock-file --accept-flake-config -L .#file_storage_integrity
-          nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity | jq -r '.[].path'
+          pwd
+          ls
+          nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity
           cachix push holochain-open-dev $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity | jq -r '.[].path')
           cachix pin holochain-open-dev file_storage_integrity_debug $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity | jq -r '.[].path')
 
