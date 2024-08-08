@@ -1,0 +1,59 @@
+name: Update flake inputs
+on:
+  schedule:
+    - cron: "0 7 * * *" # Run every day at 7AM
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  update-flake-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install nix
+        uses: cachix/install-nix-action@v27
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          nix_path: nixpkgs=channel:nixos-24.05
+
+      - uses: cachix/cachix-action@v15
+        with:
+          name: holochain-ci
+
+      - uses: cachix/cachix-action@v15
+        with:
+          name: holochain-open-dev
+
+      - name: Update Flake
+        run: |
+          nix flake update
+          nix develop
+
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            flake_lock:
+              - 'flake.lock'
+            package_json:
+              - '**/*/package.json'
+
+      - name: Create Pull Request
+        id: cpr
+        if: steps.changes.outputs.src == 'true'
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.PAT }}
+
+      - name: Enable Pull Request Automerge
+        if: steps.changes.outputs.src == 'true' && steps.cpr.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.PAT }}
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: squash
+
+
