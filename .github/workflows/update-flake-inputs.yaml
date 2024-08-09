@@ -46,13 +46,13 @@ jobs:
         if: steps.changes.outputs.src == 'true'
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.GITHUB_SECRET }}
 
       - name: Enable Pull Request Automerge
         if: steps.changes.outputs.src == 'true' && steps.cpr.outputs.pull-request-operation == 'created'
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.GITHUB_SECRET }}
           pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
           merge-method: squash
 
