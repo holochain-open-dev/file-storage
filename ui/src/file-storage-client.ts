@@ -1,4 +1,4 @@
-import type { AppCallZomeRequest, AppClient } from "@holochain/client";
+import type { AppCallZomeRequest, AppClient, CellId } from "@holochain/client";
 import { EntryHash } from "@holochain/client";
 import { FileMetadata } from "./types";
 
@@ -7,11 +7,13 @@ export class FileStorageClient {
    * @param client connection to the holochain backend
    * @param roleName
    * @param zomeName the zome name of the file_storage zome in the given cell
+   * @param cellId optional cellId parameter for use when client is associated with a clone-cell
    */
   constructor(
     public client: AppClient,
     public roleName: string,
-    public zomeName: string = "file_storage"
+    public zomeName: string = "file_storage",
+    public cellId: CellId|undefined = undefined,
   ) {}
 
   /**
@@ -127,12 +129,19 @@ export class FileStorageClient {
   }
 
   private _callZome(fn_name: string, payload: any) {
-    const req: AppCallZomeRequest = {
-      role_name: this.roleName,
-      zome_name: this.zomeName,
-      fn_name,
-      payload,
-    };
+    const req: AppCallZomeRequest =
+      this.cellId ? {
+        cell_id: this.cellId,
+        zome_name: this.zomeName,
+        fn_name,
+        payload,
+      } :
+      {
+        role_name: this.roleName,
+        zome_name: this.zomeName,
+        fn_name,
+        payload,
+      }
     return this.client.callZome(req);
   }
 }

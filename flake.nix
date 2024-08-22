@@ -1,10 +1,10 @@
-{
+ar{
   description = "Template for Holochain app development";
 
   inputs = {
     nixpkgs.follows = "holochain/nixpkgs";
 
-    versions.url = "github:holochain/holochain?dir=versions/0_3_rc";
+    versions.url = "github:holochain/holochain?dir=versions/0_3";
 
     holochain = {
       url = "github:holochain/holochain";
