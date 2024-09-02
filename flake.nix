@@ -2,29 +2,23 @@
   description = "Template for Holochain app development";
 
   inputs = {
-    nixpkgs.follows = "holochain/nixpkgs";
-
-    versions.url = "github:holochain/holochain?dir=versions/0_3";
-
-    holochain = {
-      url = "github:holochain/holochain";
-      inputs.versions.follows = "versions";
-    };
+    nixpkgs.follows = "holonix/nixpkgs";
+    holonix.url = "github:holochain/holonix/main-0.3";
     hc-infra.url = "github:holochain-open-dev/infrastructure";
   };
 
   outputs = inputs@{ ... }:
-    inputs.holochain.inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+    inputs.holonix.inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       # Import all `dnas/*/dna.nix` files
       imports = [
         ./dnas/file_storage_provider/zomes/integrity/file_storage/zome.nix
         ./dnas/file_storage_provider/zomes/coordinator/file_storage/zome.nix
       ];
 
-      systems = builtins.attrNames inputs.holochain.devShells;
+      systems = builtins.attrNames inputs.holonix.devShells;
       perSystem = { inputs', config, pkgs, system, lib, ... }: {
         devShells.default = pkgs.mkShell {
-          inputsFrom = [ inputs'.holochain.devShells.holonix ];
+          inputsFrom = [ inputs'.holonix.devShells.default ];
           packages = with pkgs; [ nodejs_20 ];
         };
 
