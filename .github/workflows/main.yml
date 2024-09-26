@@ -60,10 +60,10 @@ jobs:
         env:
           CACHIX_AUTH_TOKEN: "${{ secrets.CACHIX_TOKEN_HOLOCHAIN_OPEN_DEV }}"
         run: |
-          cachix watch-exec holochain-open-dev -- nix build --no-update-lock-file --accept-flake-config -L .#file_storage_integritye
+          cachix watch-exec holochain-open-dev -- nix build --no-update-lock-file --accept-flake-config -L .#file_storage_integrity
           cachix push holochain-open-dev $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity | jq -r 'keys[0]')
 
-          cachix watch-exec holochain-open-dev -- nix build --no-update-lock-file --accept-flake-config -L .#file_storagee
+          cachix watch-exec holochain-open-dev -- nix build --no-update-lock-file --accept-flake-config -L .#file_storage
           cachix push holochain-open-dev $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage | jq -r 'keys[0]')
 
       - name: Pin release zomes
