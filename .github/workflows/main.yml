@@ -43,7 +43,7 @@ jobs:
           cachix watch-exec holochain-open-dev -- nix build --no-update-lock-file --accept-flake-config -L .#file_storage_integrity.meta.debug
           cachix push holochain-open-dev $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage_integrity.meta.debug | jq -r 'keys[0]')
 
-          cachix watch-exec holochain-open-dev -- nix build --no-update-lock-file --accept-flake-config -L .#file_storage
+          cachix watch-exec holochain-open-dev -- nix build --no-update-lock-file --accept-flake-config -L .#file_storage.meta.debug
           cachix push holochain-open-dev $(nix path-info --json --accept-flake-config --no-warn-dirty .#file_storage.meta.debug | jq -r 'keys[0]')
     
       - name: Pin debug zomes
