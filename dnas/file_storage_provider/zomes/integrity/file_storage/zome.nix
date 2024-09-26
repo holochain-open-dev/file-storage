@@ -2,11 +2,11 @@
 
 {
   perSystem = { inputs', config, pkgs, system, lib, options, ... }: {
-    packages.file_storage_integrity = inputs.hc-infra.outputs.lib.rustZome {
-      inherit system;
-      workspacePath = inputs.self.outPath;
-      crateCargoToml = ./Cargo.toml;
-    };
+    packages.file_storage_integrity =
+      inputs.hc-infra.outputs.builders.${system}.rustZome {
+        workspacePath = inputs.self.outPath;
+        crateCargoToml = ./Cargo.toml;
+      };
   };
 }
 
