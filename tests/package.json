@@ -7,8 +7,8 @@
   },
   "dependencies": {
     "@msgpack/msgpack": "^2.8.0",
-    "@holochain/client": "^0.18.0-dev.10",
-    "@holochain/tryorama": "^0.17.0-dev.5",
+    "@holochain/client": "^0.19.0",
+    "@holochain/tryorama": "^0.18.1",
     "vitest": "^1.4.0"
   },
   "type": "module"
