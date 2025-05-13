@@ -14,7 +14,7 @@ pub fn announce_as_provider(_: ()) -> ExternResult<()> {
 
     create_link(
         path.path_entry_hash()?,
-        agent_info.agent_latest_pubkey,
+        agent_info.agent_initial_pubkey,
         LinkTypes::GatewayProviderAgent,
         (),
     )?;

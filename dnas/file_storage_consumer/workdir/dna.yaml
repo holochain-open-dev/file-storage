@@ -4,7 +4,6 @@ name: file_storage_consumer
 integrity:
   network_seed: ~
   properties: ~
-  origin_time: 1669028420167405
   zomes:
     - name: file_storage_gateway_integrity
       hash: ~

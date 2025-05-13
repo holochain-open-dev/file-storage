@@ -15,10 +15,10 @@ test("create file in provider, read from consumer", async (t) => {
         "/../dnas/file_storage_consumer/workdir/file-storage-test.happ";
 
       const [alice] = await scenario.addPlayersWithApps([
-        { appBundleSource: { path: providerApp } },
+        { appBundleSource: { type: "path", value: providerApp } },
       ]);
       const [bob] = await scenario.addPlayersWithApps([
-        { appBundleSource: { path: consumerApp } },
+        { appBundleSource: { type: "path", value: consumerApp } },
       ]);
       // conductor of the scenario.
       await scenario.shareAllAgents();
@@ -128,7 +128,7 @@ test("create file in provider, read from consumer", async (t) => {
       await pause(3000);
 
       const [carol] = await scenario.addPlayersWithApps([
-        { appBundleSource: { path: consumerApp } },
+        { appBundleSource: { type: "path", value: consumerApp } },
       ]);
       const [____, carolConsumer] = Array.from(carol.namedCells.entries()).find(
         ([role_name, cell]) => role_name.includes("consumer")
