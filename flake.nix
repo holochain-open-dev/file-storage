@@ -1,49 +1,40 @@
 {
-  description = "Template for Holochain app development";
+  description = "Flake for Holochain app development";
 
   inputs = {
-    nixpkgs.follows = "holochain/nixpkgs";
+    holonix.url = "github:holochain/holonix?ref=main-0.5";
 
-    versions.url = "github:holochain/holochain?dir=versions/weekly";
-
-    holochain = {
-      url = "github:holochain/holochain";
-      inputs.versions.follows = "versions";
-    };
-    hc-infra.url = "github:holochain-open-dev/infrastructure";
+    nixpkgs.follows = "holonix/nixpkgs";
+    flake-parts.follows = "holonix/flake-parts";
   };
 
-  outputs = inputs@{ ... }:
-    inputs.holochain.inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      # Import all `dnas/*/dna.nix` files
-      imports = [
-        ./dnas/file_storage_provider/zomes/integrity/file_storage/zome.nix
-        ./dnas/file_storage_provider/zomes/coordinator/file_storage/zome.nix
-      ];
+  outputs = inputs@{ flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
+    systems = builtins.attrNames inputs.holonix.devShells;
+    perSystem = { inputs', pkgs, ... }: {
+      formatter = pkgs.nixpkgs-fmt;
 
-      systems = builtins.attrNames inputs.holochain.devShells;
-      perSystem = { inputs', config, pkgs, system, lib, ... }: {
-        devShells.default = pkgs.mkShell {
-          inputsFrom = [ inputs'.holochain.devShells.holonix ];
-          packages = with pkgs; [ nodejs_20 ];
-        };
+      devShells.default = pkgs.mkShell {
+        packages = (with inputs'.holonix.packages; [
+          holochain
+          hc
+          hcterm
+          bootstrap-srv
+          lair-keystore
+          hc-launch
+          hc-scaffold
+          hn-introspect
+          hc-playground
+          rust # For Rust development, with the WASM target included for zome builds
+        ]) ++ (with pkgs; [
+          nodejs_20 # For UI development
+          binaryen # For WASM optimisation
+          # Add any other packages you need here
+        ]);
 
-        packages.scaffold = pkgs.symlinkJoin {
-          name = "scaffold-remote-zome";
-          paths = [ inputs'.hc-infra.packages.scaffold-remote-zome ];
-          buildInputs = [ pkgs.makeWrapper ];
-          postBuild = ''
-            wrapProgram $out/bin/scaffold-remote-zome \
-              --add-flags "file-storage \
-                --integrity-zome-name file_storage_integrity \
-                --coordinator-zome-name file_storage \
-                --remote-zome-git-url github:holochain-open-dev/file-storage \
-                --remote-zome-git-branch nixify \
-                --remote-npm-package-name @holochain-open-dev/file-storage \
-                --remote-npm-package-path ui"
-          '';
-        };
-
+        shellHook = ''
+          export PS1='\[\033[1;34m\][holonix:\w]\$\[\033[0m\] '
+        '';
       };
     };
+  };
 }
