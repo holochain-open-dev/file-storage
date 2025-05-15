@@ -1,4 +1,4 @@
-import { encodeHashToBase64, EntryHash } from "@holochain/client";
+import { EntryHash } from "@holochain/client";
 import { createStore, del, entries, get, set } from "idb-keyval";
 
 const store = createStore("HC_ZOME_FILE_STORAGE", "IMAGES");
