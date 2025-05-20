@@ -1,6 +1,6 @@
 [package]
 name = "hc_zome_file_storage_integrity"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 description = "File storage zome to store files in holochain"
 license = "MIT"

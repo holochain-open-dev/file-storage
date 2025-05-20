@@ -1,7 +1,4 @@
-import type {
-  AppAgentCallZomeRequest,
-  AppAgentClient,
-} from "@holochain/client";
+import type { RoleNameCallZomeRequest, CallZomeRequest, AppClient, CellId } from "@holochain/client";
 import { EntryHash } from "@holochain/client";
 import { FileMetadata } from "./types";
 
@@ -10,11 +7,13 @@ export class FileStorageClient {
    * @param client connection to the holochain backend
    * @param roleName
    * @param zomeName the zome name of the file_storage zome in the given cell
+   * @param cellId optional cellId parameter for use when client is associated with a clone-cell
    */
   constructor(
-    public client: AppAgentClient,
+    public client: AppClient,
     public roleName: string,
-    public zomeName: string = "file_storage"
+    public zomeName: string = "file_storage",
+    public cellId: CellId|undefined = undefined,
   ) {}
 
   /**
@@ -34,14 +33,26 @@ export class FileStorageClient {
     const numberOfChunks = blobs.length;
     const bytesPerChunk = blobs[0].size;
 
-    const chunksHashes: Array<EntryHash> = [];
-    for (let i = 0; i < blobs.length; i++) {
-      const chunkHash = await this._createChunk(blobs[i]);
-      chunksHashes.push(chunkHash);
+    let uploadedChunks = 0;
+
+    const onChunkUploaded = () => {
       if (onProgress) {
-        onProgress(((i + 1) * 1.0) / numberOfChunks, bytesPerChunk * (i + 1));
+        uploadedChunks++;
+        onProgress(
+          ((uploadedChunks + 1) * 1.0) / numberOfChunks,
+          bytesPerChunk * (uploadedChunks + 1)
+        );
       }
-    }
+    };
+
+    const chunksHashes: Array<EntryHash> = await Promise.all(
+      blobs.map(async (blob) => {
+        const chunkHash = await this._createChunk(blob);
+
+        onChunkUploaded();
+        return chunkHash;
+      })
+    );
 
     const fileToCreate = {
       name: file.name,
@@ -118,12 +129,19 @@ export class FileStorageClient {
   }
 
   private _callZome(fn_name: string, payload: any) {
-    const req: AppAgentCallZomeRequest = {
-      role_name: this.roleName,
-      zome_name: this.zomeName,
-      fn_name,
-      payload,
-    };
+    const req: RoleNameCallZomeRequest | CallZomeRequest =
+      this.cellId ? {
+        cell_id: this.cellId,
+        zome_name: this.zomeName,
+        fn_name,
+        payload,
+      } :
+      {
+        role_name: this.roleName,
+        zome_name: this.zomeName,
+        fn_name,
+        payload,
+      }
     return this.client.callZome(req);
   }
 }

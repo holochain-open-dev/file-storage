@@ -4,17 +4,17 @@
   "workspaces": ["ui", "tests"],
   "scripts": {
     "start": "AGENTS=2 npm run network",
-    "network": "hc s clean && npm run build:happ && UI_PORT=8888 concurrently -k \"npm start -w ui\" \"npm run launch:happ\" \"holochain-playground\"",
+    "network": "hc s clean && npm run build:happ && BOOTSTRAP_PORT=$(port) SIGNAL_PORT=$(port) UI_PORT=8888 concurrently -k \"npm start -w ui\" \"npm run launch\" \"npm run local-services\"",
     "test": "npm run build:happ && npm t -w tests",
-    "launch:happ": "echo \"pass\" | hc launch --piped -n $AGENTS dnas/file_storage_provider/workdir/file-storage-test.happ --ui-port $UI_PORT network -b https://bootstrap.holo.host webrtc wss://signal.holo.host",
-    "build:happ": "npm run build:zome && hc app pack dnas/file_storage_consumer/workdir --recursive && hc app pack dnas/file_storage_provider/workdir",
+    "launch": "echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS dnas/file_storage_provider/workdir/file-storage-test.happ --ui-port $UI_PORT network --bootstrap http://127.0.0.1:$BOOTSTRAP_PORT webrtc ws://127.0.0.1:$SIGNAL_PORT",
+    "local-services": "hc run-local-services --bootstrap-port $BOOTSTRAP_PORT --signal-port $SIGNAL_PORT",
+    "build:happ": "npm run build:zome && hc app pack dnas/file_storage_consumer/workdir --recursive && hc app pack dnas/file_storage_provider/workdir --recursive",
     "build:zome": "CARGO_TARGET_DIR=target cargo build --release --target wasm32-unknown-unknown",
     "docs:start": "npm run docs:setup && storybook dev -p 6006",
     "docs:publish": "npm run docs:setup && storybook build && gh-pages -d ./storybook-static -b gh-pages",
     "docs:setup": "npm run build -w @holochain-open-dev/file-storage && npm run analyze -w @holochain-open-dev/file-storage"
   },
   "devDependencies": {
-    "@holochain-playground/cli": "^0.1.0",
     "@storybook/addon-essentials": "^7.0.0-beta.33",
     "@storybook/addon-links": "^7.0.0-beta.33",
     "@storybook/blocks": "^7.0.0-beta.33",
@@ -23,6 +23,7 @@
     "concurrently": "^6.2.1",
     "gh-pages": "^3.2.3",
     "lit-html": "^2.6.1",
+    "new-port-cli": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "storybook": "^7.0.0-beta.33"

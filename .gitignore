@@ -7,3 +7,5 @@ dist/
 *.happ
 *.webhapp
 storybook-static/
+.direnv
+result*

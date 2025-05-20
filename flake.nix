@@ -1,45 +1,40 @@
 {
-  description = "Template for Holochain app development";
-  
+  description = "Flake for Holochain app development";
+
   inputs = {
-    nixpkgs.follows = "holochain/nixpkgs";
+    holonix.url = "github:holochain/holonix?ref=main-0.5";
 
-    versions.url = "github:holochain/holochain?dir=versions/0_2";
-
-    holochain = {
-      url = "github:holochain/holochain";
-      inputs.versions.follows = "versions";
-    };
+    nixpkgs.follows = "holonix/nixpkgs";
+    flake-parts.follows = "holonix/flake-parts";
   };
 
-  outputs = inputs @ { ... }:
-    inputs.holochain.inputs.flake-parts.lib.mkFlake
-      {
-        inherit inputs;
-      }
-      {
-        systems = builtins.attrNames inputs.holochain.devShells;
-        perSystem =
-          { inputs'
-          , config
-          , pkgs
-          , system
-          , lib
-          , ...
-          }: {
-            devShells.default = pkgs.mkShell {
-              inputsFrom = [ inputs'.holochain.devShells.holonix ];
-              packages = [
-                pkgs.nodejs-18_x
-                # more packages go here
-                pkgs.cargo-nextest
-              ];
+  outputs = inputs@{ flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
+    systems = builtins.attrNames inputs.holonix.devShells;
+    perSystem = { inputs', pkgs, ... }: {
+      formatter = pkgs.nixpkgs-fmt;
 
-              shellHook = ''
-                unset CARGO_TARGET_DIR
-                unset CARGO_HOME
-              '';
-            };
-          };
+      devShells.default = pkgs.mkShell {
+        packages = (with inputs'.holonix.packages; [
+          holochain
+          hc
+          hcterm
+          bootstrap-srv
+          lair-keystore
+          hc-launch
+          hc-scaffold
+          hn-introspect
+          hc-playground
+          rust # For Rust development, with the WASM target included for zome builds
+        ]) ++ (with pkgs; [
+          nodejs_20 # For UI development
+          binaryen # For WASM optimisation
+          # Add any other packages you need here
+        ]);
+
+        shellHook = ''
+          export PS1='\[\033[1;34m\][holonix:\w]\$\[\033[0m\] '
+        '';
       };
+    };
+  };
 }

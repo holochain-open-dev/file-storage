@@ -1,15 +1,10 @@
-//@ts-ignore
-import test from "node:test";
-//@ts-ignore
-import assert from "node:assert";
+import { test, assert } from "vitest";
 
-import { runScenario, pause } from "@holochain/tryorama";
+import { runScenario, pause, dhtSync } from "@holochain/tryorama";
 
-test(
-  "create file in provider, read from consumer",
-  { concurrency: 1 },
-  async (t) => {
-    await runScenario(async (scenario) => {
+test("create file in provider, read from consumer", async (t) => {
+  await runScenario(
+    async (scenario) => {
       // Construct proper paths for your app.
       // This assumes app bundle created by the `hc app pack` command.
       const providerApp =
@@ -20,10 +15,10 @@ test(
         "/../dnas/file_storage_consumer/workdir/file-storage-test.happ";
 
       const [alice] = await scenario.addPlayersWithApps([
-        { appBundleSource: { path: providerApp } },
+        { appBundleSource: { type: "path", value: providerApp } },
       ]);
       const [bob] = await scenario.addPlayersWithApps([
-        { appBundleSource: { path: consumerApp } },
+        { appBundleSource: { type: "path", value: consumerApp } },
       ]);
       // conductor of the scenario.
       await scenario.shareAllAgents();
@@ -44,7 +39,10 @@ test(
         fn_name: "announce_as_provider",
         payload: null,
       });
-      await pause(1000);
+      await dhtSync(
+        [alice, bob],
+        alice.namedCells.get("file_storage_consumer").cell_id[0]
+      );
 
       // In memory dummy file to upload to DNA
       const chunkSize = 2 * 1024;
@@ -130,7 +128,7 @@ test(
       await pause(3000);
 
       const [carol] = await scenario.addPlayersWithApps([
-        { appBundleSource: { path: consumerApp } },
+        { appBundleSource: { type: "path", value: consumerApp } },
       ]);
       const [____, carolConsumer] = Array.from(carol.namedCells.entries()).find(
         ([role_name, cell]) => role_name.includes("consumer")
@@ -160,6 +158,8 @@ test(
         assert.ok(chunk);
         console.log(chunk);
       }
-    });
-  }
-);
+    },
+    true,
+    { timeout: 30000 }
+  );
+});

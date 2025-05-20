@@ -14,7 +14,7 @@ pub fn announce_as_provider(_: ()) -> ExternResult<()> {
 
     create_link(
         path.path_entry_hash()?,
-        agent_info.agent_latest_pubkey,
+        agent_info.agent_initial_pubkey,
         LinkTypes::GatewayProviderAgent,
         (),
     )?;
@@ -37,9 +37,11 @@ pub fn announce_as_provider(_: ()) -> ExternResult<()> {
 
 pub fn get_all_providers() -> ExternResult<Vec<AgentPubKey>> {
     let links = get_links(
-        providers_path().path_entry_hash()?,
-        LinkTypes::GatewayProviderAgent,
-        None,
+        GetLinksInputBuilder::try_new(
+            providers_path().path_entry_hash()?,
+            LinkTypes::GatewayProviderAgent,
+        )?
+        .build(),
     )?;
 
     let providers_pub_keys = links
