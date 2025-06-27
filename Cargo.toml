@@ -9,12 +9,12 @@ resolver = "2"
 members = ["dnas/*/zomes/integrity/*", "dnas/*/zomes/coordinator/*"]
 
 [workspace.dependencies]
-hdi = "0.6.2"
-hdk = "0.5.2"
+hdi = "0.6.3"
+hdk = "0.5.3"
 
 serde = "1.0.193"
-
-hc_zome_file_storage_integrity = { path = "dnas/file_storage_provider/zomes/integrity/file_storage", version = "0.3.0" }
+holochain_serialized_bytes = "0.0.56"
+hc_zome_file_storage_integrity = { path = "dnas/file_storage_provider/zomes/integrity/file_storage", version = "0.3.1" }
 
 [workspace.dependencies.hc_zome_file_storage]
 path = "dnas/file_storage_provider/zomes/coordinator/file_storage"

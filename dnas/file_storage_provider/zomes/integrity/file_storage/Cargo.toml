@@ -1,6 +1,6 @@
 [package]
 name = "hc_zome_file_storage_integrity"
-version = "0.3.0"
+version = "0.3.1"
 edition = "2021"
 description = "File storage zome to store files in holochain"
 license = "MIT"
@@ -13,6 +13,7 @@ name = "hc_zome_file_storage_integrity"
 hdi = { workspace = true }
 
 serde = { workspace = true }
+holochain_serialized_bytes = { workspace = true }
 
 [features]
 default = ["externs"]
