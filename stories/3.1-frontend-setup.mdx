@@ -24,10 +24,10 @@ npm install @holochain-open-dev/file-storage -w ui
 
 ```js
 import { FileStorageClient } from "@holochain-open-dev/file-storage";
-import { AppWebsocket, AppAgentWebsocket } from "@holochain/client";
+import { AppWebsocket, AppWebsocket } from "@holochain/client";
 
 async function setupClient() {
-  const client = await AppAgentWebsocket.connect('', '')
+  const client = await AppWebsocket.connect({})
 
   // TODO: change "MY_CELL_ROLE" for the roleId that you can find in your "happ.yaml"
   return new FileStorageClient(client, '<MY_CELL_ROLE>');
