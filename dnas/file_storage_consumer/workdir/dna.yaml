@@ -1,5 +1,5 @@
 ---
-manifest_version: "1"
+manifest_version: "0"
 name: file_storage_consumer
 integrity:
   network_seed: ~
@@ -7,12 +7,12 @@ integrity:
   zomes:
     - name: file_storage_gateway_integrity
       hash: ~
-      bundled: "../../../target/wasm32-unknown-unknown/release/hc_zome_file_storage_gateway_integrity.wasm"
+      path: "../../../target/wasm32-unknown-unknown/release/hc_zome_file_storage_gateway_integrity.wasm"
       dependencies: ~
 coordinator:
   zomes:
     - name: file_storage_gateway
       hash: ~
-      bundled: "../../../target/wasm32-unknown-unknown/release/hc_zome_file_storage_gateway.wasm"
+      path: "../../../target/wasm32-unknown-unknown/release/hc_zome_file_storage_gateway.wasm"
       dependencies:
         - name: file_storage_gateway_integrity

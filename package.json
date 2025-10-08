@@ -9,7 +9,7 @@
     "launch": "echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS dnas/file_storage_provider/workdir/file-storage-test.happ --ui-port $UI_PORT network --bootstrap http://127.0.0.1:$BOOTSTRAP_PORT webrtc ws://127.0.0.1:$SIGNAL_PORT",
     "local-services": "hc run-local-services --bootstrap-port $BOOTSTRAP_PORT --signal-port $SIGNAL_PORT",
     "build:happ": "npm run build:zome && hc app pack dnas/file_storage_consumer/workdir --recursive && hc app pack dnas/file_storage_provider/workdir --recursive",
-    "build:zome": "CARGO_TARGET_DIR=target cargo build --release --target wasm32-unknown-unknown",
+    "build:zome": "RUSTFLAGS='--cfg getrandom_backend=\"custom\"' CARGO_TARGET_DIR=target cargo build --release --target wasm32-unknown-unknown",
     "docs:start": "npm run docs:setup && storybook dev -p 6006",
     "docs:publish": "npm run docs:setup && storybook build && gh-pages -d ./storybook-static -b gh-pages",
     "docs:setup": "npm run build -w @holochain-open-dev/file-storage && npm run analyze -w @holochain-open-dev/file-storage"
