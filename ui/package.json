@@ -20,9 +20,9 @@
     "prepare": "tsc"
   },
   "dependencies": {
-    "@holochain-open-dev/elements": "^0.600.0-dev.0",
-    "@holochain-open-dev/utils": "^0.600.0-dev.0",
-    "@holochain/client": "^0.20.0-dev.2",
+    "@holochain-open-dev/elements": "^0.600.0",
+    "@holochain-open-dev/utils": "^0.600.0",
+    "@holochain/client": "^0.20.1",
     "@lit-labs/task": "^2.0.0",
     "@lit/context": "^1.0.0",
     "@lit/localize": "^0.12.0",

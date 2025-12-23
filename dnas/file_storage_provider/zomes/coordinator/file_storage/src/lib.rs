@@ -42,7 +42,7 @@ pub fn create_file_metadata(file_metadata: FileMetadata) -> ExternResult<EntryHa
 
 #[hdk_extern]
 pub fn get_file_metadata(file_metadata_hash: EntryHash) -> ExternResult<FileMetadata> {
-    let record = get(file_metadata_hash, GetOptions::default())?
+    let record = get(file_metadata_hash, GetOptions::local())?
         .ok_or(wasm_error!(WasmErrorInner::Guest("File not found".into())))?;
 
     let file_metadata: FileMetadata = record
@@ -58,7 +58,7 @@ pub fn get_file_metadata(file_metadata_hash: EntryHash) -> ExternResult<FileMeta
 
 #[hdk_extern]
 pub fn get_file_chunk(file_chunk_hash: EntryHash) -> ExternResult<FileChunk> {
-    let record = get(file_chunk_hash, GetOptions::default())?
+    let record = get(file_chunk_hash, GetOptions::local())?
         .ok_or(wasm_error!(WasmErrorInner::Guest("File not found".into())))?;
 
     let file_chunk: FileChunk = record

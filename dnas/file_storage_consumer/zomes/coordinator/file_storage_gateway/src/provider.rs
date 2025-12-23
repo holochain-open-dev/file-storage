@@ -20,7 +20,7 @@ pub fn announce_as_provider(_: ()) -> ExternResult<()> {
     )?;
 
     // grant unrestricted access to accept_cap_claim so other agents can send us claims
-    let functions = GrantedFunctions::Listed(BTreeSet::from([(
+    let functions = GrantedFunctions::Listed(HashSet::from([(
         zome_info()?.name,
         FunctionName::from("handle_file_storage_request"),
     )]));
@@ -41,7 +41,7 @@ pub fn get_all_providers() -> ExternResult<Vec<AgentPubKey>> {
             providers_path().path_entry_hash()?,
             LinkTypes::GatewayProviderAgent,
         )?,
-        GetStrategy::Network
+        GetStrategy::Local
     )?;
 
     let providers_pub_keys = links
