@@ -1,7 +1,7 @@
 use hc_zome_file_storage_integrity::*;
 use hdk::prelude::*;
 
-use crate::{provider, types::FileStorageRequest};
+use crate::{provider, types::{FileStorageRequest, ZomeFnInput}};
 
 #[hdk_extern]
 pub fn create_file_chunk(create_chunk: FileChunk) -> ExternResult<EntryHash> {
@@ -18,15 +18,15 @@ pub fn create_file_metadata(file_metadata: FileMetadata) -> ExternResult<EntryHa
 }
 
 #[hdk_extern]
-pub fn get_file_metadata(file_hash: EntryHash) -> ExternResult<FileMetadata> {
-    let result = make_file_storage_request(FileStorageRequest::GetFileMetadata(file_hash))?;
+pub fn get_file_metadata(input: ZomeFnInput<EntryHash>) -> ExternResult<FileMetadata> {
+    let result = make_file_storage_request(FileStorageRequest::GetFileMetadata(input))?;
 
     Ok(result.decode().map_err(|err| wasm_error!(err))?)
 }
 
 #[hdk_extern]
-pub fn get_file_chunk(file_chunk_hash: EntryHash) -> ExternResult<FileChunk> {
-    let result = make_file_storage_request(FileStorageRequest::GetFileChunk(file_chunk_hash))?;
+pub fn get_file_chunk(input: ZomeFnInput<EntryHash>) -> ExternResult<FileChunk> {
+    let result = make_file_storage_request(FileStorageRequest::GetFileChunk(input))?;
 
     Ok(result.decode().map_err(|err| wasm_error!(err))?)
 }

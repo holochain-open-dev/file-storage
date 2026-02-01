@@ -1,15 +1,14 @@
 import {
-  EntryHashMap,
   ZomeMock,
   hash,
   HashType,
 } from "@holochain-open-dev/utils";
-import { HoloHash } from "@holochain/client";
+import { HoloHash, EntryHashMap } from "@holochain/client";
 import { FileMetadata } from "./types";
 
 export class FileStorageZomeMock extends ZomeMock {
-  metadata = new EntryHashMap();
-  chunks = new EntryHashMap();
+  metadata = new EntryHashMap<FileMetadata>();
+  chunks = new EntryHashMap<Uint8Array>();
 
   create_file_metadata(fileMetadata: FileMetadata) {
     const newId = hash(fileMetadata, HashType.ENTRY);
@@ -19,8 +18,8 @@ export class FileStorageZomeMock extends ZomeMock {
     return newId;
   }
 
-  get_file_metadata(fileHash: HoloHash) {
-    return this.metadata.get(fileHash);
+  get_file_metadata(input: { input: HoloHash; local?: boolean }) {
+    return this.metadata.get(input.input);
   }
 
   create_file_chunk(fileChunk: Uint8Array) {
@@ -31,7 +30,7 @@ export class FileStorageZomeMock extends ZomeMock {
     return newId;
   }
 
-  get_file_chunk(fileChunkHash: HoloHash) {
-    return this.chunks.get(fileChunkHash);
+  get_file_chunk(input: { input: HoloHash; local?: boolean }) {
+    return this.chunks.get(input.input);
   }
 }

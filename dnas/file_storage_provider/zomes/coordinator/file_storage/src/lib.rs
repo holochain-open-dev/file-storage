@@ -1,5 +1,9 @@
+pub mod helper;
+
 use hc_zome_file_storage_integrity::*;
 use hdk::prelude::*;
+
+use helper::ZomeFnInput;
 
 pub fn create_relaxed<I, E, E2>(input: I) -> ExternResult<ActionHash>
 where
@@ -41,8 +45,11 @@ pub fn create_file_metadata(file_metadata: FileMetadata) -> ExternResult<EntryHa
 }
 
 #[hdk_extern]
-pub fn get_file_metadata(file_metadata_hash: EntryHash) -> ExternResult<FileMetadata> {
-    let record = get(file_metadata_hash, GetOptions::local())?
+pub fn get_file_metadata(input: ZomeFnInput<EntryHash>) -> ExternResult<FileMetadata> {
+    let get_options = input.get_options();
+    let file_metadata_hash = input.into_inner();
+
+    let record = get(file_metadata_hash, get_options)?
         .ok_or(wasm_error!(WasmErrorInner::Guest("File not found".into())))?;
 
     let file_metadata: FileMetadata = record
@@ -57,8 +64,11 @@ pub fn get_file_metadata(file_metadata_hash: EntryHash) -> ExternResult<FileMeta
 }
 
 #[hdk_extern]
-pub fn get_file_chunk(file_chunk_hash: EntryHash) -> ExternResult<FileChunk> {
-    let record = get(file_chunk_hash, GetOptions::local())?
+pub fn get_file_chunk(input: ZomeFnInput<EntryHash>) -> ExternResult<FileChunk> {
+    let get_options = input.get_options();
+    let file_chunk_hash = input.into_inner();
+
+    let record = get(file_chunk_hash, get_options)?
         .ok_or(wasm_error!(WasmErrorInner::Guest("File not found".into())))?;
 
     let file_chunk: FileChunk = record

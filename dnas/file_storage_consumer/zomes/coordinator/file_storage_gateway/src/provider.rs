@@ -61,11 +61,11 @@ pub fn handle_file_storage_request(request: FileStorageRequest) -> ExternResult<
         FileStorageRequest::CreateFileMetadata(input) => {
             bridged_call("create_file_metadata".into(), input)
         }
-        FileStorageRequest::GetFileChunk(entry_hash) => {
-            bridged_call("get_file_chunk".into(), entry_hash)
+        FileStorageRequest::GetFileChunk(input) => {
+            bridged_call("get_file_chunk".into(), input)
         }
-        FileStorageRequest::GetFileMetadata(entry_hash) => {
-            bridged_call("get_file_metadata".into(), entry_hash)
+        FileStorageRequest::GetFileMetadata(input) => {
+            bridged_call("get_file_metadata".into(), input)
         }
     }
 }

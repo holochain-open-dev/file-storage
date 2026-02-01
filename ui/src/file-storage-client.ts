@@ -69,12 +69,13 @@ export class FileStorageClient {
   /**
    * Downloads the whole file with the given hash
    * @param fileHash
+   * @param local whether to only check locally (default: true). Set to false to fetch from network.
    */
-  async downloadFile(fileHash: EntryHash): Promise<File> {
-    const metadata = await this.getFileMetadata(fileHash);
+  async downloadFile(fileHash: EntryHash, local: boolean = true): Promise<File> {
+    const metadata = await this.getFileMetadata(fileHash, local);
 
     const fetchChunksPromises = metadata.chunks_hashes.map((hash) =>
-      this.fetchChunk(hash)
+      this.fetchChunk(hash, local)
     );
 
     const chunks = await Promise.all(fetchChunksPromises);
@@ -91,18 +92,20 @@ export class FileStorageClient {
    * Gets only the metadata of the file with the given hash
    * This is specially useful if you want to fetch the chunks one by one
    * @param fileHash the hash of the file
+   * @param local whether to only check locally (default: true). Set to false to fetch from network.
    */
-  async getFileMetadata(fileHash: EntryHash): Promise<FileMetadata> {
-    return await this._callZome("get_file_metadata", fileHash);
+  async getFileMetadata(fileHash: EntryHash, local: boolean = true): Promise<FileMetadata> {
+    return await this._callZome("get_file_metadata", { input: fileHash, local });
   }
 
   /**
    * Fetch the chunk identified with the given hash
    * This is useful if used with the chunk hashes received with `getFileMetadata`
    * @param fileChunkHash
+   * @param local whether to only check locally (default: true). Set to false to fetch from network.
    */
-  async fetchChunk(fileChunkHash: EntryHash): Promise<Blob> {
-    const bytes = await this._callZome("get_file_chunk", fileChunkHash);
+  async fetchChunk(fileChunkHash: EntryHash, local: boolean = true): Promise<Blob> {
+    const bytes = await this._callZome("get_file_chunk", { input: fileChunkHash, local });
 
     return new Blob([new Uint8Array(bytes)]);
   }

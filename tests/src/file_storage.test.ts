@@ -88,7 +88,7 @@ test("create file in provider, read from consumer", async (t) => {
       let fileResult: any = await aliceConsumer.callZome({
         zome_name: ZOME_NAME,
         fn_name: "get_file_metadata",
-        payload: fileHash,
+        payload: { input: fileHash, local: true },
       });
       assert.ok(fileResult);
 
@@ -96,7 +96,7 @@ test("create file in provider, read from consumer", async (t) => {
         let chunk = await aliceConsumer.callZome({
           zome_name: ZOME_NAME,
           fn_name: "get_file_chunk",
-          payload: chunkHash,
+          payload: { input: chunkHash, local: true },
         });
         assert.ok(chunk);
         console.log(chunk);
@@ -112,7 +112,7 @@ test("create file in provider, read from consumer", async (t) => {
       fileResult = await bobConsumer.callZome({
         zome_name: ZOME_NAME,
         fn_name: "get_file_metadata",
-        payload: fileHash,
+        payload: { input: fileHash, local: true },
       });
       assert.ok(fileResult);
 
@@ -120,7 +120,7 @@ test("create file in provider, read from consumer", async (t) => {
         let chunk = await bobConsumer.callZome({
           zome_name: ZOME_NAME,
           fn_name: "get_file_chunk",
-          payload: chunkHash,
+          payload: { input: chunkHash, local: true },
         });
         assert.ok(chunk);
         console.log(chunk);
@@ -145,7 +145,7 @@ test("create file in provider, read from consumer", async (t) => {
       fileResult = await carolConsumer.callZome({
         zome_name: ZOME_NAME,
         fn_name: "get_file_metadata",
-        payload: fileHash,
+        payload: { input: fileHash, local: true },
       });
       assert.ok(fileResult);
 
@@ -153,7 +153,7 @@ test("create file in provider, read from consumer", async (t) => {
         let chunk = await carolConsumer.callZome({
           zome_name: ZOME_NAME,
           fn_name: "get_file_chunk",
-          payload: chunkHash,
+          payload: { input: chunkHash, local: true },
         });
         assert.ok(chunk);
         console.log(chunk);
