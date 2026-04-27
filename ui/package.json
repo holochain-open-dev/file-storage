@@ -41,7 +41,7 @@
     "concurrently": "^5.1.0",
     "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
-    "prettier": "^2.0.4",
+    "prettier": "^3.6.0",
     "rimraf": "^3.0.2",
     "tslib": "^2.0.0",
     "typescript": "^5.9.0",
