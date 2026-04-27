@@ -134,13 +134,10 @@ test("create file in provider, read from consumer", async (t) => {
         ([role_name, cell]) => role_name.includes("consumer")
       )!;
       await scenario.shareAllAgents();
-      await pause(3000);
-      /* 
-    await bob_player.shutdown();
-    await pause(10000);
-  
-    await bob_player.startup({});
-    await pause(30000); */
+      await dhtSync(
+        [alice, bob, carol],
+        alice.namedCells.get("file_storage_consumer").cell_id[0]
+      );
 
       fileResult = await carolConsumer.callZome({
         zome_name: ZOME_NAME,
