@@ -6,7 +6,6 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@msgpack/msgpack": "^2.8.0",
     "@holochain/client": "^0.21.0-dev.2",
     "@holochain-open-dev/tryorama": "^0.20.0-dev.0",
     "vitest": "^1.6.0"
