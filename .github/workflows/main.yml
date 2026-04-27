@@ -1,7 +1,7 @@
 name: "Build and cache nix packages"
 on:
-  push: 
-    branches: [ main ]
+  push:
+    branches: [ main, main-0.6, main-0.7 ]
 
 jobs:
   testbuild:
