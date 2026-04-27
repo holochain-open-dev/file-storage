@@ -10,7 +10,7 @@ interface CachedImage {
 
 export async function storeImage(imageHash: EntryHash, image: string) {
   await set(
-    imageHash,
+    imageHash as IDBValidKey,
     {
       image,
       lastRead: Date.now(),
@@ -23,7 +23,7 @@ export async function storeImage(imageHash: EntryHash, image: string) {
 export async function getImage(
   imageHash: EntryHash
 ): Promise<string | undefined> {
-  const image: CachedImage | undefined = await get(imageHash, store);
+  const image: CachedImage | undefined = await get(imageHash as IDBValidKey, store);
 
   if (!image) return undefined;
 
@@ -35,7 +35,7 @@ export async function getImage(
 const IMAGE_CLEAR_MS = 7 * 24 * 60 * 60 * 1000; // 3 days
 
 async function clearOldItems() {
-  const images = await entries<EntryHash, CachedImage>(store);
+  const images = await entries<IDBValidKey, CachedImage>(store);
 
   for (const [imageHash, image] of images) {
     if (Date.now() - image.lastRead > IMAGE_CLEAR_MS) {

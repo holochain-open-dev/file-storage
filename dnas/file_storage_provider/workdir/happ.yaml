@@ -12,7 +12,7 @@ roles:
       modifiers:
         network_seed: ~
         properties: ~
-      version: ~
+      installed_hash: ~
       clone_limit: 0
   - name: file_storage_consumer
     provisioning:
@@ -23,5 +23,5 @@ roles:
       modifiers:
         network_seed: ~
         properties: ~
-      version: ~
+      installed_hash: ~
       clone_limit: 0
