@@ -71,7 +71,7 @@ export class FileStorageClient {
    * @param fileHash
    * @param local whether to only check locally (default: true). Set to false to fetch from network.
    */
-  async downloadFile(fileHash: EntryHash, local: boolean = true): Promise<File> {
+  async downloadFile(fileHash: EntryHash, local = true): Promise<File> {
     const metadata = await this.getFileMetadata(fileHash, local);
 
     const fetchChunksPromises = metadata.chunks_hashes.map((hash) =>
@@ -94,7 +94,7 @@ export class FileStorageClient {
    * @param fileHash the hash of the file
    * @param local whether to only check locally (default: true). Set to false to fetch from network.
    */
-  async getFileMetadata(fileHash: EntryHash, local: boolean = true): Promise<FileMetadata> {
+  async getFileMetadata(fileHash: EntryHash, local = true): Promise<FileMetadata> {
     return await this._callZome("get_file_metadata", { input: fileHash, local });
   }
 
@@ -104,7 +104,7 @@ export class FileStorageClient {
    * @param fileChunkHash
    * @param local whether to only check locally (default: true). Set to false to fetch from network.
    */
-  async fetchChunk(fileChunkHash: EntryHash, local: boolean = true): Promise<Blob> {
+  async fetchChunk(fileChunkHash: EntryHash, local = true): Promise<Blob> {
     const bytes = await this._callZome("get_file_chunk", { input: fileChunkHash, local });
 
     return new Blob([new Uint8Array(bytes)]);
