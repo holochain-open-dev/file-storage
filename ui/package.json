@@ -23,7 +23,7 @@
     "@holochain-open-dev/elements": "^0.700.0-dev.0",
     "@holochain-open-dev/utils": "^0.700.0-dev.0",
     "@holochain/client": "^0.21.0-dev.2",
-    "@lit-labs/task": "^2.0.0",
+    "@lit-labs/task": "^3.1.0",
     "@lit/context": "^1.1.6",
     "@lit/localize": "^0.12.0",
     "@scoped-elements/dropzone": "^0.2.1",
