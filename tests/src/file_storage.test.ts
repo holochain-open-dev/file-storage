@@ -1,6 +1,6 @@
 import { test, assert } from "vitest";
 
-import { runScenario, pause, dhtSync } from "@holochain/tryorama";
+import { runScenario, pause, dhtSync } from "@holochain-open-dev/tryorama";
 
 test("create file in provider, read from consumer", async (t) => {
   await runScenario(
