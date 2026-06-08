@@ -14,7 +14,7 @@ hdk = "0.7.0-dev"
 
 
 serde = "1.0.193"
-holochain_serialized_bytes = "0.0.56"
+holochain_serialized_bytes = "0.0.57"
 hc_zome_file_storage_integrity = { path = "dnas/file_storage_provider/zomes/integrity/file_storage", version = "0.5.0" }
 
 [workspace.dependencies.hc_zome_file_storage]
