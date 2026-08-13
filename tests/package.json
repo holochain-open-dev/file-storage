@@ -6,8 +6,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@holochain/client": "^0.21.0-dev.2",
-    "@holochain-open-dev/tryorama": "^0.20.0-dev.0",
+    "@holochain/client": "^0.21.0",
+    "@holochain-open-dev/tryorama": "^0.20.0",
     "vitest": "^4.1.5"
   },
   "type": "module"
