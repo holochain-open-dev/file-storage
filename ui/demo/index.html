@@ -40,7 +40,7 @@
           };
 
           async firstUpdated() {
-            const hcclient = await AppWebsocket.connect("");
+            const hcclient = await AppWebsocket.connect();
 
             const client = new FileStorageClient(
               hcclient,
