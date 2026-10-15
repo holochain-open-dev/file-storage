@@ -25,12 +25,12 @@ pub fn announce_as_provider(_: ()) -> ExternResult<()> {
         FunctionName::from("handle_file_storage_request"),
     )]));
 
-    create_cap_grant(CapGrantEntry {
-        tag: "".into(),
-        // empty access converts to unrestricted
-        access: ().into(),
+    create_cap_grant(CapGrantEntry::new_zome_call_grant(
+        "".into(),
+        // empty constraint converts to unrestricted
+        ().into(),
         functions,
-    })?;
+    ))?;
 
     Ok(())
 }

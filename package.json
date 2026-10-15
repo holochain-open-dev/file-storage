@@ -14,7 +14,7 @@
     "docs:setup": "npm run build -w @holochain-open-dev/file-storage && npm run analyze -w @holochain-open-dev/file-storage"
   },
   "devDependencies": {
-    "@holochain/hc-spin": "^0.700.0",
+    "@holochain/hc-spin": "^0.700.1-rc.0",
     "@storybook/addon-essentials": "^7.0.0-beta.33",
     "@storybook/addon-links": "^7.0.0-beta.33",
     "@storybook/blocks": "^7.0.0-beta.33",
@@ -27,5 +27,8 @@
     "react-dom": "^18.2.0",
     "storybook": "^7.0.0-beta.33"
   },
-  "type": "module"
+  "type": "module",
+  "overrides": {
+    "@holochain/client": "^0.21.1"
+  }
 }
