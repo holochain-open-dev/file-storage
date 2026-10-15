@@ -2,6 +2,11 @@
   "name": "@holochain-open-dev/file-storage",
   "version": "0.701.0",
   "description": "File storage utilities to store and retrieve files in a holochain DHT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/holochain-open-dev/file-storage.git",
+    "directory": "ui"
+  },
   "author": "guillem.cordoba@gmail.com",
   "license": "MIT",
   "main": "dist/index.js",
